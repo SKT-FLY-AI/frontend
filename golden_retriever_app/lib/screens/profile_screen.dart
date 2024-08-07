@@ -1,4 +1,4 @@
-// profile_screen.dart
+// lib/screens/profile_screen.dart
 import 'package:flutter/cupertino.dart';
 
 class ProfileScreen extends StatelessWidget {

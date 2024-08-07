@@ -1,4 +1,4 @@
-// entertainment_screen.dart
+// lib/screens/entertainment_screen.dart
 import 'package:flutter/cupertino.dart';
 
 class EntertainmentScreen extends StatelessWidget {

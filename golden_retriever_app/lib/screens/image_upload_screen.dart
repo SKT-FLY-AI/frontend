@@ -1,4 +1,4 @@
-// image_upload_screen.dart
+// lib/screens/image_upload_screen.dart
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
