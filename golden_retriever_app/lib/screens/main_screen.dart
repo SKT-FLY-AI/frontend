@@ -1,7 +1,9 @@
+// main_screen.dart
 import 'package:flutter/cupertino.dart';
 import 'calendar_screen.dart';
 import 'capture_screen.dart';
-import 'image_upload_screen.dart';
+import 'entertainment_screen.dart';
+import 'profile_screen.dart'; // 추가
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -24,13 +26,14 @@ class MainScreen extends StatelessWidget {
             label: 'Camera',
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.chat_bubble),
-            label: 'Chat',
+            icon: Icon(CupertinoIcons.play_arrow_solid),
+            label: 'Entertainment',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.person),
+            label: 'Profile',
           ),
         ],
-        onTap: (index) {
-          // 탭 변경 시 동작을 여기에 구현할 수 있습니다.
-        },
       ),
       tabBuilder: (context, index) {
         switch (index) {
@@ -48,7 +51,11 @@ class MainScreen extends StatelessWidget {
             );
           case 3:
             return CupertinoTabView(
-              builder: (context) => const ImageUploadScreen(),
+              builder: (context) => const EntertainmentScreen(),
+            );
+          case 4:
+            return CupertinoTabView(
+              builder: (context) => const ProfileScreen(), // 내정보 화면 연결
             );
           default:
             return CupertinoTabView(

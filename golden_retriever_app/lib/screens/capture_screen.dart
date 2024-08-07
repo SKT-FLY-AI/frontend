@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+// capture_screen.dart
+import 'package:flutter/cupertino.dart';
 import 'package:camera/camera.dart';
 
 class CaptureScreen extends StatefulWidget {
@@ -11,22 +12,28 @@ class CaptureScreen extends StatefulWidget {
 class _CaptureScreenState extends State<CaptureScreen> {
   CameraController? controller;
   List<CameraDescription> cameras = [];
-  
+  bool isCameraInitialized = false;
+
   @override
   void initState() {
     super.initState();
-    availableCameras().then((availableCameras) {
-      cameras = availableCameras;
+    initializeCamera();
+  }
+
+  Future<void> initializeCamera() async {
+    try {
+      cameras = await availableCameras();
       if (cameras.isNotEmpty) {
         controller = CameraController(cameras[0], ResolutionPreset.high);
-        controller?.initialize().then((_) {
-          if (!mounted) {
-            return;
-          }
-          setState(() {});
+        await controller?.initialize();
+        if (!mounted) return;
+        setState(() {
+          isCameraInitialized = true;
         });
       }
-    });
+    } catch (e) {
+      print('Error initializing camera: $e');
+    }
   }
 
   @override
@@ -37,32 +44,34 @@ class _CaptureScreenState extends State<CaptureScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (!controller!.value.isInitialized) {
-      return Container();
-    }
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Capture Image'),
+    return CupertinoPageScaffold(
+      navigationBar: const CupertinoNavigationBar(
+        middle: Text('Capture Image'),
       ),
-      body: Column(
-        children: [
-          AspectRatio(
-            aspectRatio: controller!.value.aspectRatio,
-            child: CameraPreview(controller!),
-          ),
-          IconButton(
-            icon: const Icon(Icons.camera_alt),
-            onPressed: () async {
-              try {
-                final image = await controller!.takePicture();
-                // 여기서 image.path를 사용하여 이미지를 저장하거나 업로드할 수 있습니다.
-              } catch (e) {
-                print(e);
-              }
-            },
-          ),
-        ],
-      ),
+      child: isCameraInitialized && controller != null
+          ? Column(
+              children: [
+                AspectRatio(
+                  aspectRatio: controller!.value.aspectRatio,
+                  child: CameraPreview(controller!),
+                ),
+                CupertinoButton(
+                  child: const Icon(CupertinoIcons.camera),
+                  onPressed: () async {
+                    try {
+                      final image = await controller!.takePicture();
+                      // 여기서 image.path를 사용하여 이미지를 저장하거나 업로드할 수 있습니다.
+                      print('Picture taken: ${image.path}');
+                    } catch (e) {
+                      print('Error taking picture: $e');
+                    }
+                  },
+                ),
+              ],
+            )
+          : const Center(
+              child: CupertinoActivityIndicator(),
+            ),
     );
   }
 }

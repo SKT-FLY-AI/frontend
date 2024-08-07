@@ -1,5 +1,6 @@
+// image_upload_screen.dart
 import 'dart:io';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageUploadScreen extends StatefulWidget {
@@ -22,18 +23,18 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Image Upload'),
+    return CupertinoPageScaffold(
+      navigationBar: const CupertinoNavigationBar(
+        middle: Text('Image Upload'),
       ),
-      body: Center(
+      child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _image == null
                 ? const Text('No image selected.')
                 : Image.file(File(_image!.path)),
-            ElevatedButton(
+            CupertinoButton(
               onPressed: _pickImage,
               child: const Text('Upload Image'),
             ),
