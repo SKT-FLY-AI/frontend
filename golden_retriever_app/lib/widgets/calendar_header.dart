@@ -1,3 +1,5 @@
+// lib/widgets/calendar_header.dart
+
 import 'package:flutter/cupertino.dart';
 
 class CalendarHeader extends StatelessWidget {
@@ -25,7 +27,10 @@ class CalendarHeader extends StatelessWidget {
           ),
           Text(
             '${focusedDate.year}년 ${focusedDate.month.toString().padLeft(2, '0')}월',
-            style: const TextStyle(fontSize: 18),
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold, // 글자를 볼드체로 설정
+            ),
           ),
           CupertinoButton(
             onPressed: onRightArrowTap,

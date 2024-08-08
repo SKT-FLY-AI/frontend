@@ -1,6 +1,7 @@
 // lib/screens/calendar_screen.dart
 
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import '../widgets/calendar_header.dart';
 import '../widgets/calendar_grid.dart';
 import '../widgets/info_box.dart';
@@ -15,8 +16,38 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen> {
   DateTime _focusedDate = DateTime.now();
   DateTime _selectedDate = DateTime.now();
-  String _selectedDateInfo = "No events"; // 선택한 날짜의 정보를 저장하는 변수
-  String _selectedDateStatus = "No status"; // 선택한 날짜의 상태를 저장하는 변수
+  String _selectedDateInfo = "";
+  String _selectedDateStatus = "";
+
+  final DateFormat _dateFormat = DateFormat('yyyy-MM-dd');
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDate = DateTime.now();
+    _selectedDateInfo = "Event for ${_dateFormat.format(_selectedDate)}";
+    _selectedDateStatus = "Status for ${_dateFormat.format(_selectedDate)}";
+  }
+
+  void _previousMonth() {
+    setState(() {
+      _focusedDate = DateTime(_focusedDate.year, _focusedDate.month - 1);
+    });
+  }
+
+  void _nextMonth() {
+    setState(() {
+      _focusedDate = DateTime(_focusedDate.year, _focusedDate.month + 1);
+    });
+  }
+
+  void _updateSelectedDate(DateTime date) {
+    setState(() {
+      _selectedDate = date;
+      _selectedDateInfo = "Event for ${_dateFormat.format(date)}";
+      _selectedDateStatus = "Status for ${_dateFormat.format(date)}";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,63 +55,53 @@ class _CalendarScreenState extends State<CalendarScreen> {
       navigationBar: const CupertinoNavigationBar(
         middle: Text('Calendar'),
       ),
-      child: Center(
-        child: Column(
-          children: [
-            const SizedBox(height: 100), // 캘린더 상단의 여백을 조정
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16.0),
-              padding: const EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                color: CupertinoColors.systemGrey6,
-                borderRadius: BorderRadius.circular(20.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: CupertinoColors.black.withOpacity(0.2),
-                    blurRadius: 10.0,
-                    offset: const Offset(0, 5),
-                  ),
-                ],
-              ),
-              child: Column(
-                children: [
-                  CalendarHeader(
-                    focusedDate: _focusedDate,
-                    onLeftArrowTap: () {
-                      setState(() {
-                        _focusedDate = DateTime(_focusedDate.year, _focusedDate.month - 1);
-                      });
-                    },
-                    onRightArrowTap: () {
-                      setState(() {
-                        _focusedDate = DateTime(_focusedDate.year, _focusedDate.month + 1);
-                      });
-                    },
-                  ),
-                  CalendarGrid(
-                    focusedDate: _focusedDate,
-                    selectedDate: _selectedDate,
-                    onDateSelected: (date) {
-                      setState(() {
-                        _selectedDate = date;
-                        _selectedDateInfo = "Event for $date"; // 임시 이벤트 정보
-                        _selectedDateStatus = "Status for $date"; // 임시 상태 정보
-                      });
-                    },
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16.0),
-            Expanded(
-              child: SingleChildScrollView(
+      child: Column(
+        children: [
+          const SizedBox(height: 120),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final calendarSize = constraints.maxWidth - 32.0;
+              
+              return Container(
+                width: calendarSize,
+                margin: const EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  color: CupertinoColors.systemGrey6,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Column(
+                  children: [
+                    CalendarHeader(
+                      focusedDate: _focusedDate,
+                      onLeftArrowTap: _previousMonth,
+                      onRightArrowTap: _nextMonth,
+                    ),
+                    SizedBox(
+                      height: calendarSize * 6 / 7, // 6주차 캘린더의 높이 설정
+                      child: CalendarGrid(
+                        focusedDate: _focusedDate,
+                        selectedDate: _selectedDate,
+                        onDateSelected: _updateSelectedDate,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+          const SizedBox(height: 20),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Column(
                   children: [
                     InfoBox(
                       title: 'Chat Log',
                       content: _selectedDateInfo,
                     ),
-                    const SizedBox(height: 16.0),
+                    const SizedBox(height: 20),
                     InfoBox(
                       title: 'Status',
                       content: _selectedDateStatus,
@@ -89,8 +110,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -4,8 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:camera/camera.dart';
 import 'package:image_picker/image_picker.dart';
 import 'image_view.dart';
-import '../widgets/camera_preview_widget.dart';
-import '../widgets/camera_controls_widget.dart';
+import '../widgets/camera_view.dart';
+import '../widgets/camera_top_bar.dart';
+import '../services/camera_service.dart';
+import '../services/gallery_service.dart';
 
 class CaptureScreen extends StatefulWidget {
   final CupertinoTabController tabController;
@@ -18,9 +20,8 @@ class CaptureScreen extends StatefulWidget {
 
 class _CaptureScreenState extends State<CaptureScreen> {
   CameraController? controller;
-  List<CameraDescription> cameras = [];
   bool isCameraInitialized = false;
-  bool isRearCameraSelected = false; // 전면 카메라 선택
+  bool isRearCameraSelected = false;
   final ImagePicker _picker = ImagePicker();
 
   @override
@@ -31,18 +32,12 @@ class _CaptureScreenState extends State<CaptureScreen> {
 
   Future<void> initializeCamera() async {
     try {
-      cameras = await availableCameras();
-      if (cameras.isNotEmpty) {
-        controller = CameraController(
-          cameras[isRearCameraSelected ? 0 : 1], // 전면 또는 후면 카메라 선택
-          ResolutionPreset.high,
-        );
-        await controller?.initialize();
-        if (!mounted) return;
-        setState(() {
-          isCameraInitialized = true;
-        });
-      }
+      final cameras = await getAvailableCameras();
+      controller = await initializeCameraController(cameras, isRearCameraSelected);
+      if (!mounted) return;
+      setState(() {
+        isCameraInitialized = true;
+      });
     } catch (e) {
       print('Error initializing camera: $e');
     }
@@ -57,17 +52,9 @@ class _CaptureScreenState extends State<CaptureScreen> {
 
   Future<void> openGallery() async {
     try {
-      final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        Navigator.push(
-          context,
-          CupertinoPageRoute(
-            builder: (context) => ImageView(
-              imagePath: pickedFile.path,
-              tabController: widget.tabController,
-            ),
-          ),
-        );
+      final pickedFile = await pickImageFromGallery(_picker);
+      if (pickedFile != null && mounted) {
+        navigateToImageView(pickedFile.path);
       }
     } catch (e) {
       print('Error picking image: $e');
@@ -76,20 +63,24 @@ class _CaptureScreenState extends State<CaptureScreen> {
 
   Future<void> takePicture() async {
     try {
-      final image = await controller!.takePicture();
+      final image = await takePictureWithController(controller!);
       if (!mounted) return;
-      Navigator.push(
-        context,
-        CupertinoPageRoute(
-          builder: (context) => ImageView(
-            imagePath: image.path,
-            tabController: widget.tabController,
-          ),
-        ),
-      );
+      navigateToImageView(image.path);
     } catch (e) {
       print('Error taking picture: $e');
     }
+  }
+
+  void navigateToImageView(String imagePath) {
+    Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (context) => ImageView(
+          imagePath: imagePath,
+          tabController: widget.tabController,
+        ),
+      ),
+    );
   }
 
   @override
@@ -101,35 +92,15 @@ class _CaptureScreenState extends State<CaptureScreen> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        backgroundColor: CupertinoColors.black,
-        middle: const Text(
-          'Camera',
-          style: TextStyle(color: CupertinoColors.white),
-        ),
-        leading: CupertinoButton(
-          padding: EdgeInsets.zero,
-          child: const Icon(CupertinoIcons.back, color: CupertinoColors.white),
-          onPressed: () {
-            widget.tabController.index = 0; // 홈 탭으로 돌아가기
-          },
-        ),
-      ),
+      navigationBar: CameraTopBar(tabController: widget.tabController),
       child: isCameraInitialized && controller != null
-          ? Stack(
-              children: [
-                CameraPreviewWidget(controller: controller!),
-                CameraControlsWidget(
-                  onOpenGallery: openGallery,
-                  onTakePicture: takePicture,
-                  onToggleCamera: toggleCamera,
-                ),
-              ],
+          ? CameraView(
+              controller: controller!,
+              onOpenGallery: openGallery,
+              onTakePicture: takePicture,
+              onToggleCamera: toggleCamera,
             )
-          : const Center(
-              child: CupertinoActivityIndicator(),
-            ),
+          : const Center(child: CupertinoActivityIndicator()),
     );
   }
 }
-

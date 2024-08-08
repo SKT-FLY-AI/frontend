@@ -1,3 +1,5 @@
+// lib/widgets/info_box.dart
+
 import 'package:flutter/cupertino.dart';
 
 class InfoBox extends StatelessWidget {
@@ -13,18 +15,12 @@ class InfoBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16.0),
+      margin: const EdgeInsets.symmetric(horizontal: 12.0),
       padding: const EdgeInsets.all(16.0),
+      width: double.infinity,  // 가로 길이를 부모의 전체 너비로 설정
       decoration: BoxDecoration(
         color: CupertinoColors.systemGrey6,
         borderRadius: BorderRadius.circular(20.0),
-        boxShadow: [
-          BoxShadow(
-            color: CupertinoColors.black.withOpacity(0.2),
-            blurRadius: 10.0,
-            offset: const Offset(0, 5),
-          ),
-        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
