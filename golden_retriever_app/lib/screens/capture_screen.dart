@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:camera/camera.dart';
 import 'package:image_picker/image_picker.dart';
 import 'image_view.dart';
+import '../widgets/camera_preview_widget.dart';
+import '../widgets/camera_controls_widget.dart';
 
 class CaptureScreen extends StatefulWidget {
   final CupertinoTabController tabController;
@@ -72,6 +74,24 @@ class _CaptureScreenState extends State<CaptureScreen> {
     }
   }
 
+  Future<void> takePicture() async {
+    try {
+      final image = await controller!.takePicture();
+      if (!mounted) return;
+      Navigator.push(
+        context,
+        CupertinoPageRoute(
+          builder: (context) => ImageView(
+            imagePath: image.path,
+            tabController: widget.tabController,
+          ),
+        ),
+      );
+    } catch (e) {
+      print('Error taking picture: $e');
+    }
+  }
+
   @override
   void dispose() {
     controller?.dispose();
@@ -81,66 +101,28 @@ class _CaptureScreenState extends State<CaptureScreen> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        backgroundColor: CupertinoColors.black,
+        middle: const Text(
+          'Camera',
+          style: TextStyle(color: CupertinoColors.white),
+        ),
+        leading: CupertinoButton(
+          padding: EdgeInsets.zero,
+          child: const Icon(CupertinoIcons.back, color: CupertinoColors.white),
+          onPressed: () {
+            widget.tabController.index = 0; // 홈 탭으로 돌아가기
+          },
+        ),
+      ),
       child: isCameraInitialized && controller != null
           ? Stack(
               children: [
-                Positioned.fill(
-                  child: AspectRatio(
-                    aspectRatio: controller!.value.aspectRatio,
-                    child: CameraPreview(controller!),
-                  ),
-                ),
-                Positioned(
-                  top: 16.0,
-                  left: 16.0,
-                  child: CupertinoButton(
-                    child: const Icon(CupertinoIcons.back),
-                    onPressed: () {
-                      widget.tabController.index = 0; // 홈 탭으로 돌아가기
-                    },
-                  ),
-                ),
-                Positioned(
-                  bottom: 16.0,
-                  left: 16.0,
-                  right: 16.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween, // 양쪽 정렬
-                    children: [
-                      CupertinoButton(
-                        child: const Icon(CupertinoIcons.photo),
-                        onPressed: openGallery, // 갤러리 열기 로직 연결
-                      ),
-                      CupertinoButton(
-                        child: const Icon(
-                          CupertinoIcons.camera,
-                          size: 64,
-                          color: CupertinoColors.activeOrange,
-                        ),
-                        onPressed: () async {
-                          try {
-                            final image = await controller!.takePicture();
-                            if (!mounted) return;
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (context) => ImageView(
-                                  imagePath: image.path,
-                                  tabController: widget.tabController,
-                                ),
-                              ),
-                            );
-                          } catch (e) {
-                            print('Error taking picture: $e');
-                          }
-                        },
-                      ),
-                      CupertinoButton(
-                        child: const Icon(CupertinoIcons.arrow_2_circlepath),
-                        onPressed: toggleCamera,
-                      ),
-                    ],
-                  ),
+                CameraPreviewWidget(controller: controller!),
+                CameraControlsWidget(
+                  onOpenGallery: openGallery,
+                  onTakePicture: takePicture,
+                  onToggleCamera: toggleCamera,
                 ),
               ],
             )
@@ -150,3 +132,4 @@ class _CaptureScreenState extends State<CaptureScreen> {
     );
   }
 }
+

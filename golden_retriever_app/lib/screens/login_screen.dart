@@ -1,4 +1,4 @@
-// lib.screens/login_screen.dart
+// lib/screens/login_screen.dart
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
