@@ -3,7 +3,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:camera/camera.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 import 'image_view.dart';
 
 class CaptureScreen extends StatefulWidget {

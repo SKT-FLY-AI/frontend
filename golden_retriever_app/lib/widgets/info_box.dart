@@ -1,30 +1,33 @@
-// lib/widgets/info_card.dart
-
 import 'package:flutter/cupertino.dart';
 
-class InfoCard extends StatelessWidget {
+class InfoBox extends StatelessWidget {
   final String title;
-  final String detail;
+  final String content;
 
-  const InfoCard({super.key, required this.title, required this.detail});
+  const InfoBox({
+    Key? key,
+    required this.title,
+    required this.content,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16.0),
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: CupertinoColors.systemGrey6,
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadius.circular(20.0),
         boxShadow: [
           BoxShadow(
-            color: CupertinoColors.black.withOpacity(0.1),
+            color: CupertinoColors.black.withOpacity(0.2),
             blurRadius: 10.0,
             offset: const Offset(0, 5),
           ),
         ],
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             title,
@@ -34,7 +37,7 @@ class InfoCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8.0),
-          Text(detail),
+          Text(content),
         ],
       ),
     );
