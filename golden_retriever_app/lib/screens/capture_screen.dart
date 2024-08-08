@@ -1,7 +1,9 @@
+// lib/screens/capture_screen.dart
+
 import 'package:flutter/cupertino.dart';
 import 'package:camera/camera.dart';
-import 'package:image_picker/image_picker.dart'; // 추가
-import 'dart:io'; // 추가
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 import 'image_view.dart';
 
 class CaptureScreen extends StatefulWidget {
@@ -17,8 +19,8 @@ class _CaptureScreenState extends State<CaptureScreen> {
   CameraController? controller;
   List<CameraDescription> cameras = [];
   bool isCameraInitialized = false;
-  bool isRearCameraSelected = true;
-  final ImagePicker _picker = ImagePicker(); // ImagePicker 인스턴스 추가
+  bool isRearCameraSelected = false; // 전면 카메라 선택
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void initState() {
@@ -31,7 +33,7 @@ class _CaptureScreenState extends State<CaptureScreen> {
       cameras = await availableCameras();
       if (cameras.isNotEmpty) {
         controller = CameraController(
-          cameras[isRearCameraSelected ? 0 : 1],
+          cameras[isRearCameraSelected ? 0 : 1], // 전면 또는 후면 카메라 선택
           ResolutionPreset.high,
         );
         await controller?.initialize();
@@ -95,7 +97,7 @@ class _CaptureScreenState extends State<CaptureScreen> {
                   child: CupertinoButton(
                     child: const Icon(CupertinoIcons.back),
                     onPressed: () {
-                      Navigator.pop(context); // 이전 페이지로 이동
+                      widget.tabController.index = 0; // 홈 탭으로 돌아가기
                     },
                   ),
                 ),
@@ -134,7 +136,10 @@ class _CaptureScreenState extends State<CaptureScreen> {
                           }
                         },
                       ),
-                      const SizedBox(width: 64), // 버튼 간의 공간 조정
+                      CupertinoButton(
+                        child: const Icon(CupertinoIcons.arrow_2_circlepath),
+                        onPressed: toggleCamera,
+                      ),
                     ],
                   ),
                 ),

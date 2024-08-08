@@ -1,3 +1,4 @@
+// lib/screens/home_screen.dart
 import 'package:flutter/cupertino.dart';
 import 'calendar_screen.dart';
 import 'capture_screen.dart';
@@ -5,14 +6,14 @@ import 'entertainment_screen.dart';
 import 'profile_screen.dart';
 import '../widgets/info_card.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+class MainHomeScreen extends StatefulWidget {
+  const MainHomeScreen({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<MainHomeScreen> createState() => _MainHomeScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainHomeScreenState extends State<MainHomeScreen> {
   final CupertinoTabController _tabController = CupertinoTabController();
 
   @override

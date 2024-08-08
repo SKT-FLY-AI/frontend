@@ -1,57 +1,65 @@
+// lib/screens/image_view.dart
+
 import 'package:flutter/cupertino.dart';
 import 'dart:io';
-import 'calendar_screen.dart';
+import 'package:http/http.dart' as http;
 
 class ImageView extends StatelessWidget {
   final String imagePath;
   final CupertinoTabController tabController;
 
-  const ImageView({Key? key, required this.imagePath, required this.tabController}) : super(key: key);
+  const ImageView({super.key, required this.imagePath, required this.tabController});
+
+  Future<void> uploadImage(String filePath) async {
+    try {
+      File file = File(filePath);
+      String fileName = file.uri.pathSegments.last;
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse('http://10.0.2.2:3001/images/upload/'), // Mock 서버 URL 사용
+      );
+
+      request.files.add(
+        http.MultipartFile(
+          'file',
+          file.readAsBytes().asStream(),
+          file.lengthSync(),
+          filename: fileName,
+        ),
+      );
+
+      var response = await request.send();
+
+      if (response.statusCode == 200) {
+        print('Image uploaded successfully.');
+      } else {
+        print('Image upload failed: ${response.reasonPhrase}');
+      }
+    } catch (e) {
+      print('Error uploading image: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: const CupertinoNavigationBar(
-        middle: Text('미리보기'),
+      navigationBar: CupertinoNavigationBar(
+        middle: const Text('Image View'),
+        trailing: CupertinoButton(
+          padding: EdgeInsets.zero,
+          child: const Icon(CupertinoIcons.check_mark_circled),
+          onPressed: () async {
+            await uploadImage(imagePath);
+            Navigator.pop(context);
+          },
+        ),
       ),
-      child: Column(
-        children: [
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0), // 이미지 주변 여백
-              child: Image.file(
-                File(imagePath),
-                fit: BoxFit.contain, // 이미지 비율을 유지하며 축소
-              ),
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 20.0), // 버튼과 화면 하단의 간격
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  CupertinoButton(
-                    color: Color.fromARGB(255, 255, 197, 115),
-                    child: const Text('다시 찍기'),
-                    onPressed: () {
-                      Navigator.pop(context); // 이전 화면으로 돌아가기
-                    },
-                  ),
-                  CupertinoButton(
-                    color: CupertinoColors.activeOrange,
-                    child: const Text('업로드'),
-                    onPressed: () {
-                      // 탭을 캘린더 탭으로 변경
-                      tabController.index = 1;
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+      child: Center(
+        child: Image.file(
+          File(imagePath),
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
