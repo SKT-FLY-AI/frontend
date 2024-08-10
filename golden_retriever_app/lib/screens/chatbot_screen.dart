@@ -1,7 +1,6 @@
 // lib/screens/chatbot_screen.dart
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/cupertino.dart';
 
 class ChatbotScreen extends StatefulWidget {
   const ChatbotScreen({super.key});

@@ -1,57 +1,72 @@
-// lib/screens/login_screen.dart
+// lib/screens/signup_screen.dart
 
 import 'package:flutter/cupertino.dart';
-import '../services/auth_service.dart';
-import 'app_tab_controller.dart';
-import 'signup_screen.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignupScreenState createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
 
-  Future<void> _login() async {
+  Future<void> _register() async {
     setState(() {
       _isLoading = true;
     });
 
-    final response = await AuthService.login(
-      username: _usernameController.text,
-      password: _passwordController.text,
+    final url = Uri.parse('http://10.0.2.2:3001/users/signup'); // Replace with your backend URL
+
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({
+        'username': _usernameController.text,
+        'password': _passwordController.text,
+      }),
     );
 
     setState(() {
       _isLoading = false;
     });
 
-    if (response != null && response.statusCode == 200) {
-      _navigateToHomeScreen();
+    if (response.statusCode == 200) {
+      _showSuccessDialog();
     } else {
-      _showErrorDialog(response?.statusCode ?? 'Unknown error');
+      _showErrorDialog(response.reasonPhrase ?? 'Unknown error');
     }
   }
 
-  void _navigateToHomeScreen() {
-    Navigator.pushReplacement(
-      context,
-      CupertinoPageRoute(builder: (context) => const AppTabController()),
+  void _showSuccessDialog() {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return const CupertinoAlertDialog(
+          title: Text('Success'),
+          content: Text('Membership registration completed!'),
+        );
+      },
     );
+
+    Future.delayed(const Duration(seconds: 2), () {
+      Navigator.pop(context); // Close the success dialog
+      Navigator.pop(context); // Go back to the login screen
+    });
   }
 
-  void _showErrorDialog(dynamic error) {
+  void _showErrorDialog(String error) {
     showCupertinoDialog(
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
-          title: const Text('Login Failed'),
-          content: Text('Error: $error'),
+          title: const Text('Error'),
+          content: Text('Failed to register: $error'),
           actions: [
             CupertinoDialogAction(
               child: const Text('OK'),
@@ -69,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
-        middle: Text('Join-Login'),
+        middle: Text('Sign Up'),
       ),
       child: Center(
         child: Padding(
@@ -110,26 +125,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ? const CupertinoActivityIndicator()
                   : CupertinoButton(
                 color: CupertinoColors.activeOrange,
-                child: const Text('LOGIN'),
-                onPressed: _login,
-              ),
-              const SizedBox(height: 20),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => const SignupScreen(),
-                    ),
-                  );
-                },
-                child: const Text(
-                  'Sign Up',
-                  style: TextStyle(
-                    color: CupertinoColors.activeOrange,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
+                child: const Text('Sign Up'),
+                onPressed: _register,
               ),
             ],
           ),
