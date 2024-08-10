@@ -1,33 +1,28 @@
 // lib/services/chatbot_service.dart
 
+import 'dart:async';
 import 'package:flutter/cupertino.dart';
+import '../screens/chatbot_screen.dart'; // Import the ChatbotScreen
 
-void checkAndShowChatbot(BuildContext context) {
-  if (shouldShowChatbot()) {
-    showChatbotDialog(context);
-  }
+Future<bool> shouldShowChatbot() async {
+  await Future.delayed(const Duration(seconds: 2)); // Wait for 2 seconds
+  return true; // Return true after the delay
 }
 
-bool shouldShowChatbot() {
-  // Replace this with your actual logic
-  return true; // Always returns true for demonstration purposes
+Future<void> checkAndShowChatbot(BuildContext context) async {
+  bool shouldShow = await shouldShowChatbot(); // Wait for the result
+
+  if (shouldShow) {
+    showChatbotDialog(context);
+  }
 }
 
 void showChatbotDialog(BuildContext context) {
   showCupertinoDialog(
     context: context,
     builder: (BuildContext context) {
-      return CupertinoAlertDialog(
-        title: const Text('Chatbot'),
-        content: const Text('How can I assist you today?'),
-        actions: [
-          CupertinoDialogAction(
-            child: const Text('Close'),
-            onPressed: () {
-              Navigator.pop(context); // Close the chatbot dialog
-            },
-          ),
-        ],
+      return CupertinoPageScaffold(
+        child: ChatbotScreen(), // Display the ChatbotScreen
       );
     },
   );

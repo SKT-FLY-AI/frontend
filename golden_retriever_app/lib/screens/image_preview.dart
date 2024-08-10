@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'dart:io';
 import '../services/image_upload_service.dart';
 import '../services/dialog_service.dart';
+import '../services/chatbot_service.dart';
 
 class ImagePreview extends StatelessWidget {
   final String imagePath;
