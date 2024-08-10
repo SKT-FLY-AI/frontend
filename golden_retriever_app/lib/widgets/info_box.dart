@@ -5,35 +5,60 @@ import 'package:flutter/cupertino.dart';
 class InfoBox extends StatelessWidget {
   final String title;
   final String content;
+  final Color? backgroundColor;
+  final Color? titleColor;
+  final Color? contentColor;
+  final double borderRadius;
+  final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry? padding;
+  final double titleFontSize;
+  final double contentFontSize;
+  final FontWeight titleFontWeight;
 
   const InfoBox({
     Key? key,
     required this.title,
     required this.content,
+    this.backgroundColor = CupertinoColors.systemGrey6,
+    this.titleColor = CupertinoColors.black,
+    this.contentColor = CupertinoColors.black,
+    this.borderRadius = 20.0,
+    this.margin = const EdgeInsets.symmetric(horizontal: 12.0),
+    this.padding = const EdgeInsets.all(16.0),
+    this.titleFontSize = 18.0,
+    this.contentFontSize = 16.0,
+    this.titleFontWeight = FontWeight.bold,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 12.0),
-      padding: const EdgeInsets.all(16.0),
-      width: double.infinity,  // 가로 길이를 부모의 전체 너비로 설정
+      margin: margin,
+      padding: padding,
+      width: double.infinity,
       decoration: BoxDecoration(
-        color: CupertinoColors.systemGrey6,
-        borderRadius: BorderRadius.circular(20.0),
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(borderRadius),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+            style: TextStyle(
+              fontSize: titleFontSize,
+              fontWeight: titleFontWeight,
+              color: titleColor,
             ),
           ),
           const SizedBox(height: 8.0),
-          Text(content),
+          Text(
+            content,
+            style: TextStyle(
+              fontSize: contentFontSize,
+              color: contentColor,
+            ),
+          ),
         ],
       ),
     );

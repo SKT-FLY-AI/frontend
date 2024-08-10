@@ -24,9 +24,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   void initState() {
     super.initState();
-    _selectedDate = DateTime.now();
-    _selectedDateInfo = "Event for ${_dateFormat.format(_selectedDate)}";
-    _selectedDateStatus = "Status for ${_dateFormat.format(_selectedDate)}";
+    _updateSelectedDateInfoAndStatus(_selectedDate);
   }
 
   void _previousMonth() {
@@ -44,9 +42,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
   void _updateSelectedDate(DateTime date) {
     setState(() {
       _selectedDate = date;
-      _selectedDateInfo = "Event for ${_dateFormat.format(date)}";
-      _selectedDateStatus = "Status for ${_dateFormat.format(date)}";
+      _updateSelectedDateInfoAndStatus(date);
     });
+  }
+
+  void _updateSelectedDateInfoAndStatus(DateTime date) {
+    _selectedDateInfo = "Event for ${_dateFormat.format(date)}";
+    _selectedDateStatus = "Status for ${_dateFormat.format(date)}";
   }
 
   @override
@@ -58,60 +60,68 @@ class _CalendarScreenState extends State<CalendarScreen> {
       child: Column(
         children: [
           const SizedBox(height: 120),
-          LayoutBuilder(
-            builder: (context, constraints) {
-              final calendarSize = constraints.maxWidth - 32.0;
-              
-              return Container(
-                width: calendarSize,
-                margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                padding: const EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  color: CupertinoColors.systemGrey6,
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: Column(
-                  children: [
-                    CalendarHeader(
-                      focusedDate: _focusedDate,
-                      onLeftArrowTap: _previousMonth,
-                      onRightArrowTap: _nextMonth,
-                    ),
-                    SizedBox(
-                      height: calendarSize * 6 / 7, // 6주차 캘린더의 높이 설정
-                      child: CalendarGrid(
-                        focusedDate: _focusedDate,
-                        selectedDate: _selectedDate,
-                        onDateSelected: _updateSelectedDate,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
+          _buildCalendar(context),
           const SizedBox(height: 20),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Column(
-                  children: [
-                    InfoBox(
-                      title: 'Chat Log',
-                      content: _selectedDateInfo,
-                    ),
-                    const SizedBox(height: 20),
-                    InfoBox(
-                      title: 'Status',
-                      content: _selectedDateStatus,
-                    ),
-                  ],
+          _buildInfoBoxes(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCalendar(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final calendarSize = constraints.maxWidth - 32.0;
+
+        return Container(
+          width: calendarSize,
+          margin: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: CupertinoColors.systemGrey6,
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: Column(
+            children: [
+              CalendarHeader(
+                focusedDate: _focusedDate,
+                onLeftArrowTap: _previousMonth,
+                onRightArrowTap: _nextMonth,
+              ),
+              SizedBox(
+                height: calendarSize * 6 / 7, // 6-week calendar height
+                child: CalendarGrid(
+                  focusedDate: _focusedDate,
+                  selectedDate: _selectedDate,
+                  onDateSelected: _updateSelectedDate,
                 ),
               ),
-            ),
+            ],
           ),
-        ],
+        );
+      },
+    );
+  }
+
+  Widget _buildInfoBoxes() {
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Column(
+            children: [
+              InfoBox(
+                title: 'Chat Log',
+                content: _selectedDateInfo,
+              ),
+              const SizedBox(height: 20),
+              InfoBox(
+                title: 'Status',
+                content: _selectedDateStatus,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

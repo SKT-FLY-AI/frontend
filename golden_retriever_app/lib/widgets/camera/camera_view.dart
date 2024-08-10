@@ -1,4 +1,4 @@
-// lib/widgets/camera_view.dart
+// lib/widgets/camera/camera_view.dart
 
 import 'package:flutter/cupertino.dart';
 import 'package:camera/camera.dart';
@@ -23,13 +23,21 @@ class CameraView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        CameraPreviewWidget(controller: controller),
-        CameraControlsWidget(
-          onOpenGallery: onOpenGallery,
-          onTakePicture: onTakePicture,
-          onToggleCamera: onToggleCamera,
-        ),
+        _buildCameraPreview(),
+        _buildCameraControls(),
       ],
+    );
+  }
+
+  Widget _buildCameraPreview() {
+    return CameraPreviewWidget(controller: controller);
+  }
+
+  Widget _buildCameraControls() {
+    return CameraControlsWidget(
+      onOpenGallery: onOpenGallery,
+      onTakePicture: onTakePicture,
+      onToggleCamera: onToggleCamera,
     );
   }
 }

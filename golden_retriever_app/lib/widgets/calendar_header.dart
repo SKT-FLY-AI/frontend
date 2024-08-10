@@ -6,18 +6,22 @@ class CalendarHeader extends StatelessWidget {
   final DateTime focusedDate;
   final VoidCallback onLeftArrowTap;
   final VoidCallback onRightArrowTap;
+  final TextStyle? textStyle;
+  final EdgeInsetsGeometry? padding;
 
   const CalendarHeader({
     Key? key,
     required this.focusedDate,
     required this.onLeftArrowTap,
     required this.onRightArrowTap,
+    this.textStyle,
+    this.padding = const EdgeInsets.all(16.0),
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: padding!,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -27,10 +31,11 @@ class CalendarHeader extends StatelessWidget {
           ),
           Text(
             '${focusedDate.year}년 ${focusedDate.month.toString().padLeft(2, '0')}월',
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold, // 글자를 볼드체로 설정
-            ),
+            style: textStyle ??
+                const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
           ),
           CupertinoButton(
             onPressed: onRightArrowTap,

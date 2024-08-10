@@ -3,18 +3,41 @@
 import 'package:camera/camera.dart';
 
 Future<List<CameraDescription>> getAvailableCameras() async {
-  return await availableCameras();
+  try {
+    return await availableCameras();
+  } catch (e) {
+    throw Exception('Error retrieving available cameras: $e');
+  }
 }
 
-Future<CameraController> initializeCameraController(List<CameraDescription> cameras, bool isRearCameraSelected) async {
+Future<CameraController> initializeCameraController(
+    List<CameraDescription> cameras,
+    bool isRearCameraSelected,
+    ) async {
+  final cameraIndex = isRearCameraSelected ? 0 : 1;
+
+  if (cameraIndex >= cameras.length) {
+    throw Exception('Selected camera index is out of range.');
+  }
+
   final cameraController = CameraController(
-    cameras[isRearCameraSelected ? 0 : 1], // 전면 또는 후면 카메라 선택
+    cameras[cameraIndex],
     ResolutionPreset.high,
   );
-  await cameraController.initialize();
+
+  try {
+    await cameraController.initialize();
+  } catch (e) {
+    throw Exception('Error initializing camera controller: $e');
+  }
+
   return cameraController;
 }
 
 Future<XFile> takePictureWithController(CameraController controller) async {
-  return await controller.takePicture();
+  try {
+    return await controller.takePicture();
+  } catch (e) {
+    throw Exception('Error taking picture: $e');
+  }
 }

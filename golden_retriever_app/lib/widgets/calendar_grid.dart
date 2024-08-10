@@ -16,57 +16,70 @@ class CalendarGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final firstDayOfMonth = DateTime(focusedDate.year, focusedDate.month, 1);
-    final lastDayOfMonth = DateTime(focusedDate.year, focusedDate.month + 1, 0);
-    final daysInMonth = lastDayOfMonth.day;
-
-    // Calculate the first day of the week for the calendar grid
-    final int leadingEmptyDays = (firstDayOfMonth.weekday - 1) % 7;
-    final DateTime startDate = firstDayOfMonth.subtract(Duration(days: leadingEmptyDays));
-    final DateTime endDate = startDate.add(Duration(days: 41)); // 6 weeks later
-
-    final days = <Widget>[];
-    for (DateTime date = startDate; date.isBefore(endDate.add(Duration(days: 1))); date = date.add(Duration(days: 1))) {
-      final bool isInMonth = date.month == focusedDate.month;
-      final bool isSelected = selectedDate.year == date.year &&
-                              selectedDate.month == date.month &&
-                              selectedDate.day == date.day;
-
-      days.add(
-        GestureDetector(
-          onTap: () {
-            onDateSelected(date);
-          },
-          child: Container(
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: isInMonth ? (isSelected ? CupertinoColors.activeOrange : CupertinoColors.white) : CupertinoColors.systemGrey4,
-            ),
-            child: Text(
-              date.day.toString(),
-              style: TextStyle(
-                color: isInMonth ? (isSelected ? CupertinoColors.white : CupertinoColors.black) : CupertinoColors.systemGrey,
-              ),
-            ),
-          ),
-        ),
-      );
-    }
+    final days = _generateDaysForGrid();
 
     return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 7,
         mainAxisSpacing: 4.0,
         crossAxisSpacing: 4.0,
       ),
       itemCount: days.length,
-      itemBuilder: (context, index) {
-        return days[index];
-      },
+      itemBuilder: (context, index) => _buildDayCell(days[index]),
       padding: EdgeInsets.zero,
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
     );
+  }
+
+  List<DateTime> _generateDaysForGrid() {
+    final firstDayOfMonth = DateTime(focusedDate.year, focusedDate.month, 1);
+    final int leadingEmptyDays = (firstDayOfMonth.weekday - 1) % 7;
+    final startDate = firstDayOfMonth.subtract(Duration(days: leadingEmptyDays));
+
+    // 42 days cover the grid for 6 weeks (7 days per week)
+    return List.generate(42, (index) => startDate.add(Duration(days: index)));
+  }
+
+  Widget _buildDayCell(DateTime date) {
+    final bool isInMonth = date.month == focusedDate.month;
+    final bool isSelected = _isSelectedDate(date);
+
+    return GestureDetector(
+      onTap: () => onDateSelected(date),
+      child: Container(
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: _getDayBackgroundColor(isInMonth, isSelected),
+        ),
+        child: Text(
+          date.day.toString(),
+          style: TextStyle(
+            color: _getDayTextColor(isInMonth, isSelected),
+          ),
+        ),
+      ),
+    );
+  }
+
+  bool _isSelectedDate(DateTime date) {
+    return selectedDate.year == date.year &&
+        selectedDate.month == date.month &&
+        selectedDate.day == date.day;
+  }
+
+  Color _getDayBackgroundColor(bool isInMonth, bool isSelected) {
+    if (!isInMonth) {
+      return CupertinoColors.systemGrey4;
+    }
+    return isSelected ? CupertinoColors.activeOrange : CupertinoColors.white;
+  }
+
+  Color _getDayTextColor(bool isInMonth, bool isSelected) {
+    if (!isInMonth) {
+      return CupertinoColors.systemGrey;
+    }
+    return isSelected ? CupertinoColors.white : CupertinoColors.black;
   }
 }
