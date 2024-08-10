@@ -2,89 +2,14 @@
 
 import 'package:flutter/cupertino.dart';
 import 'dart:io';
-import 'package:http/http.dart' as http;
+import '../services/image_upload_service.dart';
+import '../services/dialog_service.dart';
 
 class ImagePreview extends StatelessWidget {
   final String imagePath;
   final CupertinoTabController tabController;
 
   const ImagePreview({super.key, required this.imagePath, required this.tabController});
-
-  // 이미지를 업로드하고 다이얼로그를 표시하는 비동기함수
-  Future<void> _uploadImage(BuildContext context, String filePath) async {
-    _showLoadingDialog(context);
-
-    // 서버에 이미지 업로드 요청을 보내고 결과에 따른 처리를 함
-    try {
-      final response = await _sendImageUploadRequest(filePath);
-      Navigator.pop(context); // Close the loading dialog
-
-      if (response.statusCode == 200) {
-        _showUploadResultDialog(context, 'Image uploaded successfully.');
-      } else {
-        _showUploadResultDialog(context, 'Image upload failed: ${response.reasonPhrase}');
-      }
-    } catch (e) {
-      Navigator.pop(context); // Close the loading dialog
-      _showUploadResultDialog(context, 'Error uploading image: $e');
-    }
-  }
-
-  Future<http.StreamedResponse> _sendImageUploadRequest(String filePath) async {
-    File file = File(filePath);
-    String fileName = file.uri.pathSegments.last;
-
-    var request = http.MultipartRequest(
-      'POST',
-      Uri.parse('http://10.0.2.2:3001/images/upload/'), // Mock 서버 URL 사용
-    );
-
-    request.files.add(
-      http.MultipartFile(
-        'file',
-        file.readAsBytes().asStream(),
-        file.lengthSync(),
-        filename: fileName,
-      ),
-    );
-
-    return await request.send();
-  }
-
-  void _showLoadingDialog(BuildContext context) {
-    showCupertinoDialog(
-      context: context,
-      builder: (context) {
-        return const CupertinoAlertDialog(
-          title: Text('Uploading...'),
-          content: CupertinoActivityIndicator(),
-        );
-      },
-    );
-  }
-
-  // 사진 업로드 결과
-  void _showUploadResultDialog(BuildContext context, String message) {
-    showCupertinoDialog(
-      context: context,
-      builder: (context) {
-        return CupertinoAlertDialog(
-          title: const Text('Upload Result'),
-          content: Text(message),
-          actions: [
-            CupertinoDialogAction(
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pop(context); // Close the ImageView screen
-                tabController.index = 1; // Switch to the calendar tab
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,5 +31,54 @@ class ImagePreview extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _uploadImage(BuildContext context, String filePath) async {
+    showLoadingDialog(context);
+
+    try {
+      final response = await sendImageUploadRequest(filePath);
+      Navigator.pop(context); // Close the loading dialog
+
+      if (response.statusCode == 200) {
+        showUploadResultDialog(context, 'Image uploaded successfully.');
+      } else {
+        showUploadResultDialog(context, 'Image upload failed: ${response.reasonPhrase}');
+      }
+    } catch (e) {
+      Navigator.pop(context); // Close the loading dialog
+      showUploadResultDialog(context, 'Error uploading image: $e');
+    }
+  }
+
+  void showUploadResultDialog(BuildContext context, String message) {
+    showCupertinoDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: const Text('Upload Result'),
+          content: Text(message),
+          actions: [
+            CupertinoDialogAction(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.pop(context); // Close the dialog
+                _navigateToCalendarAndShowChatbot(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _navigateToCalendarAndShowChatbot(BuildContext context) {
+    Navigator.pop(context); // Close the ImageView screen
+    tabController.index = 1; // Switch to the calendar tab
+
+    // Delay the chatbot appearance slightly to ensure the calendar tab is fully loaded
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showChatbotDialog(context); // Show the chatbot dialog
+    });
   }
 }
