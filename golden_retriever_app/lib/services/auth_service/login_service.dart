@@ -1,10 +1,13 @@
-// lib/services/auth_service.dart
+// lib/services/auth_service/login_service.dart
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class AuthService {
-  static Future<http.Response?> login({required String username, required String password}) async {
+class LoginService {
+  static Future<http.Response?> login({
+    required String username,
+    required String password,
+  }) async {
     try {
       final url = Uri.parse('http://10.0.2.2:3001/users/login'); // Mock 서버 URL 사용
       // final url = Uri.parse('http://10.0.2.2:8000/users/login'); // FastAPI 서버 URL 사용

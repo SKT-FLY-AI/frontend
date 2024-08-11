@@ -1,7 +1,8 @@
 // lib/screens/login_screen.dart
 
 import 'package:flutter/cupertino.dart';
-import '../services/auth_service.dart';
+import '../services/auth_service/auth_service.dart';
+import '../widgets/custom_text_field.dart';
 import 'app_tab_controller.dart';
 import 'signup_screen.dart';
 
@@ -77,33 +78,17 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 30),
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                child: CupertinoTextField(
-                  controller: _usernameController,
-                  placeholder: 'Username',
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                  prefix: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: const Icon(CupertinoIcons.person),
-                  ),
-                ),
+              CustomTextField(
+                controller: _usernameController,
+                placeholder: 'Username',
+                prefixIcon: CupertinoIcons.person,
               ),
               const SizedBox(height: 16),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 30),
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                child: CupertinoTextField(
-                  controller: _passwordController,
-                  placeholder: 'Password',
-                  obscureText: true,
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                  prefix: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: const Icon(CupertinoIcons.padlock),
-                  ),
-                ),
+              CustomTextField(
+                controller: _passwordController,
+                placeholder: 'Password',
+                obscureText: true,
+                prefixIcon: CupertinoIcons.padlock,
               ),
               const SizedBox(height: 32),
               _isLoading

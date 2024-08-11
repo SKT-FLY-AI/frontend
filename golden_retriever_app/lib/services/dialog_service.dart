@@ -2,7 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'navigation_service.dart';
-import 'chatbot_service.dart';
+import 'chatbot/chatbot_service.dart';
 
 void showLoadingDialog(BuildContext context) {
   showCupertinoDialog(

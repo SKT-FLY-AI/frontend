@@ -1,6 +1,7 @@
 // lib/screens/chatbot_screen.dart
 
 import 'package:flutter/cupertino.dart';
+import '../services/chatbot/chatbot_service.dart';
 
 class ChatbotScreen extends StatefulWidget {
   const ChatbotScreen({super.key});
@@ -12,6 +13,7 @@ class ChatbotScreen extends StatefulWidget {
 class _ChatbotScreenState extends State<ChatbotScreen> {
   final List<Map<String, String>> _messages = [];
   final TextEditingController _controller = TextEditingController();
+  bool _isLoading = false; // To show loading state while waiting for bot response
 
   @override
   void initState() {
@@ -21,18 +23,37 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
 
   void _sendInitialBotMessage() {
     setState(() {
-      _messages.add({"sender": "bot", "text": "Hello, how are you feeling right now?"});
+      _messages.add({
+        "sender": "bot",
+        "text": "Hello, how are you feeling right now?"
+      });
     });
   }
 
-  void _sendMessage() {
+  void _sendMessage() async {
     if (_controller.text.trim().isNotEmpty) {
       setState(() {
-        _messages.add({"sender": "user", "text": _controller.text.trim()});
-        // Simulate bot response (you could replace this with actual bot logic)
-        _messages.add({"sender": "bot", "text": "I'm here to help!"});
+        _messages.add({
+          "sender": "user",
+          "text": _controller.text.trim()
+        });
+        _controller.clear(); // Clear the text field immediately
+        _isLoading = true;
       });
-      _controller.clear();
+
+      String? response = await sendMessageToChatbot(_controller.text.trim());
+
+      setState(() {
+        if (response != null) {
+          _messages.add({"sender": "bot", "text": response});
+        } else {
+          _messages.add({
+            "sender": "bot",
+            "text": "Sorry, I couldn't understand that. Could you try again?"
+          });
+        }
+        _isLoading = false;
+      });
     }
   }
 
@@ -54,13 +75,15 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
           children: [
             Expanded(
               child: ListView.builder(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(18.0),
                 itemCount: _messages.length,
                 itemBuilder: (context, index) {
                   final message = _messages[index];
                   final isUser = message["sender"] == "user";
                   return Align(
-                    alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
+                    alignment: isUser
+                        ? Alignment.centerRight
+                        : Alignment.centerLeft,
                     child: Container(
                       margin: const EdgeInsets.symmetric(vertical: 8.0),
                       padding: const EdgeInsets.all(15.0),
@@ -83,14 +106,23 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                 },
               ),
             ),
+            if (_isLoading)
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: CupertinoActivityIndicator(),
+              ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 children: [
                   Expanded(
-                    child: CupertinoTextField(
-                      controller: _controller,
-                      placeholder: "Type a message",
+                    child: Container(
+                      margin: const EdgeInsets.only(left: 8.0),  // Add margin to the left
+                      child: CupertinoTextField(
+                        controller: _controller,
+                        placeholder: "Type a message",
+                        padding: const EdgeInsets.fromLTRB(16.0, 14.0, 12.0, 16.0),
+                      ),
                     ),
                   ),
                   CupertinoButton(

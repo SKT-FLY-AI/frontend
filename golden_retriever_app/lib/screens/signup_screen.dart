@@ -1,8 +1,8 @@
 // lib/screens/signup_screen.dart
 
 import 'package:flutter/cupertino.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import '../services/auth_service/auth_service.dart';
+import '../widgets/custom_text_field.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -21,25 +21,19 @@ class _SignupScreenState extends State<SignupScreen> {
       _isLoading = true;
     });
 
-    final url = Uri.parse('http://10.0.2.2:3001/users/signup'); // Replace with your backend URL
-
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode({
-        'username': _usernameController.text,
-        'password': _passwordController.text,
-      }),
+    final response = await AuthService.register(
+      username: _usernameController.text,
+      password: _passwordController.text,
     );
 
     setState(() {
       _isLoading = false;
     });
 
-    if (response.statusCode == 200) {
+    if (response != null && response.statusCode == 200) {
       _showSuccessDialog();
     } else {
-      _showErrorDialog(response.reasonPhrase ?? 'Unknown error');
+      _showErrorDialog(response?.reasonPhrase ?? 'Unknown error');
     }
   }
 
@@ -49,7 +43,7 @@ class _SignupScreenState extends State<SignupScreen> {
       builder: (context) {
         return const CupertinoAlertDialog(
           title: Text('Success'),
-          content: Text('Membership registration completed!'),
+          content: Text('Registration completed!'),
         );
       },
     );
@@ -92,33 +86,17 @@ class _SignupScreenState extends State<SignupScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 30),
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                child: CupertinoTextField(
-                  controller: _usernameController,
-                  placeholder: 'Username',
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                  prefix: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: const Icon(CupertinoIcons.person),
-                  ),
-                ),
+              CustomTextField(
+                controller: _usernameController,
+                placeholder: 'Username',
+                prefixIcon: CupertinoIcons.person,
               ),
               const SizedBox(height: 16),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 30),
-                padding: const EdgeInsets.symmetric(vertical: 4),
-                child: CupertinoTextField(
-                  controller: _passwordController,
-                  placeholder: 'Password',
-                  obscureText: true,
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                  prefix: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: const Icon(CupertinoIcons.padlock),
-                  ),
-                ),
+              CustomTextField(
+                controller: _passwordController,
+                placeholder: 'Password',
+                obscureText: true,
+                prefixIcon: CupertinoIcons.padlock,
               ),
               const SizedBox(height: 32),
               _isLoading
