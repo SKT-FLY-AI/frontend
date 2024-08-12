@@ -5,8 +5,13 @@ import '../widgets/info_card.dart';
 
 class HomeScreen extends StatelessWidget {
   final CupertinoTabController tabController;
+  final String username;
 
-  const HomeScreen({Key? key, required this.tabController}) : super(key: key);
+  const HomeScreen({
+    Key? key,
+    required this.tabController,
+    required this.username,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +23,8 @@ class HomeScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const _GreetingMessage(),
-              const _InfoCardGrid(),
+              GreetingMessage(username: username),
+              const InfoCardGrid(itemCount: 50), // Pass itemCount as a parameter
             ],
           ),
         ),
@@ -28,48 +33,62 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class _GreetingMessage extends StatelessWidget {
-  const _GreetingMessage({Key? key}) : super(key: key);
+class GreetingMessage extends StatelessWidget {
+  final String username;
+
+  const GreetingMessage({Key? key, required this.username}) : super(key: key);
+
+  String _getGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour >= 5 && hour < 12) {
+      return '좋은 아침입니다!';
+    } else if (hour >= 12 && hour < 18) {
+      return '좋은 하루 되세요!';
+    } else {
+      return '편안한 밤 되세요!';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(30.0),
+    final greeting = _getGreeting();
+    return Padding(
+      padding: const EdgeInsets.all(30.0),
       child: Text(
-        '채원 님, 좋은 아침입니다!',
-        style: TextStyle(
+        '$username 님, $greeting', // Display greeting with the username
+        style: const TextStyle(
           fontSize: 25,
           fontWeight: FontWeight.bold,
-          color: CupertinoColors.black, // 원하는 색상으로 변경
+          color: CupertinoColors.black, // Customize text color if needed
         ),
       ),
     );
   }
 }
 
-class _InfoCardGrid extends StatelessWidget {
-  const _InfoCardGrid({Key? key}) : super(key: key);
+class InfoCardGrid extends StatelessWidget {
+  final int itemCount;
+
+  const InfoCardGrid({Key? key, required this.itemCount}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: GridView.builder(
-        physics: const NeverScrollableScrollPhysics(), // GridView의 스크롤을 비활성화
-        shrinkWrap: true, // GridView가 Column의 남은 공간을 모두 사용하지 않도록 설정
+        physics: const NeverScrollableScrollPhysics(), // Disable GridView scrolling
+        shrinkWrap: true, // Prevent GridView from taking all available space
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 16.0,
           mainAxisSpacing: 16.0,
-          childAspectRatio: 1, // 정사각형 모양의 그리드 아이템
+          childAspectRatio: 1, // Ensure square grid items
         ),
-        itemCount: 50, // 예를 들어 50개의 아이템을 무한 스크롤로 보여줌
+        itemCount: itemCount,
         itemBuilder: (context, index) {
-          // Debugging: Log the index of the item being built
-          print('Building InfoCard for item $index');
           return InfoCard(
             title: 'Title $index',
-            detail: 'Detail for item $index',
+            detail: 'Detail for $index',
           );
         },
       ),

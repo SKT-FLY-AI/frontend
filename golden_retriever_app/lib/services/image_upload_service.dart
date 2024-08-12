@@ -1,3 +1,5 @@
+// lib/services/image_upload_service.dart
+
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
@@ -7,7 +9,7 @@ Future<http.StreamedResponse> sendImageUploadRequest(String filePath) async {
 
   var request = http.MultipartRequest(
     'POST',
-    Uri.parse('http://10.0.2.2:3001/images/upload/'), // Mock server URL
+    Uri.parse('http://10.0.2.2:3001/images/upload/'),
   );
 
   request.files.add(

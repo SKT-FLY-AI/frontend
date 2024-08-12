@@ -13,6 +13,7 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
 
@@ -23,6 +24,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
     final response = await AuthService.register(
       username: _usernameController.text,
+      email: _emailController.text,
       password: _passwordController.text,
     );
 
@@ -90,6 +92,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 controller: _usernameController,
                 placeholder: 'Username',
                 prefixIcon: CupertinoIcons.person,
+              ),
+              const SizedBox(height: 16),
+              CustomTextField(
+                controller: _emailController,
+                placeholder: 'Email',
+                prefixIcon: CupertinoIcons.mail,
               ),
               const SizedBox(height: 16),
               CustomTextField(

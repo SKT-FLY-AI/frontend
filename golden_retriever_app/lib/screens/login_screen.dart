@@ -32,10 +32,12 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = false;
     });
 
-    if (response != null && response.statusCode == 200) {
+    // if (response != null && response.containsKey('access_token')) {
+    if (response != null) {
+      // Store the access token if needed
       _navigateToHomeScreen();
     } else {
-      _showErrorDialog(response?.statusCode ?? 'Unknown error');
+      _showErrorDialog(response?['message'] ?? 'Unknown error');
     }
   }
 
@@ -46,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _showErrorDialog(dynamic error) {
+  void _showErrorDialog(String error) {
     showCupertinoDialog(
       context: context,
       builder: (context) {

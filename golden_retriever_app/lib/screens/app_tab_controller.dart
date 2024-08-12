@@ -1,12 +1,12 @@
 // lib/screens/app_tab_controller.dart
 
 import 'package:flutter/cupertino.dart';
-
 import 'home_screen.dart';
 import 'calendar_screen.dart';
 import 'camera_screen.dart';
 import 'entertainment_screen.dart';
 import 'profile_screen.dart';
+import '../services/auth_service/auth_service.dart';
 
 class AppTabController extends StatefulWidget {
   const AppTabController({super.key});
@@ -17,6 +17,20 @@ class AppTabController extends StatefulWidget {
 
 class _AppTabControllerState extends State<AppTabController> {
   final CupertinoTabController _tabController = CupertinoTabController();
+  String _username = 'Guest';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUsername();
+  }
+
+  Future<void> _loadUsername() async {
+    final fetchedUsername = await AuthService.getUsername();
+    setState(() {
+      _username = fetchedUsername ?? 'Guest';
+    });
+  }
 
   @override
   void dispose() {
@@ -29,46 +43,45 @@ class _AppTabControllerState extends State<AppTabController> {
     return CupertinoTabScaffold(
       controller: _tabController,
       tabBar: CupertinoTabBar(
-        items: _buildTabBarItems(),
+        items: _tabBarItems,
       ),
       tabBuilder: (context, index) {
-        // Debugging: Log tab changes
-        print("Selected tab index: $index");
         return _buildTabContent(index);
       },
     );
   }
 
-  List<BottomNavigationBarItem> _buildTabBarItems() {
-    return const [
-      BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.home),
-        label: 'Home',
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.calendar),
-        label: 'Calendar',
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.camera),
-        label: 'Camera',
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.play_arrow_solid),
-        label: 'Entertainment',
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(CupertinoIcons.person),
-        label: 'Profile',
-      ),
-    ];
-  }
+  List<BottomNavigationBarItem> get _tabBarItems => const [
+    BottomNavigationBarItem(
+      icon: Icon(CupertinoIcons.home),
+      label: 'Home',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(CupertinoIcons.calendar),
+      label: 'Calendar',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(CupertinoIcons.camera),
+      label: 'Camera',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(CupertinoIcons.play_arrow_solid),
+      label: 'Entertainment',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(CupertinoIcons.person),
+      label: 'Profile',
+    ),
+  ];
 
   Widget _buildTabContent(int index) {
     switch (index) {
       case 0:
         return CupertinoTabView(
-          builder: (context) => HomeScreen(tabController: _tabController),
+          builder: (context) => HomeScreen(
+            tabController: _tabController,
+            username: _username,
+          ),
         );
       case 1:
         return CupertinoTabView(
@@ -88,7 +101,10 @@ class _AppTabControllerState extends State<AppTabController> {
         );
       default:
         return CupertinoTabView(
-          builder: (context) => HomeScreen(tabController: _tabController),
+          builder: (context) => HomeScreen(
+            tabController: _tabController,
+            username: _username,
+          ),
         );
     }
   }
