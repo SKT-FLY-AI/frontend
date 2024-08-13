@@ -2,23 +2,26 @@
 // 챗봇의 메시지를 처리하는 백엔드와의 통신을 담당
 
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class ChatbotApiService {
   static Future<String?> sendMessage(String message) async {
+    final url = Uri.parse('http://223.194.44.32:8000/chatgpt/chat');  // Replace with actual backend endpoint
+
     try {
-      final url = Uri.parse('http://your.backend.api/endpoint/chatbot');  // Replace with actual backend endpoint
       final response = await http.post(
         url,
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode({'message': message}),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'text/plain',  // Change to 'text/plain' if the server is sending plain text
+        },
+        body: '{"message": "$message"}',  // Sending the message in JSON format
       );
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        return data['response'];  // Assuming the response from the backend includes a 'response' field
+        // Directly return the plain text response
+        return response.body;
       } else {
-        print('Error: ${response.statusCode}');
+        print('Error: Server responded with status code ${response.statusCode}');
         return null;
       }
     } catch (e) {

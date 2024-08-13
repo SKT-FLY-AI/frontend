@@ -15,9 +15,15 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  String? _selectedGender;
   bool _isLoading = false;
 
   Future<void> _register() async {
+    if (_selectedGender == null) {
+      _showErrorDialog('성별을 선택해주세요');
+      return;
+    }
+
     setState(() {
       _isLoading = true;
     });
@@ -26,6 +32,7 @@ class _SignupScreenState extends State<SignupScreen> {
       username: _usernameController.text,
       email: _emailController.text,
       password: _passwordController.text,
+      // gender: _selectedGender, // Pass gender if needed
     );
 
     setState(() {
@@ -45,7 +52,7 @@ class _SignupScreenState extends State<SignupScreen> {
       builder: (context) {
         return const CupertinoAlertDialog(
           title: Text('Success'),
-          content: Text('Registration completed!'),
+          content: Text('회원가입 완료!'),
         );
       },
     );
@@ -80,7 +87,7 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
-        middle: Text('Sign Up'),
+        middle: Text('회원가입'),
       ),
       child: Center(
         child: Padding(
@@ -90,16 +97,16 @@ class _SignupScreenState extends State<SignupScreen> {
             children: [
               CustomTextField(
                 controller: _usernameController,
-                placeholder: 'Username',
+                placeholder: '닉네임',
                 prefixIcon: CupertinoIcons.person,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 32),
               CustomTextField(
                 controller: _emailController,
                 placeholder: 'Email',
                 prefixIcon: CupertinoIcons.mail,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 12),
               CustomTextField(
                 controller: _passwordController,
                 placeholder: 'Password',
@@ -107,6 +114,25 @@ class _SignupScreenState extends State<SignupScreen> {
                 prefixIcon: CupertinoIcons.padlock,
               ),
               const SizedBox(height: 32),
+              // Gender selection buttons
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    '성별:',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: CupertinoColors.systemGrey,
+                    ),
+                  ),
+                  const SizedBox(width: 35),
+                  _buildGenderButton('남성'),
+                  const SizedBox(width: 15),
+                  _buildGenderButton('여성'),
+                ],
+              ),
+              const SizedBox(height: 72),
               _isLoading
                   ? const CupertinoActivityIndicator()
                   : CupertinoButton(
@@ -118,6 +144,27 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  // Gender option button builder
+  Widget _buildGenderButton(String gender) {
+    final isSelected = _selectedGender == gender;
+    return CupertinoButton(
+      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+      color: isSelected ? CupertinoColors.activeOrange : CupertinoColors.systemGrey5,
+      borderRadius: BorderRadius.circular(20),
+      child: Text(
+        gender,
+        style: TextStyle(
+          color: isSelected ? CupertinoColors.white : CupertinoColors.black,
+        ),
+      ),
+      onPressed: () {
+        setState(() {
+          _selectedGender = gender;
+        });
+      },
     );
   }
 }

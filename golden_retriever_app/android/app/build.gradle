@@ -35,7 +35,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.golden_retriever_app"
-        minSdkVersion 33  // 적절한 minSdk 설정
+        minSdkVersion 26  // 적절한 minSdk 설정
         targetSdkVersion 34  // 업데이트된 타겟 SDK 버전
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

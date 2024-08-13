@@ -32,12 +32,10 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = false;
     });
 
-    // if (response != null && response.containsKey('access_token')) {
-    if (response != null) {
-      // Store the access token if needed
+    if (response != null && response.containsKey('username')) {
       _navigateToHomeScreen();
     } else {
-      _showErrorDialog(response?['message'] ?? 'Unknown error');
+      _showErrorDialog(response?['message'] ?? 'An unexpected error occurred.');
     }
   }
 
@@ -54,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
       builder: (context) {
         return CupertinoAlertDialog(
           title: const Text('Login Failed'),
-          content: Text('Error: $error'),
+          content: Text(error),
           actions: [
             CupertinoDialogAction(
               child: const Text('OK'),
@@ -72,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
-        middle: Text('Join-Login'),
+        middle: Text('Login'),
       ),
       child: Center(
         child: Padding(
@@ -85,19 +83,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 placeholder: 'Username',
                 prefixIcon: CupertinoIcons.person,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 12),
               CustomTextField(
                 controller: _passwordController,
                 placeholder: 'Password',
                 obscureText: true,
                 prefixIcon: CupertinoIcons.padlock,
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 64),
               _isLoading
                   ? const CupertinoActivityIndicator()
                   : CupertinoButton(
                 color: CupertinoColors.activeOrange,
-                child: const Text('LOGIN'),
+                child: const Text('로그인'),
                 onPressed: _login,
               ),
               const SizedBox(height: 20),
@@ -111,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   );
                 },
                 child: const Text(
-                  'Sign Up',
+                  '회원가입',
                   style: TextStyle(
                     color: CupertinoColors.activeOrange,
                     decoration: TextDecoration.underline,

@@ -10,8 +10,8 @@ class RegisterService {
     required String password,
   }) async {
     try {
-      // final url = Uri.parse('http://10.0.2.2:3001/users/signup/');
-      final url = Uri.parse('http://223.194.44.32:8000/users/signup');
+      final url = Uri.parse('http://10.0.2.2:3001/users/signup');
+      // final url = Uri.parse('http://223.194.44.32:8000/users/signup');
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
