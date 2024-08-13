@@ -19,7 +19,7 @@ class CameraControlsWidget extends StatelessWidget {
     return Stack(
       children: [
         Positioned(
-          bottom: 50.0,
+          bottom: 70.0,
           left: 16.0,
           right: 16.0,
           child: Row(

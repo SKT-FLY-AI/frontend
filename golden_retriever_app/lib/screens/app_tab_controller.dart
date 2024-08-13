@@ -60,7 +60,7 @@ class _AppTabControllerState extends State<AppTabController> {
       ),
       tabBuilder: (context, index) {
         // Debugging: Log tab changes
-        debugPrint("Selected tab index: $index");
+        // debugPrint("Selected tab index: $index");
         return _buildTabContent(index);
       },
     );

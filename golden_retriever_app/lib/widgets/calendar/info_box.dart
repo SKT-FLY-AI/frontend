@@ -24,7 +24,7 @@ class InfoBox extends StatelessWidget {
     this.contentColor = CupertinoColors.black,
     this.borderRadius = 20.0,
     this.margin = const EdgeInsets.symmetric(horizontal: 12.0),
-    this.padding = const EdgeInsets.all(16.0),
+    this.padding = const EdgeInsets.only(top: 24, bottom: 32, left: 32, right: 32),
     this.titleFontSize = 18.0,
     this.contentFontSize = 16.0,
     this.titleFontWeight = FontWeight.bold,
@@ -51,7 +51,7 @@ class InfoBox extends StatelessWidget {
               color: titleColor,
             ),
           ),
-          const SizedBox(height: 8.0),
+          const SizedBox(height: 16.0),
           Text(
             content,
             style: TextStyle(

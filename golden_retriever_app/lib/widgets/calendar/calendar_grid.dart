@@ -1,4 +1,4 @@
-// lib/widgets/calendar_grid.dart
+// lib/widgets/calendar/calendar_grid.dart
 
 import 'package:flutter/cupertino.dart';
 
@@ -21,8 +21,8 @@ class CalendarGrid extends StatelessWidget {
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 7,
-        mainAxisSpacing: 4.0,
-        crossAxisSpacing: 4.0,
+        mainAxisSpacing: 6.0,
+        crossAxisSpacing: 6.0,
       ),
       itemCount: days.length,
       itemBuilder: (context, index) => _buildDayCell(days[index]),
