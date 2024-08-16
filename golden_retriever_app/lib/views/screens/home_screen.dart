@@ -1,8 +1,9 @@
-// lib/screens/home_screen.dart
+// lib/views/screens/home_screen.dart
 
 import 'package:flutter/cupertino.dart';
 import '../widgets/info_card.dart';
 
+// 홈 화면을 나타내는 클래스
 class HomeScreen extends StatelessWidget {
   final CupertinoTabController tabController;
   final String username;
@@ -24,7 +25,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               GreetingMessage(username: username),
-              const InfoCardGrid(itemCount: 50), // Pass itemCount as a parameter
+              const InfoCardGrid(itemCount: 50),
             ],
           ),
         ),
@@ -33,11 +34,13 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+// 사용자에게 환영 메시지를 표시하는 위젯
 class GreetingMessage extends StatelessWidget {
   final String username;
 
   const GreetingMessage({Key? key, required this.username}) : super(key: key);
 
+  // 현재 시간을 기준으로 인사말을 결정하는 함수
   String _getGreeting() {
     final hour = DateTime.now().hour;
     if (hour >= 5 && hour < 12) {
@@ -55,11 +58,11 @@ class GreetingMessage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(30.0),
       child: Text(
-        '$username 님, $greeting', // Display greeting with the username
+        '$username 님, $greeting',
         style: const TextStyle(
           fontSize: 25,
           fontWeight: FontWeight.bold,
-          color: CupertinoColors.black, // Customize text color if needed
+          color: CupertinoColors.black,
         ),
       ),
     );
@@ -76,13 +79,13 @@ class InfoCardGrid extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: GridView.builder(
-        physics: const NeverScrollableScrollPhysics(), // Disable GridView scrolling
-        shrinkWrap: true, // Prevent GridView from taking all available space
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 16.0,
           mainAxisSpacing: 16.0,
-          childAspectRatio: 1, // Ensure square grid items
+          childAspectRatio: 1,
         ),
         itemCount: itemCount,
         itemBuilder: (context, index) {

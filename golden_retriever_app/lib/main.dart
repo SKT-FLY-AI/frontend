@@ -1,7 +1,7 @@
 // lib/main.dart
 
 import 'package:flutter/cupertino.dart';
-import 'screens/login_screen.dart';
+import 'views/screens/login_screen.dart';
 
 void main() {
   runApp(const MyApp());

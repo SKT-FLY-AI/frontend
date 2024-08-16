@@ -6,8 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import 'image_preview.dart';
 import '../widgets/camera/camera_view.dart';
 import '../widgets/camera/camera_top_bar.dart';
-import '../services/camera_service.dart';
-import '../services/gallery_service.dart';
+import '../../services/camera_service.dart';
+import '../../services/gallery_service.dart';
 
 class CameraScreen extends StatefulWidget {
   final CupertinoTabController tabController;

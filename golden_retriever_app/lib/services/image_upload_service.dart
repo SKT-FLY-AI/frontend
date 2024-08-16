@@ -3,6 +3,7 @@
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'auth_service/login_service.dart';
+import '../../server_config.dart';
 
 // 파일 경로(filePath)를 받아 이미지를 서버로 업로드하는 기능
 Future<http.StreamedResponse> sendImageUploadRequest(String filePath) async {
@@ -12,7 +13,7 @@ Future<http.StreamedResponse> sendImageUploadRequest(String filePath) async {
   // HTTP POST 요청 만들기
   var request = http.MultipartRequest(
     'POST',
-    Uri.parse('http://223.194.44.32:8000/images/upload/'),
+    Uri.parse('$serverUrl/images/upload/'),
   );
 
   // 헤더 추가

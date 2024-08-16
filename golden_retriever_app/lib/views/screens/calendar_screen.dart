@@ -1,11 +1,11 @@
-// lib/screens/calendar_screen.dart
+// lib/views/screens/calendar_screen.dart
 
 import 'package:flutter/cupertino.dart';
-import 'package:golden_retriever_app/screens/status_screen.dart';
 import 'package:intl/intl.dart';
 import '../widgets/calendar/calendar_header.dart';
 import '../widgets/calendar/calendar_grid.dart';
 import '../widgets/calendar/info_box.dart';
+import 'status_screen.dart';
 import 'chatlog_screen.dart';
 
 /// Main screen widget displaying a calendar with navigable months.

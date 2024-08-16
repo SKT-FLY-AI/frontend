@@ -1,7 +1,7 @@
 // lib/screens/signup_screen.dart
 
 import 'package:flutter/cupertino.dart';
-import '../services/auth_service/auth_service.dart';
+import '../../services/auth_service/register_service.dart';
 import '../widgets/custom_text_field.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -15,72 +15,60 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  String? _selectedGender;
+  int _selectedGender = -1; // 초기값은 -1로 설정 (선택되지 않음)
   bool _isLoading = false;
 
   Future<void> _register() async {
-    if (_selectedGender == null) {
-      _showErrorDialog('성별을 선택해주세요');
+    if (_selectedGender == -1) {
+      _showDialog('성별을 선택해주세요');
       return;
     }
 
-    setState(() {
-      _isLoading = true;
-    });
+    _setLoading(true);
 
-    final response = await AuthService.register(
+    final response = await RegisterService.register(
       username: _usernameController.text,
       email: _emailController.text,
       password: _passwordController.text,
-      // gender: _selectedGender, // Pass gender if needed
+      usersex: _selectedGender,
     );
 
-    setState(() {
-      _isLoading = false;
-    });
+    _setLoading(false);
 
     if (response != null && response.statusCode == 200) {
-      _showSuccessDialog();
+      _showDialog('회원가입 완료!', isSuccess: true);
     } else {
-      _showErrorDialog(response?.reasonPhrase ?? 'Unknown error');
+      _showDialog('Failed to register: ${response?.reasonPhrase ?? 'Unknown error'}');
     }
   }
 
-  void _showSuccessDialog() {
-    showCupertinoDialog(
-      context: context,
-      builder: (context) {
-        return const CupertinoAlertDialog(
-          title: Text('Success'),
-          content: Text('회원가입 완료!'),
-        );
-      },
-    );
-
-    Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pop(context); // Close the success dialog
-      Navigator.pop(context); // Go back to the login screen
-    });
-  }
-
-  void _showErrorDialog(String error) {
+  void _showDialog(String message, {bool isSuccess = false}) {
     showCupertinoDialog(
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
-          title: const Text('Error'),
-          content: Text('Failed to register: $error'),
+          title: Text(isSuccess ? 'Success' : 'Error'),
+          content: Text(message),
           actions: [
             CupertinoDialogAction(
               child: const Text('OK'),
               onPressed: () {
                 Navigator.pop(context);
+                if (isSuccess) {
+                  Navigator.pop(context); // 회원가입 성공시 로그인 화면으로 돌아가기
+                }
               },
             ),
           ],
         );
       },
     );
+  }
+
+  void _setLoading(bool value) {
+    setState(() {
+      _isLoading = value;
+    });
   }
 
   @override
@@ -114,7 +102,6 @@ class _SignupScreenState extends State<SignupScreen> {
                 prefixIcon: CupertinoIcons.padlock,
               ),
               const SizedBox(height: 32),
-              // Gender selection buttons
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -127,9 +114,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ),
                   const SizedBox(width: 35),
-                  _buildGenderButton('남성'),
+                  _buildGenderButton('남성', 0),
                   const SizedBox(width: 15),
-                  _buildGenderButton('여성'),
+                  _buildGenderButton('여성', 1),
                 ],
               ),
               const SizedBox(height: 72),
@@ -147,24 +134,23 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  // Gender option button builder
-  Widget _buildGenderButton(String gender) {
-    final isSelected = _selectedGender == gender;
+  void _selectGender(int gender) {
+    setState(() {
+      _selectedGender = gender;
+    });
+  }
+
+  Widget _buildGenderButton(String gender, int value) {
     return CupertinoButton(
-      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-      color: isSelected ? CupertinoColors.activeOrange : CupertinoColors.systemGrey5,
-      borderRadius: BorderRadius.circular(20),
+      onPressed: () => _selectGender(value),
+      color: _selectedGender == value
+          ? CupertinoColors.activeOrange
+          : CupertinoColors.inactiveGray,
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
       child: Text(
         gender,
-        style: TextStyle(
-          color: isSelected ? CupertinoColors.white : CupertinoColors.black,
-        ),
+        style: const TextStyle(color: CupertinoColors.white),
       ),
-      onPressed: () {
-        setState(() {
-          _selectedGender = gender;
-        });
-      },
     );
   }
 }

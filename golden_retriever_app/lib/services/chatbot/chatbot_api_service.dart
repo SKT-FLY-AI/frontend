@@ -2,10 +2,11 @@
 // 챗봇의 메시지를 처리하는 백엔드와의 통신을 담당
 
 import 'package:http/http.dart' as http;
+import '../../server_config.dart';
 
 class ChatbotApiService {
   static Future<String?> sendMessage(String message) async {
-    final url = Uri.parse('http://223.194.44.32:8000/chatgpt/chat');  // Replace with actual backend endpoint
+    final url = Uri.parse('$serverUrl/chatgpt/chat');  // Replace with actual backend endpoint
 
     try {
       final response = await http.post(

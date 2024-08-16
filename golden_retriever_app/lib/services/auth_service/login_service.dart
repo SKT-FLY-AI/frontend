@@ -1,58 +1,68 @@
 // lib/services/auth_service/login_service.dart
 
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../../server_config.dart';
+import 'auth_service.dart';
 
 class LoginService {
   static final FlutterSecureStorage storage = FlutterSecureStorage();
 
-  /// Performs user login, stores the access token and username if successful, and returns a boolean status.
-  static Future<bool> login({
-    required String username,
+  static Future<Map<String, dynamic>?> login({
+    required String email,
     required String password,
   }) async {
     try {
-      // final url = Uri.parse('http://10.0.2.2:3001/users/login');  // 안드 에뮬레이터 IP
-      final url = Uri.parse('http://223.194.44.32:8000/users/login');  // 우리팀 서버 IP
+      print('로그인 요청 시작: 이메일=$email');
+
+      final url = Uri.parse('$serverUrl/users/login');
+      print('로그인 요청 URL: $url');
+
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
-          'username': username,
+          'email': email,
           'password': password,
         }),
       );
+      print('로그인 요청에 대한 응답 상태 코드: ${response.statusCode}');
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
+        print('로그인 성공, 응답 데이터 처리 중...');
+        final data = json.decode(response.body) as Map<String, dynamic>;
         final accessToken = data['access_token'];
+        print('액세스 토큰 획득: $accessToken');
 
+        await storage.write(key: 'email', value: email);
+        await storage.write(key: 'password', value: password);
         await storage.write(key: 'access_token', value: accessToken);
-        await storage.write(key: 'username', value: username);
+        print('스토리지에 로그인 정보 저장 완료');
 
-        return true;
+        // accessToken을 가지고 user_id 추출 및 사용자 정보 가져오기
+        final userId = await AuthService.extractUserIdFromToken(accessToken);
+        print('추출된 user_id: $userId');
+
+        if (userId != null) {
+          print('user_id가 유효합니다. 사용자 정보 가져오기 시도...');
+          await AuthService.getUserInfo(userId);
+
+          // 저장된 username 읽기
+          final username = await storage.read(key: 'username');
+          print('로그인된 사용자 이름: $username');
+        } else {
+          print('user_id 추출 실패. 로그인 절차 중단');
+        }
+
+        return data;
       } else {
-        return false;
+        print('로그인 실패: 상태 코드=${response.statusCode}, 사유=${response.reasonPhrase}');
+        return null;
       }
     } catch (e) {
-      return false;
+      print('로그인 도중 에러가 발생했습니다: $e');
+      return null;
     }
-  }
-
-  /// Retrieves the stored access token.
-  static Future<String?> getAccessToken() async {
-    return await storage.read(key: 'access_token');
-  }
-
-  /// Retrieves the stored username.
-  static Future<String?> getUsername() async {
-    return await storage.read(key: 'username');
-  }
-
-  /// Clears the stored access token and username.
-  static Future<void> logout() async {
-    await storage.delete(key: 'access_token');
-    await storage.delete(key: 'username');
   }
 }

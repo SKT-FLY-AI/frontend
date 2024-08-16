@@ -1,7 +1,7 @@
 // lib/screens/login_screen.dart
 
 import 'package:flutter/cupertino.dart';
-import '../services/auth_service/auth_service.dart';
+import '../../services/auth_service/login_service.dart';
 import '../widgets/custom_text_field.dart';
 import 'app_tab_controller.dart';
 import 'signup_screen.dart';
@@ -14,7 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
 
@@ -23,20 +23,43 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = true;
     });
 
-    final response = await AuthService.login(
-      username: _usernameController.text,
-      password: _passwordController.text,
-    );
+    print('로그인 시작');  // 로그인 시작 지점 로그
 
-    setState(() {
-      _isLoading = false;
-    });
+    try {
+      final response = await LoginService.login(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
 
-    if (response != null && response.containsKey('username')) {
-      _navigateToHomeScreen();
-    } else {
-      _showErrorDialog(response?['message'] ?? 'An unexpected error occurred.');
+      print('로그인 응답 수신: $response');  // 로그인 응답 수신 후 로그
+
+      setState(() {
+        _isLoading = false;
+      });
+
+      if (response != null) {
+        print('로그인 응답 처리 중...');  // 응답이 있을 때 처리 시작 로그
+
+        if (response.containsKey('access_token')) {
+          print('액세스 토큰 확인 완료, 홈 화면으로 이동');  // 액세스 토큰 확인 로그
+          _navigateToHomeScreen();
+        } else {
+          print('응답에 액세스 토큰이 없음, 에러 메시지 표시');  // 토큰이 없을 때 로그
+          _showErrorDialog(response['message'] ?? 'An unexpected error occurred.');
+        }
+      } else {
+        print('응답이 없습니다. 서버로부터의 응답이 없습니다.');  // 응답이 null일 때 로그
+        _showErrorDialog('No response from server.');
+      }
+    } catch (e) {
+      print('로그인 도중 에러 발생: $e');  // 예외 발생 로그
+      setState(() {
+        _isLoading = false;
+      });
+      _showErrorDialog('An error occurred: $e');
     }
+
+    print('로그인 프로세스 종료');  // 로그인 프로세스 종료 시점 로그
   }
 
   void _navigateToHomeScreen() {
@@ -79,9 +102,9 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CustomTextField(
-                controller: _usernameController,
-                placeholder: 'Username',
-                prefixIcon: CupertinoIcons.person,
+                controller: _emailController,
+                placeholder: 'Email',
+                prefixIcon: CupertinoIcons.mail,
               ),
               const SizedBox(height: 12),
               CustomTextField(
