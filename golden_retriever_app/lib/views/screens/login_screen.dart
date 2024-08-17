@@ -2,8 +2,8 @@
 
 import 'package:flutter/cupertino.dart';
 import '../../services/auth_service/login_service.dart';
+import '../../services/auth_service/auth_service.dart';
 import '../widgets/custom_text_field.dart';
-import 'app_tab_controller.dart';
 import 'home_screen.dart';
 import 'signup_screen.dart';
 
@@ -20,53 +20,44 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
 
   Future<void> _login() async {
-    setState(() {
-      _isLoading = true;
-    });
+    setState(() => _isLoading = true);
 
-    print('로그인 시작');  // 로그인 시작 지점 로그
+    // LoginService를 사용하여 로그인 시도
+    final accessToken = await LoginService.login(
+      email: _emailController.text,
+      password: _passwordController.text,
+    );
 
-    try {
-      final response = await LoginService.login(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
+    if (accessToken != null) {
+      // Access token으로부터 userId를 추출
+      final userId = await AuthService.extractUserIdFromToken(accessToken);
 
-      print('로그인 응답 수신: $response');  // 로그인 응답 수신 후 로그
+      if (userId != null) {
+        // userId를 사용하여 username을 가져옴
+        final username = await AuthService.getUserName(userId);
 
-      setState(() {
-        _isLoading = false;
-      });
-
-      if (response != null) {
-        print('로그인 응답 처리 중...');  // 응답이 있을 때 처리 시작 로그
-
-        if (response.containsKey('access_token')) {
-          print('액세스 토큰 확인 완료, 홈 화면으로 이동');  // 액세스 토큰 확인 로그
-          _navigateToHomeScreen();
+        if (username != null) {
+          // 로그인 성공 후 HomeScreen으로 이동
+          _navigateToHomeScreen(username);
         } else {
-          print('응답에 액세스 토큰이 없음, 에러 메시지 표시');  // 토큰이 없을 때 로그
-          _showErrorDialog(response['message'] ?? 'An unexpected error occurred.');
+          _showErrorDialog('Failed to retrieve user information.');
         }
       } else {
-        print('응답이 없습니다. 서버로부터의 응답이 없습니다.');  // 응답이 null일 때 로그
-        _showErrorDialog('No response from server.');
+        _showErrorDialog('Failed to extract user ID from token.');
       }
-    } catch (e) {
-      print('로그인 도중 에러 발생: $e');  // 예외 발생 로그
-      setState(() {
-        _isLoading = false;
-      });
-      _showErrorDialog('An error occurred: $e');
+    } else {
+      _showErrorDialog('Login failed.');
     }
 
-    print('로그인 프로세스 종료');  // 로그인 프로세스 종료 시점 로그
+    setState(() => _isLoading = false);
   }
 
-  void _navigateToHomeScreen() {
+  void _navigateToHomeScreen(String username) {
     Navigator.pushReplacement(
       context,
-      CupertinoPageRoute(builder: (context) => const AppTabController()),
+      CupertinoPageRoute(
+        builder: (context) => HomeScreen(username: username),
+      ),
     );
   }
 
@@ -80,9 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
           actions: [
             CupertinoDialogAction(
               child: const Text('OK'),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: () => Navigator.pop(context),
             ),
           ],
         );
@@ -90,7 +79,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // 로그인 화면의 UI를 구성합니다.
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(

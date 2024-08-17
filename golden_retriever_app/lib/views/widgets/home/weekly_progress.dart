@@ -11,7 +11,7 @@ class WeeklyProgress extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
       child: Container(
         decoration: BoxDecoration(
-          color: CupertinoColors.systemGrey.withOpacity(0.5),
+          color: CupertinoColors.systemGrey.withOpacity(0.7),
           borderRadius: BorderRadius.circular(16.0),
         ),
         child: Padding(
@@ -27,7 +27,7 @@ class WeeklyProgress extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 12.0),
+              SizedBox(height: 18.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: List.generate(7, (index) {
@@ -46,8 +46,9 @@ class WeeklyProgress extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: List.generate(7, (index) {
                   return Icon(
-                    CupertinoIcons.heart,
-                    color: CupertinoColors.activeOrange,
+                    CupertinoIcons.drop_fill,
+                    size: 35,
+                    color: CupertinoColors.systemBrown,
                   );
                 }),
               ),

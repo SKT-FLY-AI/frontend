@@ -17,6 +17,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   intl: ^0.18.0
   flutter_secure_storage: ^7.0.1
+  flutter_native_splash: ^2.3.1
 
 dev_dependencies:
   flutter_test:
@@ -27,3 +28,14 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+
+flutter_native_splash:
+  color: "#FFD59B"  # 배경 색상
+  image: assets/images/flyai-logo.png  # 로고 이미지 경로
+  android: true  # Android 플랫폼 지원
+  ios: true  # iOS 플랫폼 지원
+  web: true  # Web 플랫폼 지원
+  # 추가 옵션들 (필요시 사용 가능)
+  # android_gravity: center  # Android에서 이미지 위치
+  # ios_content_mode: scaleAspectFill  # iOS에서 이미지 위치
+  fullscreen: true  # 전체 화면 모드 사용

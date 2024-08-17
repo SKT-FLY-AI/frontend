@@ -1,10 +1,17 @@
 // lib/main.dart
 
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter/cupertino.dart';
 import 'views/screens/login_screen.dart';
 
 void main() {
+  // 스플래시 화면 설정
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   runApp(const MyApp());
+
+  FlutterNativeSplash.remove();
 }
 
 class MyApp extends StatelessWidget {

@@ -2,12 +2,17 @@
 
 import 'package:flutter/cupertino.dart';
 
+import '../../screens/calendar_screen.dart';
+import '../../screens/camera_screen.dart';
+import '../../screens/entertainment_screen.dart';
+import '../../screens/profile_screen.dart';
+
 class HomeMenuBox extends StatelessWidget {
   final IconData icon;
   final String label;
   final VoidCallback onPressed;
 
-  const HomeMenuBox({
+  HomeMenuBox({
     required this.icon,
     required this.label,
     required this.onPressed,
@@ -24,7 +29,7 @@ class HomeMenuBox extends StatelessWidget {
         width: size,
         height: size,
         decoration: BoxDecoration(
-          color: CupertinoColors.systemGrey.withOpacity(0.5),
+          color: CupertinoColors.systemGrey.withOpacity(0.7),
           borderRadius: BorderRadius.circular(16.0),
         ),
         child: Column(
@@ -49,8 +54,9 @@ class HomeMenuBox extends StatelessWidget {
 
 class HomeMenuBoxGrid extends StatelessWidget {
   final int itemCount;
+  final CupertinoTabController _tabController = CupertinoTabController();
 
-  const HomeMenuBoxGrid({super.key, required this.itemCount});
+  HomeMenuBoxGrid({super.key, required this.itemCount});
 
   @override
   Widget build(BuildContext context) {
@@ -61,28 +67,48 @@ class HomeMenuBoxGrid extends StatelessWidget {
         icon: CupertinoIcons.calendar,
         label: '캘린더',
         onPressed: () {
-          // 캘린더 화면으로 이동
+          Navigator.push(
+            context,
+            CupertinoPageRoute(
+            builder: (context) => CalendarScreen(),
+            ),
+          );
         },
       ),
       HomeMenuBox(
         icon: CupertinoIcons.camera,
         label: '카메라',
         onPressed: () {
-          // 카메라 화면으로 이동
+          Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => CameraScreen(tabController: _tabController),
+            ),
+          );
         },
       ),
       HomeMenuBox(
         icon: CupertinoIcons.game_controller,
         label: '엔터테인먼트',
         onPressed: () {
-          // 엔터테인먼트 화면으로 이동
+          Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => EntertainmentScreen(),
+            ),
+          );
         },
       ),
       HomeMenuBox(
         icon: CupertinoIcons.person,
         label: '내 정보',
         onPressed: () {
-          // 내 정보 화면으로 이동
+          Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => ProfileScreen(),
+            ),
+          );
         },
       ),
     ];

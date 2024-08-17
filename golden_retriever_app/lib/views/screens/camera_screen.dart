@@ -12,7 +12,10 @@ import '../../services/gallery_service.dart';
 class CameraScreen extends StatefulWidget {
   final CupertinoTabController tabController;
 
-  const CameraScreen({super.key, required this.tabController});
+  const CameraScreen({
+    super.key,
+    required this.tabController
+  });
 
   @override
   _CameraScreenState createState() => _CameraScreenState();
