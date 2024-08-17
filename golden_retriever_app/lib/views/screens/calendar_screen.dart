@@ -4,9 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import '../widgets/calendar/calendar_header.dart';
 import '../widgets/calendar/calendar_grid.dart';
-import '../widgets/calendar/info_box.dart';
-import 'status_screen.dart';
-import 'chatlog_screen.dart';
+import '../widgets/custom_bottom_navigation_bar.dart';
+import '../widgets/navigation_camera_button.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -18,76 +17,33 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen> {
   DateTime _focusedDate = DateTime.now();
   DateTime _selectedDate = DateTime.now();
-  String _selectedDateInfo = "";
-  String _selectedDateStatus = "";
 
   final DateFormat _dateFormat = DateFormat('yyyy-MM-dd');
 
   @override
   void initState() {
     super.initState();
-    _updateSelectedDateInfoAndStatus(_selectedDate);
+    _updateSelectedDate(_selectedDate);
   }
 
-  /// Navigates to the previous month
   void _previousMonth() {
     setState(() {
       _focusedDate = DateTime(_focusedDate.year, _focusedDate.month - 1);
     });
   }
 
-  /// Navigates to the next month
   void _nextMonth() {
     setState(() {
       _focusedDate = DateTime(_focusedDate.year, _focusedDate.month + 1);
     });
   }
 
-  /// Updates the selected date and its associated information
   void _updateSelectedDate(DateTime date) {
     setState(() {
       _selectedDate = date;
-      _updateSelectedDateInfoAndStatus(date);
     });
   }
 
-  /// Updates the information and status for the selected date
-  void _updateSelectedDateInfoAndStatus(DateTime date) {
-    _selectedDateInfo = "Event for ${_dateFormat.format(date)}";
-    _selectedDateStatus = "Status for ${_dateFormat.format(date)}";
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final double size = MediaQuery.of(context).size.width * 0.4;
-
-    return CupertinoPageScaffold(
-      child: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: size * 0.4),
-              _buildCalendar(context),
-              const SizedBox(height: 50),
-              Text(
-                '${_dateFormat.format(_selectedDate)}',
-                style: TextStyle(
-                  fontSize: 18.0,                // Custom font size
-                  fontWeight: FontWeight.bold,   // Custom font weight
-                ),
-                textAlign: TextAlign.center,     // Center-align the text
-              ),
-              const SizedBox(height: 20),
-              _buildInfoBoxes(),
-              const SizedBox(height: 50),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  /// Builds the calendar view with month navigation and date selection
   Widget _buildCalendar(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -123,38 +79,39 @@ class _CalendarScreenState extends State<CalendarScreen> {
     );
   }
 
-  /// Builds the information boxes displaying selected date's details
-  Widget _buildInfoBoxes() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Column(
-        children: [
-          GestureDetector(
-            onTap: () {
-              // Navigate to ChatLogScreen when the Chat Log box is tapped
-              Navigator.push(
-                context,
-                CupertinoPageRoute(builder: (context) => ChatLogScreen(date: _selectedDate)),
-              );
-            },
-            child: InfoBox(
-              title: '챗로그',
-              content: _selectedDateInfo,
+  @override
+  Widget build(BuildContext context) {
+    final double size = MediaQuery.of(context).size.width * 0.4;
+
+    return CupertinoPageScaffold(
+      child: Stack(
+        children: [ // 이 부분을 수정
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: size * 0.8),
+                _buildCalendar(context),
+                SizedBox(height: size * 0.6),
+                Text(
+                  'selected date: ${_dateFormat.format(_selectedDate)}',
+                  style: TextStyle(
+                    fontSize: 18.0, // Custom font size
+                  ),
+                  textAlign: TextAlign.center, // Center-align the text
+                ),
+                const SizedBox(height: 50),
+              ],
             ),
           ),
-          const SizedBox(height: 20),
-          GestureDetector(
-            onTap: () {
-              // Navigate to StatusScreen when the Status box is tapped
-              Navigator.push(
-                context,
-                CupertinoPageRoute(builder: (context) => StatusScreen(date: _selectedDate)),
-              );
-            },
-            child: InfoBox(
-              title: '상태',
-              content: _selectedDateStatus,
-            ),
+          // 하단바
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: CustomBottomNavigationBar(),
+          ),
+          // 중앙의 카메라 버튼
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: CameraButton(),
           ),
         ],
       ),

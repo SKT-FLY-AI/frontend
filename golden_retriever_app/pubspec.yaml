@@ -28,6 +28,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/cardnews/
 
 flutter_native_splash:
   color: "#FFD59B"  # 배경 색상

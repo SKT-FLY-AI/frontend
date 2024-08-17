@@ -1,4 +1,4 @@
-// lib/widgets/calendar/calendar_header.dart
+// lib/views/widgets/calendar/calendar_header.dart
 
 import 'package:flutter/cupertino.dart';
 
@@ -10,13 +10,13 @@ class CalendarHeader extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
 
   const CalendarHeader({
-    Key? key,
+    super.key,
     required this.focusedDate,
     required this.onLeftArrowTap,
     required this.onRightArrowTap,
     this.textStyle,
     this.padding = const EdgeInsets.only(top: 4, bottom: 16, left: 16, right: 16),
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

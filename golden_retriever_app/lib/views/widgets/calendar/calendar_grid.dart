@@ -1,4 +1,4 @@
-// lib/widgets/calendar/calendar_grid.dart
+// lib/views/widgets/calendar/calendar_grid.dart
 
 import 'package:flutter/cupertino.dart';
 
@@ -37,7 +37,6 @@ class CalendarGrid extends StatelessWidget {
     final int leadingEmptyDays = (firstDayOfMonth.weekday - 1) % 7;
     final startDate = firstDayOfMonth.subtract(Duration(days: leadingEmptyDays));
 
-    // 42 days cover the grid for 6 weeks (7 days per week)
     return List.generate(42, (index) => startDate.add(Duration(days: index)));
   }
 
@@ -45,18 +44,19 @@ class CalendarGrid extends StatelessWidget {
     final bool isInMonth = date.month == focusedDate.month;
     final bool isSelected = _isSelectedDate(date);
 
-    return GestureDetector(
-      onTap: () => onDateSelected(date),
+    return CupertinoButton(
+      padding: EdgeInsets.zero, // padding을 0으로 설정하여 셀 크기를 유지
+      onPressed: () => onDateSelected(date), // 날짜 선택 콜백
       child: Container(
         alignment: Alignment.center,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: _getDayBackgroundColor(isInMonth, isSelected),
+          color: _getDayBackgroundColor(isInMonth, isSelected), // 배경색
         ),
         child: Text(
           date.day.toString(),
           style: TextStyle(
-            color: _getDayTextColor(isInMonth, isSelected),
+            color: _getDayTextColor(isInMonth, isSelected), // 텍스트 색상
           ),
         ),
       ),

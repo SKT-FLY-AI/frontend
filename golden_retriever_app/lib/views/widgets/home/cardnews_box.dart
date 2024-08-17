@@ -20,7 +20,7 @@ class CardNewsBox extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(16.0),
                 child: Image.asset(
-                  'assets/images/card-image-1.jpg',
+                  'assets/images/cardnews/snoopy-1.png',
                   fit: BoxFit.cover,
                 ),
               ),
@@ -33,7 +33,7 @@ class CardNewsBox extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(16.0),
                 child: Image.asset(
-                  'assets/images/card-image-2.jpg',
+                  'assets/images/cardnews/snoopy-2.png',
                   fit: BoxFit.cover,
                 ),
               ),
@@ -46,7 +46,20 @@ class CardNewsBox extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(16.0),
                 child: Image.asset(
-                  'assets/images/card-image-3.png',
+                  'assets/images/cardnews/snoopy-3.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16.0),
+                color: CupertinoColors.systemGrey.withOpacity(0.5),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16.0),
+                child: Image.asset(
+                  'assets/images/cardnews/snoopy-4.png',
                   fit: BoxFit.cover,
                 ),
               ),

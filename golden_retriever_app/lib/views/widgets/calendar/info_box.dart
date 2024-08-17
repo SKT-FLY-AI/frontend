@@ -1,4 +1,4 @@
-// lib/widgets/info_box.dart
+// lib/views/widgets/info_box.dart
 
 import 'package:flutter/cupertino.dart';
 
