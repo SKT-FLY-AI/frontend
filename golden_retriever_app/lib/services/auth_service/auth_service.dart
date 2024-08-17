@@ -67,14 +67,11 @@ class AuthService {
         // JSON 응답을 Map으로 변환
         final Map<String, dynamic> userInfo = jsonDecode(decodedBody);
 
-        // username, email, usersex 필드를 안전하게 추출
         final String? username = userInfo['username'] as String?;
-        final String? email = userInfo['email'] as String?;
         final int? usersex = userInfo['usersex'] as int?;
 
         // 각각의 변수를 StorageService를 통해 저장
         await LoginService.storage.write(key: 'username', value: username);
-        // await LoginService.storage.write(key: 'email', value: email);
         await LoginService.storage.write(key: 'usersex', value: usersex.toString());
 
         print('User Info 저장 성공: username=${userInfo['username']}, email=${userInfo['email']}, usersex=${userInfo['usersex']}');

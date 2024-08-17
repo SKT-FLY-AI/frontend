@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import '../../services/auth_service/login_service.dart';
 import '../widgets/custom_text_field.dart';
 import 'app_tab_controller.dart';
+import 'home_screen.dart';
 import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -89,6 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  // 로그인 화면의 UI를 구성합니다.
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(

@@ -8,8 +8,6 @@ import '../widgets/calendar/info_box.dart';
 import 'status_screen.dart';
 import 'chatlog_screen.dart';
 
-/// Main screen widget displaying a calendar with navigable months.
-/// Users can select dates and view related information.
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
 
@@ -61,15 +59,14 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final double size = MediaQuery.of(context).size.width * 0.4;
+
     return CupertinoPageScaffold(
-      navigationBar: const CupertinoNavigationBar(
-        middle: Text('캘린더'),
-      ),
       child: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(height: 20),
+              SizedBox(height: size * 0.4),
               _buildCalendar(context),
               const SizedBox(height: 50),
               Text(
