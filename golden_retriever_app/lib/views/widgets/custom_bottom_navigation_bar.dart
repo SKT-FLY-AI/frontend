@@ -4,22 +4,28 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../screens/calendar_screen.dart';
+import '../screens/camera_screen.dart';
 import '../screens/entertainment_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/profile_screen.dart';
 
 /// 하단바를 구현한 위젯
 class CustomBottomNavigationBar extends StatefulWidget {
-  const CustomBottomNavigationBar({super.key});
+  final int currentIndex;
+  final ValueChanged<int> onTap;
+
+  const CustomBottomNavigationBar({
+    super.key,
+    required this.currentIndex,
+    required this.onTap,
+  });
 
   @override
   _CustomBottomNavigationBarState createState() => _CustomBottomNavigationBarState();
 }
 
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
-  int _selectedIndex = 1;
   String? _username;
-  final CupertinoTabController _tabController = CupertinoTabController();
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
   @override
@@ -35,16 +41,17 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     });
   }
 
-  void _onTabTapped(int index) {
-    if (index != 2) { // 가운데 비어있는 탭을 제외한 다른 탭을 선택했을 때
-      setState(() {
-        _selectedIndex = index;
-      });
-    }
+  void _onCameraButtonPressed(BuildContext context) {
+    Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (context) => CameraScreen(),
+      ),
+    );
   }
 
   List<BottomNavigationBarItem> _buildTabBarItems() {
-    return const [
+    return [
       BottomNavigationBarItem(
         icon: Icon(CupertinoIcons.home),
         label: '홈',
@@ -70,29 +77,46 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> _tabs = [
-      HomeScreen(username: _username),
-      CalendarScreen(tabController: _tabController),
-      Placeholder(), // 가운데 빈 탭
-      EntertainmentScreen(tabController: _tabController),
-      ProfileScreen(tabController: _tabController),
-    ];
+    final double contextHeight = MediaQuery.of(context).size.height * 0.1;
 
-    return CupertinoTabScaffold(
-      controller: _tabController,
-      tabBar: CupertinoTabBar(
-        backgroundColor: CupertinoColors.systemGrey6,
-        items: _buildTabBarItems(),
-        onTap: _onTabTapped,
-        currentIndex: _selectedIndex,
-      ),
-      tabBuilder: (context, index) {
-        return CupertinoTabView(
-          builder: (context) {
-            return _tabs[_selectedIndex];
-          },
-        );
-      },
+    return Stack(
+      clipBehavior: Clip.none,  // 이 속성을 추가하여 잘림 방지
+      alignment: Alignment.bottomCenter,
+      children: [
+        Container(
+          color: CupertinoColors.systemGrey6, // 원하는 색상 지정
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10.0),
+            child: CupertinoTabBar(
+              backgroundColor: CupertinoColors.systemGrey6,
+              items: _buildTabBarItems(),
+              onTap: widget.onTap,
+              currentIndex: widget.currentIndex,
+              iconSize: 35.0,
+              border: Border(top: BorderSide(color: CupertinoColors.systemGrey6)),
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: contextHeight * 0.4,
+          child: CupertinoButton(
+            onPressed: () => _onCameraButtonPressed(context),
+            padding: EdgeInsets.zero,
+            child: Container(
+              decoration: BoxDecoration(
+                color: CupertinoColors.activeOrange,
+                shape: BoxShape.circle,
+              ),
+              padding: EdgeInsets.all(contextHeight * 0.15),
+              child: Icon(
+                CupertinoIcons.camera,
+                color: CupertinoColors.white,
+                size: contextHeight * 0.55,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

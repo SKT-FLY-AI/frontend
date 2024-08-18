@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import '../widgets/calendar/calendar_header.dart';
 import '../widgets/calendar/calendar_grid.dart';
+import '../widgets/custom_bottom_navigation_bar.dart';
 
 class CalendarScreen extends StatefulWidget {
   final CupertinoTabController tabController;
@@ -89,7 +90,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
     return CupertinoPageScaffold(
       child: Stack(
-        children: [ // 이 부분을 수정
+        children: [
           SingleChildScrollView(
             child: Column(
               children: [
@@ -103,8 +104,20 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                 SizedBox(height: size * 2),
+                SizedBox(height: size * 2),
               ],
+            ),
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: CustomBottomNavigationBar(
+              currentIndex: 1, // 선택된 탭의 인덱스 설정
+              onTap: (index) {
+                // 네비게이션을 위한 핸들러 추가
+                widget.tabController.index = index;
+              },
             ),
           ),
         ],

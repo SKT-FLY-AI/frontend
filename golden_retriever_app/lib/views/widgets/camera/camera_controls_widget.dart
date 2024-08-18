@@ -16,12 +16,14 @@ class CameraControlsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double contextHeight = MediaQuery.of(context).size.height * 0.1;
+
     return Stack(
       children: [
         Positioned(
-          bottom: 70.0,
-          left: 16.0,
-          right: 16.0,
+          bottom: contextHeight * 0.4,
+          left: contextHeight * 0.3,
+          right: contextHeight * 0.3,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -32,7 +34,7 @@ class CameraControlsWidget extends StatelessWidget {
               ),
               _buildControlButton(
                 icon: CupertinoIcons.camera,
-                size: 40,
+                size: contextHeight * 0.55,
                 onPressed: onTakePicture,
                 isMainButton: true,
               ),

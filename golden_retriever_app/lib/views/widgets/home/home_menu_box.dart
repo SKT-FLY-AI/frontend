@@ -84,7 +84,7 @@ class HomeMenuBoxGrid extends StatelessWidget {
           Navigator.push(
             context,
             CupertinoPageRoute(
-              builder: (context) => CameraScreen(tabController: _tabController),
+              builder: (context) => CameraScreen(),
             ),
           );
         },
