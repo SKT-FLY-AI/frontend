@@ -2,12 +2,8 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
-import '../screens/calendar_screen.dart';
 import '../screens/camera_screen.dart';
-import '../screens/entertainment_screen.dart';
 import '../screens/home_screen.dart';
-import '../screens/profile_screen.dart';
 
 /// 하단바를 구현한 위젯
 class CustomBottomNavigationBar extends StatefulWidget {
