@@ -2,27 +2,40 @@
 
 import 'package:flutter/cupertino.dart';
 
+import '../widgets/custom_bottom_navigation_bar.dart';
+
 class ProfileScreen extends StatelessWidget {
   final CupertinoTabController tabController;
-  final String title;
   final String content;
 
   const ProfileScreen({
     super.key,
     required this.tabController,
-    this.title = '내 정보',
     this.content = 'Profile Screen',
   });
 
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: CupertinoNavigationBar(
-        middle: Text(title),
-      ),
-      child: Center(
-        child: Text(content),
-      ),
+        child: Stack(
+          children: [
+            Center(
+              child: Text(content),
+            ),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: CustomBottomNavigationBar(
+                currentIndex: 4, // 선택된 탭의 인덱스 설정
+                onTap: (index) {
+                  // 네비게이션을 위한 핸들러 추가
+                  tabController.index = index;
+                },
+              ),
+            ),
+          ],
+        )
     );
   }
 }

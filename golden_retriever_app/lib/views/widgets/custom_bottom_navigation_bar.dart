@@ -41,6 +41,15 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     });
   }
 
+  void _onHomeButtonPressed(BuildContext context) {
+    Navigator.push(
+      context,
+      CupertinoPageRoute(
+        builder: (context) => HomeScreen(username: _username),
+      ),
+    );
+  }
+
   void _onCameraButtonPressed(BuildContext context) {
     Navigator.push(
       context,
@@ -90,7 +99,13 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             child: CupertinoTabBar(
               backgroundColor: CupertinoColors.systemGrey6,
               items: _buildTabBarItems(),
-              onTap: widget.onTap,
+              onTap: (index) {
+                if (index == 0) {
+                  _onHomeButtonPressed(context); // 인덱스 0일 때 홈 화면으로 이동
+                } else {
+                  widget.onTap(index); // 다른 인덱스일 때는 기존 탭 전환 로직
+                }
+              },
               currentIndex: widget.currentIndex,
               iconSize: 35.0,
               border: Border(top: BorderSide(color: CupertinoColors.systemGrey6)),
