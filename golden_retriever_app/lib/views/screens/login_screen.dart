@@ -37,7 +37,6 @@ class _LoginScreenState extends State<LoginScreen> {
         final username = await AuthService.getUserName(userId);
 
         if (username != null) {
-          // 로그인 성공 후 HomeScreen으로 이동
           _navigateToHomeScreen(username);
         } else {
           _showErrorDialog('Failed to retrieve user information.');

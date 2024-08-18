@@ -1,4 +1,4 @@
-// lib/screens/capture_screen.dart
+// lib/views/screens/capture_screen.dart
 
 import 'package:flutter/cupertino.dart';
 import 'package:camera/camera.dart';
@@ -10,11 +10,11 @@ import '../../services/camera_service.dart';
 import '../../services/gallery_service.dart';
 
 class CameraScreen extends StatefulWidget {
-  final CupertinoTabController tabController;
+  final CupertinoTabController? tabController;
 
   const CameraScreen({
     super.key,
-    required this.tabController
+    this.tabController,
   });
 
   @override
@@ -95,7 +95,6 @@ class _CameraScreenState extends State<CameraScreen> {
       CupertinoPageRoute(
         builder: (context) => ImagePreview(
           imagePath: imagePath,
-          tabController: widget.tabController,
         ),
       ),
     );
@@ -110,7 +109,7 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
-      navigationBar: CameraTopBar(tabController: widget.tabController),
+      navigationBar: CameraTopBar(),
       child: _buildCameraView(),
     );
   }

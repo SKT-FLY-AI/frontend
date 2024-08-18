@@ -3,12 +3,14 @@
 import 'package:flutter/cupertino.dart';
 
 class EntertainmentScreen extends StatelessWidget {
+  final CupertinoTabController tabController;
   final String title;
   final String content;
 
   const EntertainmentScreen({
     super.key,
-    this.title = 'Entertainment',
+    required this.tabController,
+    this.title = '엔터테인먼트',
     this.content = 'Entertainment Screen',
   });
 

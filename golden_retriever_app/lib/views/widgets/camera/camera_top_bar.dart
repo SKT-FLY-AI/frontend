@@ -3,20 +3,18 @@
 import 'package:flutter/cupertino.dart';
 
 class CameraTopBar extends StatelessWidget implements ObstructingPreferredSizeWidget {
-  final CupertinoTabController tabController;
   final String title;
   final Color backgroundColor;
   final Color textColor;
   final Color iconColor;
 
   const CameraTopBar({
-    Key? key,
-    required this.tabController,
+    super.key,
     this.title = 'Camera',
     this.backgroundColor = CupertinoColors.black,
     this.textColor = CupertinoColors.white,
     this.iconColor = CupertinoColors.white,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +28,7 @@ class CameraTopBar extends StatelessWidget implements ObstructingPreferredSizeWi
         padding: EdgeInsets.zero,
         child: Icon(CupertinoIcons.back, color: iconColor),
         onPressed: () {
-          tabController.index = 0; // Navigate back to the home tab
+          Navigator.pop(context); // 이전 페이지로 이동
         },
       ),
     );

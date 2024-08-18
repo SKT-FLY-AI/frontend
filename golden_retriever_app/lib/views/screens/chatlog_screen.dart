@@ -2,7 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
-import 'chatbot_screen.dart'; // ChatbotScreen의 대화 기록에 접근하기 위해 임포트
+import 'chatbot_screen.dart';
 
 class ChatLogScreen extends StatelessWidget {
   final DateTime date;

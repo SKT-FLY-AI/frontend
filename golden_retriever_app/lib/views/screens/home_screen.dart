@@ -9,7 +9,7 @@ import '../widgets/home/badge_box.dart';
 
 // 홈 화면을 나타내는 클래스
 class HomeScreen extends StatelessWidget {
-  final String username;
+  final String? username;
 
   const HomeScreen({
     super.key,
@@ -26,7 +26,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               GreetingMessage(username: username),
-              HomeMenuBoxGrid(itemCount: 4),
+              HomeMenuBoxGrid(itemCount: 6),
               CardNewsBox(), // 카드 뉴스 위젯
               WeeklyProgress(), // 주간 진행 상태 위젯
               BadgeBox(), // 배지 박스 위젯

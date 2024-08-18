@@ -1,10 +1,12 @@
 // lib/views/widgets/home/home_menu_box.dart
 
 import 'package:flutter/cupertino.dart';
+import 'package:golden_retriever_app/views/screens/chatlog_screen.dart';
 
 import '../../screens/calendar_screen.dart';
 import '../../screens/camera_screen.dart';
 import '../../screens/entertainment_screen.dart';
+import '../../screens/hospital_list_screen.dart';
 import '../../screens/profile_screen.dart';
 
 class HomeMenuBox extends StatelessWidget {
@@ -54,13 +56,13 @@ class HomeMenuBox extends StatelessWidget {
 
 class HomeMenuBoxGrid extends StatelessWidget {
   final int itemCount;
-  final CupertinoTabController _tabController = CupertinoTabController();
 
   HomeMenuBoxGrid({super.key, required this.itemCount});
 
   @override
   Widget build(BuildContext context) {
     final double size = MediaQuery.of(context).size.width * 0.4;
+    final CupertinoTabController _tabController = CupertinoTabController();
 
     final List<HomeMenuBox> children = [
       HomeMenuBox(
@@ -70,7 +72,7 @@ class HomeMenuBoxGrid extends StatelessWidget {
           Navigator.push(
             context,
             CupertinoPageRoute(
-            builder: (context) => CalendarScreen(),
+            builder: (context) => CalendarScreen(tabController: _tabController),
             ),
           );
         },
@@ -94,7 +96,7 @@ class HomeMenuBoxGrid extends StatelessWidget {
           Navigator.push(
             context,
             CupertinoPageRoute(
-              builder: (context) => EntertainmentScreen(),
+              builder: (context) => EntertainmentScreen(tabController: _tabController),
             ),
           );
         },
@@ -106,7 +108,31 @@ class HomeMenuBoxGrid extends StatelessWidget {
           Navigator.push(
             context,
             CupertinoPageRoute(
-              builder: (context) => ProfileScreen(),
+              builder: (context) => ProfileScreen(tabController: _tabController),
+            ),
+          );
+        },
+      ),
+      HomeMenuBox(
+        icon: CupertinoIcons.bubble_middle_bottom,
+        label: '챗로그',
+        onPressed: () {
+          Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => ChatLogScreen(date: DateTime.parse('2024-08-14')),
+            ),
+          );
+        },
+      ),
+      HomeMenuBox(
+        icon: CupertinoIcons.map_pin_ellipse,
+        label: '근처 병원',
+        onPressed: () {
+          Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => HospitalListScreen(),
             ),
           );
         },

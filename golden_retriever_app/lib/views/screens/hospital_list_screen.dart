@@ -1,17 +1,15 @@
-// lib/screens/profile_screen.dart
+// lib/vies/screens/hospital_list_screen.dart
 
 import 'package:flutter/cupertino.dart';
 
-class ProfileScreen extends StatelessWidget {
-  final CupertinoTabController tabController;
+class HospitalListScreen extends StatelessWidget {
   final String title;
   final String content;
 
-  const ProfileScreen({
+  const HospitalListScreen({
     super.key,
-    required this.tabController,
-    this.title = '내 정보',
-    this.content = 'Profile Screen',
+    this.title = '내 근처 병원',
+    this.content = 'Map & Hospitals near me',
   });
 
   @override

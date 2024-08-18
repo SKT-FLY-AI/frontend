@@ -4,11 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import '../widgets/calendar/calendar_header.dart';
 import '../widgets/calendar/calendar_grid.dart';
-import '../widgets/custom_bottom_navigation_bar.dart';
-import '../widgets/navigation_camera_button.dart';
 
 class CalendarScreen extends StatefulWidget {
-  const CalendarScreen({super.key});
+  final CupertinoTabController tabController;
+
+  const CalendarScreen({
+    super.key,
+    required this.tabController,
+  });
 
   @override
   _CalendarScreenState createState() => _CalendarScreenState();
@@ -47,12 +50,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
   Widget _buildCalendar(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final calendarSize = constraints.maxWidth - 32.0;
+        final calendarSize = constraints.maxWidth * 0.9;
+        final calendarPadding = constraints.maxWidth * 0.05;
 
         return Container(
           width: calendarSize,
-          margin: const EdgeInsets.symmetric(horizontal: 16.0),
-          padding: const EdgeInsets.all(16.0),
+          margin: EdgeInsets.symmetric(horizontal: calendarPadding),
+          padding: EdgeInsets.all(calendarPadding),
           decoration: BoxDecoration(
             color: CupertinoColors.systemGrey6,
             borderRadius: BorderRadius.circular(10.0),
@@ -65,7 +69,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 onRightArrowTap: _nextMonth,
               ),
               SizedBox(
-                height: calendarSize * 6 / 7, // 6-week calendar height
+                height: calendarSize * (6 / 7), // 6-week calendar height
                 child: CalendarGrid(
                   focusedDate: _focusedDate,
                   selectedDate: _selectedDate,
@@ -95,23 +99,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 Text(
                   'selected date: ${_dateFormat.format(_selectedDate)}',
                   style: TextStyle(
-                    fontSize: 18.0, // Custom font size
+                    fontSize: 18.0,
                   ),
-                  textAlign: TextAlign.center, // Center-align the text
+                  textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 50),
+                 SizedBox(height: size * 2),
               ],
             ),
-          ),
-          // 하단바
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: CustomBottomNavigationBar(),
-          ),
-          // 중앙의 카메라 버튼
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: CameraButton(),
           ),
         ],
       ),

@@ -4,7 +4,7 @@
 import 'package:flutter/cupertino.dart';
 
 class GreetingMessage extends StatelessWidget {
-  final String username;
+  final String? username;
 
   const GreetingMessage({super.key, required this.username});
 

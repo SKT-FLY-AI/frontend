@@ -4,13 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'dart:io';
 import '../../services/image_upload_service.dart';
 import '../../services/dialog_service.dart';
-import '../../services/chatbot/chatbot_service.dart'; // 챗봇 서비스 임포트
+import '../../services/chatbot/chatbot_service.dart';
 
 class ImagePreview extends StatelessWidget {
   final String imagePath;
-  final CupertinoTabController tabController;
 
-  const ImagePreview({super.key, required this.imagePath, required this.tabController});
+  const ImagePreview({
+    super.key,
+    required this.imagePath,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +77,6 @@ class ImagePreview extends StatelessWidget {
 
   void _navigateToCalendarAndShowChatbotOrCongrats(BuildContext context) async {
     Navigator.pop(context); // 이미지 미리보기 화면 닫기
-    tabController.index = 1; // 캘린더 탭으로 전환
 
     // 약간의 지연을 추가하여 캘린더 탭이 완전히 로드되도록 함
     await Future.delayed(const Duration(milliseconds: 300));
