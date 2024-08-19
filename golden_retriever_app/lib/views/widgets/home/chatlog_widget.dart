@@ -26,7 +26,7 @@ class ChatlogWidget extends StatelessWidget {
       onPressed: onPressed,
       child: Container(
         width: contextWidth * 9,
-        height: contextHeight * 1,
+        height: contextHeight * 1.35,
         decoration: BoxDecoration(
           color: CupertinoColors.systemGrey.withOpacity(0.7),
           borderRadius: BorderRadius.circular(16.0),
@@ -34,7 +34,7 @@ class ChatlogWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: contextHeight * 0.6, color: CupertinoColors.white),
+            Icon(icon, size: contextHeight * 0.5, color: CupertinoColors.white),
             SizedBox(height: contextHeight * 0.05),
             Text(
               label,
@@ -69,7 +69,7 @@ class ChatlogWidgetColumn extends StatelessWidget {
           Navigator.push(
             context,
             CupertinoPageRoute(
-              builder: (context) => ChatLogScreen(date: DateTime.parse('2024-08-14')),
+              builder: (context) => ChatLogScreen(),
             ),
           );
         },

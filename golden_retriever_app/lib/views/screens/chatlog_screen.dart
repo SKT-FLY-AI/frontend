@@ -5,18 +5,19 @@ import 'package:intl/intl.dart';
 import 'chatbot_screen.dart';
 
 class ChatLogScreen extends StatelessWidget {
-  final DateTime date;
   final DateFormat _dateFormat = DateFormat('yyyy-MM-dd');
 
-  ChatLogScreen({super.key, required this.date});
+  ChatLogScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final chatLog = _getChatLog(date);
+    final chatLog = _getChatLog();
 
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: Text('챗로그 (${_dateFormat.format(date)})'),
+        middle: Text('챗로그'),
       ),
       child: SafeArea(
         child: chatLog.isNotEmpty
@@ -52,15 +53,13 @@ class ChatLogScreen extends StatelessWidget {
           },
         )
             : const Center(
-          child: Text('해당 날짜에 대화 기록이 없습니다.'),
+          child: Text('대화 기록이 없습니다.'),
         ),
       ),
     );
   }
 
-  List<Map<String, String>> _getChatLog(DateTime date) {
-    // 날짜와 시간을 제거하고 날짜만 비교
-    final dateOnly = DateTime(date.year, date.month, date.day);
-    return ChatbotScreenState.chatLogs[dateOnly] ?? [];
+  List<Map<String, String>> _getChatLog() {
+    return ChatbotScreenState.messages.toList();
   }
 }
