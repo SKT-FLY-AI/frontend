@@ -6,9 +6,11 @@ import 'package:flutter/cupertino.dart';
 class WeeklyProgress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Container 위젯을 반환하여 null 문제가 발생하지 않도록 보장함
+    final double contextHeight = MediaQuery.of(context).size.height * 0.1;
+    final double contextWidth = MediaQuery.of(context).size.width * 0.1;
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      padding: EdgeInsets.symmetric(vertical: contextHeight * 0.1, horizontal: contextWidth * 0.6),
       child: Container(
         decoration: BoxDecoration(
           color: CupertinoColors.systemGrey.withOpacity(0.7),

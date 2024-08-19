@@ -1,12 +1,9 @@
 // lib/views/widgets/home/home_menu_box.dart
 
 import 'package:flutter/cupertino.dart';
-import 'package:golden_retriever_app/views/screens/chatlog_screen.dart';
-
 import '../../screens/calendar_screen.dart';
 import '../../screens/camera_screen.dart';
 import '../../screens/entertainment_screen.dart';
-import '../../screens/hospital_list_screen.dart';
 import '../../screens/profile_screen.dart';
 
 class HomeMenuBox extends StatelessWidget {
@@ -22,14 +19,15 @@ class HomeMenuBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double size = MediaQuery.of(context).size.width * 0.4;
+    final double contextHeight = MediaQuery.of(context).size.height * 0.1;
+    final double contextWidth = MediaQuery.of(context).size.width * 0.1;
 
     return CupertinoButton(
       padding: EdgeInsets.zero,
       onPressed: onPressed,
       child: Container(
-        width: size,
-        height: size,
+        width: contextWidth * 4,
+        height: contextWidth * 4,
         decoration: BoxDecoration(
           color: CupertinoColors.systemGrey.withOpacity(0.7),
           borderRadius: BorderRadius.circular(16.0),
@@ -37,12 +35,12 @@ class HomeMenuBox extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: size * 0.25, color: CupertinoColors.white),
-            SizedBox(height: size * 0.05),
+            Icon(icon, size: contextHeight * 0.6, color: CupertinoColors.white),
+            SizedBox(height: contextHeight * 0.05),
             Text(
               label,
               style: TextStyle(
-                  fontSize: size * 0.1,
+                  fontSize: contextHeight * 0.2,
                   color: CupertinoColors.white,
                   fontWeight: FontWeight.w600
               ),
@@ -61,7 +59,8 @@ class HomeMenuBoxGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double size = MediaQuery.of(context).size.width * 0.4;
+    final double contextHeight = MediaQuery.of(context).size.height * 0.1;
+    final double contextWidth = MediaQuery.of(context).size.width * 0.1;
     final CupertinoTabController _tabController = CupertinoTabController();
 
     final List<HomeMenuBox> children = [
@@ -113,34 +112,10 @@ class HomeMenuBoxGrid extends StatelessWidget {
           );
         },
       ),
-      HomeMenuBox(
-        icon: CupertinoIcons.bubble_middle_bottom,
-        label: '챗로그',
-        onPressed: () {
-          Navigator.push(
-            context,
-            CupertinoPageRoute(
-              builder: (context) => ChatLogScreen(date: DateTime.parse('2024-08-14')),
-            ),
-          );
-        },
-      ),
-      HomeMenuBox(
-        icon: CupertinoIcons.map_pin_ellipse,
-        label: '근처 병원',
-        onPressed: () {
-          Navigator.push(
-            context,
-            CupertinoPageRoute(
-              builder: (context) => HospitalListScreen(),
-            ),
-          );
-        },
-      ),
     ];
 
     return Padding(
-      padding: EdgeInsets.all(size * 0.15), // 화면 크기에 따른 패딩
+      padding: EdgeInsets.symmetric(vertical: contextHeight * 0.1, horizontal: contextWidth * 0.6), // 화면 크기에 따른 패딩
       child: GridView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,

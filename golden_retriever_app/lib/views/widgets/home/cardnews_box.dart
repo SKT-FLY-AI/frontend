@@ -8,11 +8,12 @@ class CardNewsBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double contextHeight = MediaQuery.of(context).size.height * 0.1;
+    final double contextWidth = MediaQuery.of(context).size.width * 0.1;
 
     return Padding(
-      padding: const EdgeInsets.only(top: 12, bottom: 32, left: 32, right: 32),
+      padding: EdgeInsets.symmetric(vertical: contextHeight * 0.25, horizontal: contextWidth * 0.8,),
       child: Container(
-        height: contextHeight * 3,
+        height: contextHeight * 2.7,
         child: PageView.builder(
           itemCount: cardnewsList.length,  // 카드 뉴스 목록의 길이만큼 페이지를 생성
           itemBuilder: (context, index) {
