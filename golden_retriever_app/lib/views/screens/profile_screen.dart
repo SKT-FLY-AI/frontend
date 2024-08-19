@@ -5,11 +5,8 @@ import 'package:flutter/material.dart';
 import '../widgets/custom_bottom_navigation_bar.dart';
 
 class ProfileScreen extends StatefulWidget {
-  // final CupertinoTabController tabController;
-
   const ProfileScreen({
     super.key,
-    // required this.tabController,
   });
 
   @override

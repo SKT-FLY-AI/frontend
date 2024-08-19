@@ -8,12 +8,7 @@ import '../widgets/calendar/calendar_grid.dart';
 import '../widgets/custom_bottom_navigation_bar.dart';
 
 class CalendarScreen extends StatefulWidget {
-  // final CupertinoTabController tabController;
-
-  const CalendarScreen({
-    super.key,
-    // required this.tabController,
-  });
+  const CalendarScreen({super.key,});
 
   @override
   _CalendarScreenState createState() => _CalendarScreenState();
