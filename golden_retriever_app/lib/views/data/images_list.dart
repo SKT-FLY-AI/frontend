@@ -1,14 +1,19 @@
 // lib/views/data/images_list.dart
 
 class ImagesData {
-  final String pooColor;
   final String uploadTime;
+  final String pooColor;
+  final int? pooType;
+  final int? pooBlood;
 
   ImagesData({
-    required this.pooColor,
     required this.uploadTime,
+    required this.pooColor,
+    this.pooType,
+    this.pooBlood,
   });
 }
+
 
 final List<Map<String, dynamic>> response = [
   {
@@ -137,7 +142,9 @@ final List<Map<String, dynamic>> response = [
 // 데이터를 추출해서 ImagesData 리스트로 변환
 final List<ImagesData> imagesList = response.map((item) {
   return ImagesData(
-    pooColor: item['poo_color'],
     uploadTime: item['upload_time'],
+    pooColor: item['poo_color'],
+    pooType: item['poo_type'],
+    pooBlood: item['poo_blood'],
   );
 }).toList();

@@ -8,11 +8,11 @@ import '../widgets/calendar/calendar_grid.dart';
 import '../widgets/custom_bottom_navigation_bar.dart';
 
 class CalendarScreen extends StatefulWidget {
-  final CupertinoTabController tabController;
+  // final CupertinoTabController tabController;
 
   const CalendarScreen({
     super.key,
-    required this.tabController,
+    // required this.tabController,
   });
 
   @override
@@ -88,7 +88,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final double size = MediaQuery.of(context).size.width * 0.4;
+    final double contextHeight = MediaQuery.of(context).size.height * 0.1;
 
     return CupertinoPageScaffold(
       child: Stack(
@@ -96,17 +96,29 @@ class _CalendarScreenState extends State<CalendarScreen> {
           SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: size * 0.8),
+                SizedBox(height: contextHeight),
                 _buildCalendar(context),
-                SizedBox(height: size * 0.6),
+                SizedBox(height: contextHeight * 0.5),
                 Text(
-                  'selected date: ${_dateFormat.format(_selectedDate)}',
+                  'Selected Date: ${_dateFormat.format(_selectedDate)}',
                   style: TextStyle(
-                    fontSize: 18.0,
+                    fontSize: contextHeight * 0.2,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: size * 2),
+                // ListView.builder(
+                //   itemCount: imagesList.length, // 전역 변수 imagesList를 직접 사용
+                //   itemBuilder: (context, index) {
+                //     final imageData = imagesList[index];
+                //     return CupertinoListTile(
+                //       title: Text(imageData.uploadTime),
+                //       subtitle: Text(
+                //         '${imageData.pooType}, ${imageData.pooColor}, ${imageData.pooBlood}',
+                //       ),
+                //     );
+                //   },
+                // ),
+                SizedBox(height: contextHeight * 4),
               ],
             ),
           ),
@@ -116,9 +128,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
             bottom: 0,
             child: CustomBottomNavigationBar(
               currentIndex: 1, // 선택된 탭의 인덱스 설정
-              onTap: (index) {
+              onTap: (currentIndex) {
                 // 네비게이션을 위한 핸들러 추가
-                widget.tabController.index = index;
+                // widget.tabController.index = currentIndex;
               },
             ),
           ),

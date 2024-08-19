@@ -3,8 +3,6 @@
 import 'package:flutter/cupertino.dart';
 
 class HospitalListScreen extends StatelessWidget {
-  final String title;
-
   // 병원 데이터 리스트
   final List<Map<String, dynamic>> hospitals = [
     {
@@ -81,14 +79,13 @@ class HospitalListScreen extends StatelessWidget {
 
   HospitalListScreen({
     super.key,
-    this.title = '내 근처 병원', // 화면 상단 타이틀
   });
 
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
-        middle: Text(title), // 네비게이션 바의 가운데 텍스트
+        middle: Text('내 근처 병원'), // 네비게이션 바의 가운데 텍스트
       ),
       child: ListView.builder(
         itemCount: hospitals.length, // 병원 리스트의 항목 개수

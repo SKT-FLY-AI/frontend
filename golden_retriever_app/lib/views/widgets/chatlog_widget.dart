@@ -3,7 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:golden_retriever_app/views/screens/chatlog_screen.dart';
 
-import '../../screens/hospital_list_screen.dart';
+import '../screens/hospital_list_screen.dart';
 
 class ChatlogWidget extends StatelessWidget {
   final IconData icon;

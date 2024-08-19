@@ -4,12 +4,12 @@ import 'package:flutter/cupertino.dart';
 import '../widgets/custom_bottom_navigation_bar.dart';
 
 class EntertainmentScreen extends StatelessWidget {
-  final CupertinoTabController tabController;
+  // final CupertinoTabController tabController;
   final String content;
 
   const EntertainmentScreen({
     super.key,
-    required this.tabController,
+    // required this.tabController,
     this.content = 'Entertainment Screen',
   });
 
@@ -26,10 +26,9 @@ class EntertainmentScreen extends StatelessWidget {
             right: 0,
             bottom: 0,
             child: CustomBottomNavigationBar(
-              currentIndex: 3, // 선택된 탭의 인덱스 설정
-              onTap: (index) {
-                // 네비게이션을 위한 핸들러 추가
-                tabController.index = index;
+              currentIndex: 3, // 현재 화면이 캘린더이므로 인덱스 1
+              onTap: (currentIndex) {
+                // CustomBottomNavigationBar의 네비게이션 핸들러는 이미 정의되어 있으므로 추가 작업 불필요
               },
             ),
           ),
@@ -38,3 +37,4 @@ class EntertainmentScreen extends StatelessWidget {
     );
   }
 }
+

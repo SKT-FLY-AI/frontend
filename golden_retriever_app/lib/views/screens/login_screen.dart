@@ -65,11 +65,11 @@ class _LoginScreenState extends State<LoginScreen> {
       context: context,
       builder: (context) {
         return CupertinoAlertDialog(
-          title: const Text('Login Failed'),
+          title: const Text('로그인 실패'),
           content: Text(error),
           actions: [
             CupertinoDialogAction(
-              child: const Text('OK'),
+              child: const Text('확인'),
               onPressed: () => Navigator.pop(context),
             ),
           ],
@@ -80,15 +80,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final double size = MediaQuery.of(context).size.width * 0.4;
+    final double contextHeight = MediaQuery.of(context).size.height * 0.1;
+    final double contextWidth = MediaQuery.of(context).size.width * 0.1;
 
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
-        middle: Text('Login'),
+        middle: Text('로그인'),
       ),
       child: Center(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(contextWidth * 0.8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -97,22 +98,29 @@ class _LoginScreenState extends State<LoginScreen> {
                 placeholder: 'Email',
                 prefixIcon: CupertinoIcons.mail,
               ),
-              const SizedBox(height: 12),
               CustomTextField(
                 controller: _passwordController,
                 placeholder: 'Password',
                 obscureText: true,
                 prefixIcon: CupertinoIcons.padlock,
               ),
-              const SizedBox(height: 64),
+              SizedBox(height: contextHeight * 0.4),
               _isLoading
                   ? const CupertinoActivityIndicator()
-                  : CupertinoButton(
-                color: CupertinoColors.activeOrange,
-                child: const Text('로그인'),
-                onPressed: _login,
+                  : Container(
+                margin: EdgeInsets.symmetric(horizontal: contextWidth * 0.6),
+                padding: EdgeInsets.symmetric(vertical: contextHeight * 0.1),
+                child: CupertinoButton(
+                  color: CupertinoColors.activeOrange,
+                  padding: EdgeInsets.symmetric(vertical: contextHeight * 0.15, horizontal: contextWidth * 0.05),
+                  onPressed: _login,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center, // 중앙 정렬
+                    children: [Text('로그인'),],
+                  ),
+                ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: contextHeight * 0.1),
               GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -137,3 +145,4 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+

@@ -61,7 +61,7 @@ class HomeMenuBoxGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final double contextHeight = MediaQuery.of(context).size.height * 0.1;
     final double contextWidth = MediaQuery.of(context).size.width * 0.1;
-    final CupertinoTabController _tabController = CupertinoTabController();
+    // final CupertinoTabController _tabController = CupertinoTabController();
 
     final List<HomeMenuBox> children = [
       HomeMenuBox(
@@ -71,7 +71,7 @@ class HomeMenuBoxGrid extends StatelessWidget {
           Navigator.push(
             context,
             CupertinoPageRoute(
-            builder: (context) => CalendarScreen(tabController: _tabController),
+            builder: (context) => CalendarScreen(),
             ),
           );
         },
@@ -95,7 +95,7 @@ class HomeMenuBoxGrid extends StatelessWidget {
           Navigator.push(
             context,
             CupertinoPageRoute(
-              builder: (context) => EntertainmentScreen(tabController: _tabController),
+              builder: (context) => EntertainmentScreen(),
             ),
           );
         },
@@ -107,7 +107,7 @@ class HomeMenuBoxGrid extends StatelessWidget {
           Navigator.push(
             context,
             CupertinoPageRoute(
-              builder: (context) => ProfileScreen(tabController: _tabController),
+              builder: (context) => ProfileScreen(),
             ),
           );
         },

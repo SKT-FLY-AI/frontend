@@ -83,8 +83,6 @@ class CalendarGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double contextHeight = MediaQuery.of(context).size.height * 0.1;
-    final double contextWidth = MediaQuery.of(context).size.width * 0.1;
     final days = _generateDaysForGrid();
 
     return GridView.builder(

@@ -2,8 +2,11 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import '../screens/calendar_screen.dart';
 import '../screens/camera_screen.dart';
+import '../screens/entertainment_screen.dart';
 import '../screens/home_screen.dart';
+import '../screens/profile_screen.dart';
 
 /// 하단바를 구현한 위젯
 class CustomBottomNavigationBar extends StatefulWidget {
@@ -30,6 +33,12 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     _loadUsername();
   }
 
+  // @override
+  // void dispose() {
+  //   _tabController.dispose();
+  //   super.dispose();
+  // }
+
   Future<void> _loadUsername() async {
     final username = await _storage.read(key: 'username');
     setState(() {  // UI 갱신
@@ -53,6 +62,39 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         builder: (context) => CameraScreen(),
       ),
     );
+  }
+
+  void _navigateToScreen(BuildContext context, int index) {
+    if (index == widget.currentIndex) return; // 이미 선택된 탭이면 아무 작업도 하지 않음
+
+    switch (index) {
+      case 1:
+        Navigator.pushReplacement(
+          context,
+          CupertinoPageRoute(
+            builder: (context) => const CalendarScreen(),
+          ),
+        );
+        break;
+      case 3:
+        Navigator.pushReplacement(
+          context,
+          CupertinoPageRoute(
+            builder: (context) => const EntertainmentScreen(),
+          ),
+        );
+      case 4:
+        Navigator.pushReplacement(
+          context,
+          CupertinoPageRoute(
+            builder: (context) => const ProfileScreen(),
+          ),
+        );
+        break;
+      default:
+      // 예외 상황 처리 (예: 0번 탭에 대한 핸들링)
+        break;
+    }
   }
 
   List<BottomNavigationBarItem> _buildTabBarItems() {
@@ -91,7 +133,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         Container(
           color: CupertinoColors.systemGrey6, // 원하는 색상 지정
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10.0),
+            padding: EdgeInsets.symmetric(vertical: contextHeight * 0.15, horizontal: 10.0),
             child: CupertinoTabBar(
               backgroundColor: CupertinoColors.systemGrey6,
               items: _buildTabBarItems(),
@@ -99,17 +141,17 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 if (index == 0) {
                   _onHomeButtonPressed(context); // 인덱스 0일 때 홈 화면으로 이동
                 } else {
-                  widget.onTap(index); // 다른 인덱스일 때는 기존 탭 전환 로직
+                  _navigateToScreen(context, index); // 나머지 탭은 네비게이션 처리
                 }
               },
               currentIndex: widget.currentIndex,
-              iconSize: 35.0,
+              iconSize: contextHeight * 0.35,
               border: Border(top: BorderSide(color: CupertinoColors.systemGrey6)),
             ),
           ),
         ),
         Positioned(
-          bottom: contextHeight * 0.4,
+          bottom: contextHeight * 0.3,
           child: CupertinoButton(
             onPressed: () => _onCameraButtonPressed(context),
             padding: EdgeInsets.zero,
@@ -118,11 +160,11 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                 color: CupertinoColors.activeOrange,
                 shape: BoxShape.circle,
               ),
-              padding: EdgeInsets.all(contextHeight * 0.15),
+              padding: EdgeInsets.all(contextHeight * 0.25),
               child: Icon(
                 CupertinoIcons.camera,
                 color: CupertinoColors.white,
-                size: contextHeight * 0.55,
+                size: contextHeight * 0.4,
               ),
             ),
           ),

@@ -73,6 +73,9 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final double contextHeight = MediaQuery.of(context).size.height * 0.1;
+    final double contextWidth = MediaQuery.of(context).size.width * 0.1;
+
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
         middle: Text('회원가입'),
@@ -88,20 +91,19 @@ class _SignupScreenState extends State<SignupScreen> {
                 placeholder: '닉네임',
                 prefixIcon: CupertinoIcons.person,
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: contextHeight * 0.3),
               CustomTextField(
                 controller: _emailController,
                 placeholder: 'Email',
                 prefixIcon: CupertinoIcons.mail,
               ),
-              const SizedBox(height: 12),
               CustomTextField(
                 controller: _passwordController,
                 placeholder: 'Password',
                 obscureText: true,
                 prefixIcon: CupertinoIcons.padlock,
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: contextHeight * 0.3),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -113,18 +115,18 @@ class _SignupScreenState extends State<SignupScreen> {
                       color: CupertinoColors.systemGrey,
                     ),
                   ),
-                  const SizedBox(width: 35),
+                  SizedBox(width: contextWidth * 0.8),
                   _buildGenderButton('남성', 0),
-                  const SizedBox(width: 15),
+                  SizedBox(width: contextWidth * 0.4),
                   _buildGenderButton('여성', 1),
                 ],
               ),
-              const SizedBox(height: 72),
+              SizedBox(height: contextHeight * 0.6),
               _isLoading
                   ? const CupertinoActivityIndicator()
                   : CupertinoButton(
                 color: CupertinoColors.activeOrange,
-                child: const Text('Sign Up'),
+                child: const Text('회원 가입'),
                 onPressed: _register,
               ),
             ],

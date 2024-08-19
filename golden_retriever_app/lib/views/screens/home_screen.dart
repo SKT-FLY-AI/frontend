@@ -2,7 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import '../widgets/home/cardnews_box.dart';
-import '../widgets/home/chatlog_widget.dart';
+import '../widgets/chatlog_widget.dart';
 import '../widgets/home/greeting_message.dart';
 import '../widgets/home/home_menu_box.dart';
 import '../widgets/home/weekly_progress.dart';
@@ -20,7 +20,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double contextHeight = MediaQuery.of(context).size.height * 0.1;
-    final double contextWidth = MediaQuery.of(context).size.width * 0.1;
 
     return CupertinoPageScaffold(
       child: SafeArea(
