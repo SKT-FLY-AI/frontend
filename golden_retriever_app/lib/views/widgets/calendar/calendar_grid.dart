@@ -1,36 +1,21 @@
 // lib/views/widgets/calendar/calendar_grid.dart
 
 import 'package:flutter/cupertino.dart';
+import '../../data/images_list.dart';
 
 class CalendarGrid extends StatelessWidget {
   final DateTime focusedDate;
   final DateTime selectedDate;
   final ValueChanged<DateTime> onDateSelected;
+  final List<ImagesData> imagesList;
 
   const CalendarGrid({
-    Key? key,
+    super.key,
     required this.focusedDate,
     required this.selectedDate,
     required this.onDateSelected,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final days = _generateDaysForGrid();
-
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 7,
-        mainAxisSpacing: 6.0,
-        crossAxisSpacing: 6.0,
-      ),
-      itemCount: days.length,
-      itemBuilder: (context, index) => _buildDayCell(days[index]),
-      padding: EdgeInsets.zero,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-    );
-  }
+    required this.imagesList,
+  });
 
   List<DateTime> _generateDaysForGrid() {
     final firstDayOfMonth = DateTime(focusedDate.year, focusedDate.month, 1);
@@ -51,7 +36,7 @@ class CalendarGrid extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: _getDayBackgroundColor(isInMonth, isSelected), // 배경색
+          color: _getDayBackgroundColor(date, isInMonth, isSelected),
         ),
         child: Text(
           date.day.toString(),
@@ -69,10 +54,23 @@ class CalendarGrid extends StatelessWidget {
         selectedDate.day == date.day;
   }
 
-  Color _getDayBackgroundColor(bool isInMonth, bool isSelected) {
+  Color _getDayBackgroundColor(DateTime date, bool isInMonth, bool isSelected) {
     if (!isInMonth) {
       return CupertinoColors.systemGrey4;
     }
+
+    // 해당 날짜와 매칭되는 첫 번째 ImagesData를 찾음
+    final matchingImage = imagesList.firstWhere(
+          (image) => DateTime.parse(image.uploadTime).year == date.year &&
+          DateTime.parse(image.uploadTime).month == date.month &&
+          DateTime.parse(image.uploadTime).day == date.day,
+      orElse: () => ImagesData(pooColor: "#FFFFFF", uploadTime: ''),
+    );
+
+    if (matchingImage.pooColor != null) {
+      return Color(int.parse(matchingImage.pooColor!.substring(1), radix: 16) + 0xFF000000);
+    }
+
     return isSelected ? CupertinoColors.activeOrange : CupertinoColors.white;
   }
 
@@ -80,6 +78,26 @@ class CalendarGrid extends StatelessWidget {
     if (!isInMonth) {
       return CupertinoColors.systemGrey;
     }
-    return isSelected ? CupertinoColors.white : CupertinoColors.black;
+    return isSelected ? CupertinoColors.activeOrange : CupertinoColors.black;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final double contextHeight = MediaQuery.of(context).size.height * 0.1;
+    final double contextWidth = MediaQuery.of(context).size.width * 0.1;
+    final days = _generateDaysForGrid();
+
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 7,
+        mainAxisSpacing: 6.0,
+        crossAxisSpacing: 6.0,
+      ),
+      itemCount: days.length,
+      itemBuilder: (context, index) => _buildDayCell(days[index]),
+      padding: EdgeInsets.zero,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+    );
   }
 }

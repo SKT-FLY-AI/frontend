@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
+import '../data/images_list.dart';
 import '../widgets/calendar/calendar_header.dart';
 import '../widgets/calendar/calendar_grid.dart';
 import '../widgets/custom_bottom_navigation_bar.dart';
@@ -75,6 +76,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   focusedDate: _focusedDate,
                   selectedDate: _selectedDate,
                   onDateSelected: _updateSelectedDate,
+                  imagesList: imagesList,
                 ),
               ),
             ],
