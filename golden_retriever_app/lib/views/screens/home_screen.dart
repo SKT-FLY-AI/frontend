@@ -34,7 +34,7 @@ class HomeScreen extends StatelessWidget {
               WeeklyProgress(), // 주간 진행 상태 위젯
               BadgeBox(), // 배지 박스 위젯
               ChatlogWidgetColumn(itemCount: 2),
-              SizedBox(height: contextHeight * 2.5),
+              SizedBox(height: contextHeight * 2),
             ],
           ),
         ),

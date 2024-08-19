@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import '../../screens/cardnews_screen.dart';
+import '../../data/cardnews_list.dart';
 
 // 카드 뉴스 슬라이드를 표시하는 위젯
 class CardNewsBox extends StatelessWidget {
@@ -32,11 +33,16 @@ class CardNewsBox extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16.0),
                   color: CupertinoColors.systemGrey.withOpacity(0.5),
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16.0),
-                  child: Image.asset(
-                    'assets/images/cardnews/snoopy-${index + 1}.png',  // 인덱스에 따라 이미지 로드
-                    fit: BoxFit.cover,
+                padding: EdgeInsets.all(contextHeight * 0.3), // 패딩 추가
+                child: Align(
+                  alignment: Alignment.topLeft, // 왼쪽 상단에 텍스트 배치
+                  child: Text(
+                    cardnewsList[index].title,
+                    style: TextStyle(
+                      fontSize: contextHeight * 0.25, // 텍스트 사이즈 조금 크게
+                      fontWeight: FontWeight.bold, // 볼드체
+                      color: CupertinoColors.white, // 텍스트 색상 (선택 사항)
+                    ),
                   ),
                 ),
               ),
