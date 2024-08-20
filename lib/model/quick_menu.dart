@@ -7,8 +7,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
   late AnimationController animationController;
-  late Animation degOneTranslationAnimation,degTwoTranslationAnimation,degThreeTranslationAnimation,
-            degFourTranslationAnimation, degFiveTranslationAnimation;
+  late Animation degOneTranslationAnimation,degTwoTranslationAnimation,degThreeTranslationAnimation;
   late Animation rotationAnimation;
 
 
@@ -37,14 +36,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     degThreeTranslationAnimation = TweenSequence([
       TweenSequenceItem<double>(tween: Tween<double >(begin: 0.0,end: 1.75), weight: 35.0),
       TweenSequenceItem<double>(tween: Tween<double>(begin: 1.75,end: 1.0), weight: 65.0),
-    ]).animate(animationController);
-    degFourTranslationAnimation = TweenSequence([
-      TweenSequenceItem<double>(tween: Tween<double >(begin: 0.0,end: 2.0), weight: 15.0),
-      TweenSequenceItem<double>(tween: Tween<double>(begin: 2.0,end: 1.0), weight: 85.0),
-    ]).animate(animationController);
-    degFiveTranslationAnimation = TweenSequence([
-      TweenSequenceItem<double>(tween: Tween<double >(begin: 0.0,end: 2.25), weight: 350.0),
-      TweenSequenceItem<double>(tween: Tween<double>(begin: 2.25,end: 1.0), weight: 105.0),
     ]).animate(animationController);
     rotationAnimation = Tween<double>(begin: 180.0,end: 0.0).animate(CurvedAnimation(parent: animationController
         , curve: Curves.easeOut));
@@ -84,15 +75,15 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                           transform: Matrix4.rotationZ(getRadiansFromDegree(rotationAnimation.value))..scale(degOneTranslationAnimation.value),
                           alignment: Alignment.center,
                           child: CircularButton(
-                            color: Colors.blue,
-                            width: 50,
-                            height: 50,
+                            color: Colors.blue.withOpacity(0.7),  // 투명도 70%
+                            width: 40,
+                            height: 40,
                             icon: Icon(
-                              Icons.add,
+                              Icons.person,
                               color: Colors.white,
                             ),
                             onClick: (){
-                              print('Home');
+                              print('Mypage');
                             },
                           ),
                         ),
@@ -103,15 +94,15 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                           transform: Matrix4.rotationZ(getRadiansFromDegree(rotationAnimation.value))..scale(degTwoTranslationAnimation.value),
                           alignment: Alignment.center,
                           child: CircularButton(
-                            color: Colors.black,
-                            width: 50,
-                            height: 50,
+                            color: Colors.black.withOpacity(0.7), // 투명도 70%
+                            width: 40,
+                            height: 40,
                             icon: Icon(
                               Icons.camera_alt,
                               color: Colors.white,
                             ),
                             onClick: (){
-                              print('Calendar');
+                              print('Camera');
                             },
                           ),
                         ),
@@ -122,15 +113,15 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                           transform: Matrix4.rotationZ(getRadiansFromDegree(rotationAnimation.value))..scale(degThreeTranslationAnimation.value),
                           alignment: Alignment.center,
                           child: CircularButton(
-                            color: Colors.orangeAccent,
-                            width: 50,
-                            height: 50,
+                            color: Colors.pinkAccent.withOpacity(0.7),  // 투명도 70%
+                            width: 40,
+                            height: 40,
                             icon: Icon(
-                              Icons.person,
+                              Icons.calendar_month_rounded,
                               color: Colors.white,
                             ),
                             onClick: (){
-                              print('Camera');
+                              print('Calendar');
                             },
                           ),
                         ),
@@ -139,9 +130,9 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                         transform: Matrix4.rotationZ(getRadiansFromDegree(rotationAnimation.value)),
                         alignment: Alignment.center,
                         child: CircularButton(
-                          color: Colors.red,
-                          width: 60,
-                          height: 60,
+                          color: Colors.orange.withOpacity(0.9),  // 투명도 90%
+                          width: 50,
+                          height: 50,
                           icon: Icon(
                             Icons.menu,
                             color: Colors.white,
