@@ -101,18 +101,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                // ListView.builder(
-                //   itemCount: imagesList.length, // 전역 변수 imagesList를 직접 사용
-                //   itemBuilder: (context, index) {
-                //     final imageData = imagesList[index];
-                //     return CupertinoListTile(
-                //       title: Text(imageData.uploadTime),
-                //       subtitle: Text(
-                //         '${imageData.pooType}, ${imageData.pooColor}, ${imageData.pooBlood}',
-                //       ),
-                //     );
-                //   },
-                // ),
                 SizedBox(height: contextHeight * 4),
               ],
             ),

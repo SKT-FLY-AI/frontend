@@ -16,8 +16,9 @@ dependencies:
   image_picker: ^1.0.0
   cupertino_icons: ^1.0.6
   intl: ^0.18.0
+  rive: ^0.9.1
+  flutter_svg: ^1.1.6
   flutter_secure_storage: ^7.0.1
-  flutter_native_splash: ^2.3.1
 
 dev_dependencies:
   flutter_test:
@@ -29,14 +30,18 @@ flutter:
   assets:
     - assets/images/
     - assets/images/cardnews/
+    - assets/avatars/
+    - assets/Backgrounds/
+    - assets/icons/
+    - assets/RiveAssets/
 
-flutter_native_splash:
-  color: "#FFD59B"  # 배경 색상
-  image: assets/images/flyai-logo.png  # 로고 이미지 경로
-  android: true  # Android 플랫폼 지원
-  ios: true  # iOS 플랫폼 지원
-  web: true  # Web 플랫폼 지원
-  # 추가 옵션들 (필요시 사용 가능)
-  # android_gravity: center  # Android에서 이미지 위치
-  # ios_content_mode: scaleAspectFill  # iOS에서 이미지 위치
-  fullscreen: true  # 전체 화면 모드 사용
+fonts:
+  - family: Intel
+    fonts:
+      - asset: assets/Fonts/Inter-Regular.ttf
+      - asset: assets/Fonts/Inter-SemiBold.ttf
+        weight: 600
+  - family: Poppins
+    fonts:
+      - assets: assets/Fonts/Poppins-Bold.ttf
+        weight: 700
