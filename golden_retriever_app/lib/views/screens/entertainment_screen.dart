@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../widgets/custom_bottom_navigation_bar.dart';
+import '../widgets/rive_background.dart';
 
 class EntertainmentScreen extends StatelessWidget {
   const EntertainmentScreen({super.key});
@@ -20,6 +21,7 @@ class EntertainmentScreen extends StatelessWidget {
       backgroundColor: Colors.orangeAccent,
       child: Stack(
         children: [
+          const RiveBackground(), // 애니메이션 배경 추가
           Padding(
             padding: EdgeInsets.symmetric(horizontal: contextWidth * 0.8),
             child: ListView(

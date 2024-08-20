@@ -44,13 +44,6 @@ class BadgeBox extends StatelessWidget {
           color: color.withOpacity(0.7), // 테두리 색상
           width: 3, // 테두리 두께
         ),
-        // boxShadow: [
-        //   BoxShadow(
-        //     color: Colors.white.withOpacity(0.2),
-        //     blurRadius: 10,
-        //     spreadRadius: 1,
-        //   ),
-        // ],
       ),
       child: Icon(
         icon,
@@ -111,9 +104,12 @@ Widget _buildGlassyContainer({
         filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(16.0),
-            border: Border.all(color: Colors.white.withOpacity(0.3)),
+            color: Colors.grey.withOpacity(0.3), // 반투명 배경색
+            borderRadius: BorderRadius.circular(16.0), // 모서리 둥글게
+            border: Border.all(
+              color: Colors.white.withOpacity(0.5), // 테두리 색상
+              width: 1.0,
+            ),
           ),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 28.0),

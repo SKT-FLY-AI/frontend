@@ -29,19 +29,26 @@ void showCustomDialog(BuildContext context, {required ValueChanged onValue}) {
             filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
             child: Scaffold(
               backgroundColor: Colors.transparent,
-              body: Stack(
+              body: ListView(
                 clipBehavior: Clip.none,
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text(
+                      Text(
                         "✦ LOGIN PAGE ✦",
                         style: TextStyle(
                           fontSize: 30,
                           fontFamily: "Poppins",
                           fontWeight: FontWeight.w600,
-                          color: Colors.black,
+                          color: Colors.white,
+                          shadows: [
+                            Shadow(
+                              offset: Offset(2.0, 2.0), // 그림자의 위치
+                              blurRadius: 10.0, // 그림자의 블러 정도
+                              color: Colors.black.withOpacity(0.2), // 그림자 색상 및 투명도
+                            ),
+                          ],
                         ),
                       ),
                       Padding(
@@ -49,7 +56,10 @@ void showCustomDialog(BuildContext context, {required ValueChanged onValue}) {
                         child: Text(
                           "우리 같이 PoopSee해용~♥",
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontWeight: FontWeight.w500),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: CupertinoColors.systemGrey5,
+                          ),
                         ),
                       ),
 

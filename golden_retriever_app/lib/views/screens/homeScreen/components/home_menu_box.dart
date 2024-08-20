@@ -35,9 +35,12 @@ class HomeMenuBox extends StatelessWidget {
             width: contextWidth * 4,
             height: contextWidth * 4,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(16.0),
-              border: Border.all(color: Colors.white.withOpacity(0.3)),
+              color: Colors.white.withOpacity(0.3), // 반투명 배경색
+              borderRadius: BorderRadius.circular(16.0), // 모서리 둥글게
+              border: Border.all(
+                color: Colors.white.withOpacity(0.5), // 테두리 색상
+                width: 1.0,
+              ),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

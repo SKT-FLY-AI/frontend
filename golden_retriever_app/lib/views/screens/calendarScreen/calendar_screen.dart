@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../data/images_list.dart';
+import '../../widgets/rive_background.dart';
 import 'components/calendar_header.dart';
 import 'components/calendar_grid.dart';
 import '../../widgets/custom_bottom_navigation_bar.dart';
@@ -160,7 +161,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       padding: EdgeInsets.symmetric(horizontal: contextWidth * 0.5, vertical: contextHeight * 0.1),
       margin: EdgeInsets.symmetric(vertical: contextHeight * 0.1),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.15), // 투명도 조정
+        color: color.withOpacity(0.25), // 투명도 조정
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Row(
@@ -207,6 +208,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     return CupertinoPageScaffold(
       child: Stack(
         children: [
+          const RiveBackground(), // 애니메이션 배경 추가
           SingleChildScrollView(
             child: Column(
               children: [

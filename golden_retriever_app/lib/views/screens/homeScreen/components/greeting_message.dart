@@ -39,7 +39,7 @@ class GreetingMessage extends StatelessWidget {
           shadows: [
             Shadow(
               offset: Offset(2.0, 2.0), // 그림자의 위치
-              blurRadius: 8.0, // 그림자의 블러 정도
+              blurRadius: 10.0, // 그림자의 블러 정도
               color: Colors.black.withOpacity(0.5), // 그림자 색상 및 투명도
             ),
           ],

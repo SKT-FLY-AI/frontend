@@ -14,9 +14,17 @@ class CardNewsBox extends StatelessWidget {
     final double contextWidth = MediaQuery.of(context).size.width * 0.1;
 
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: contextHeight * 0.25, horizontal: contextWidth * 0.8),
+      padding: EdgeInsets.symmetric(vertical: contextHeight * 0.25, horizontal: contextWidth * 0.6),
       child: Container(
         height: contextHeight * 2.7,
+        decoration: BoxDecoration(
+          color: Colors.deepPurple.withOpacity(0.3), // 반투명 배경색
+          borderRadius: BorderRadius.circular(16.0), // 모서리 둥글게
+          border: Border.all(
+            color: Colors.white.withOpacity(0.5), // 테두리 색상
+            width: 1.0,
+          ),
+        ),
         child: PageView.builder(
           itemCount: cardnewsList.length, // 카드 뉴스 목록의 길이만큼 페이지를 생성
           itemBuilder: (context, index) {
