@@ -1,12 +1,13 @@
+// lib/views/screens/onboarding/components/login_form.dart
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:golden_retriever_app/views/screens/signup_screen.dart';
 import 'package:rive/rive.dart';
 import '../../entryPoint/entry_point.dart';
-import '../../login_screen.dart';
 
 class SignInForm extends StatefulWidget {
-  const SignInForm({Key? key}) : super(key: key);
+  const SignInForm({super.key});
 
   @override
   State<SignInForm> createState() => _SignInFormState();
@@ -91,50 +92,63 @@ class _SignInFormState extends State<SignInForm> {
 
   @override
   Widget build(BuildContext context) {
+    final double contextHeight = MediaQuery.of(context).size.height * 0.1;
+    final double contextWidth = MediaQuery.of(context).size.height * 0.1;
+
     return Stack(
       children: [
         Form(
           key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: contextWidth * 0.2),
+            child: Column(
             children: [
-
-              // 1) Login - Email 입력
+              /// 이메일 입력창
               CupertinoTextField(
                 controller: emailController,
                 prefix: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: SvgPicture.asset("assets/icons/email_fill.svg"),
+                  padding: EdgeInsets.symmetric(horizontal: contextWidth * 0.2),
+                  // child: SvgPicture.asset("assets/icons/email_fill.svg"),
+                  child: Icon(CupertinoIcons.mail),
                 ),
                 placeholder: "Email",
-                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                style: const TextStyle(fontSize: 18),
+                padding: EdgeInsets.symmetric(
+                    vertical: contextHeight * 0.2,
+                    horizontal: contextWidth * 0.1
+                ),
+                style: TextStyle(fontSize: contextHeight * 0.2),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: Colors.orangeAccent),
                 ),
               ),
 
-              // 2) Login - Password 입력
-              const SizedBox(height: 20),
+              SizedBox(height: contextHeight * 0.2),
+
+              /// 패스워드 입력창
               CupertinoTextField(
                 controller: passwordController,
                 prefix: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: SvgPicture.asset("assets/icons/lock_fill.svg"),
+                  padding: EdgeInsets.symmetric(horizontal: contextWidth * 0.2),
+                  // child: SvgPicture.asset("assets/icons/lock_fill.svg"),
+                  child: Icon(CupertinoIcons.padlock),
                 ),
                 placeholder: "Password",
                 obscureText: true,
-                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-                style: const TextStyle(fontSize: 18),
+                padding: EdgeInsets.symmetric(
+                    vertical: contextHeight * 0.2,
+                    horizontal: contextWidth * 0.1
+                ),
+                style: TextStyle(fontSize: contextHeight * 0.2),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: Colors.orangeAccent),
                 ),
               ),
 
-              // 3) Login - 로그인 버튼
-              const SizedBox(height: 20),
+              SizedBox(height: contextHeight * 0.5),
+
+              /// 로그인 버튼
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -150,7 +164,7 @@ class _SignInFormState extends State<SignInForm> {
                   ],
                 ),
                 child: CupertinoButton(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  padding: EdgeInsets.symmetric(vertical: contextHeight * 0.15),
                   child: const Text(
                     "LOGIN",
                     style: TextStyle(
@@ -164,48 +178,21 @@ class _SignInFormState extends State<SignInForm> {
                   },
                 ),
               ),
-              const SizedBox(height: 10),
-              Center(
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginScreen(),
-                      ),
-                    );
-                  },
-                  child: const Text.rich(
-                    TextSpan(
-                      text: "아직 회원이 아니신가요? ",
-                      children: [
-                        TextSpan(
-                          text: "회원 가입",
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
             ],
+          ),)
+        ),
+      if (isShowLoading)
+        const Center(
+          child: CircularProgressIndicator(),
+        ),
+      if (isShowConfetti)
+        Positioned.fill(
+          child: RiveAnimation.asset(
+            "assets/RiveAssets/confetti.riv",
+            onInit: _onConfettiRiveInit,
+            fit: BoxFit.cover,
           ),
         ),
-        if (isShowLoading)
-          const Center(
-            child: CircularProgressIndicator(),
-          ),
-        if (isShowConfetti)
-          Positioned.fill(
-            child: RiveAnimation.asset(
-              "assets/RiveAssets/confetti.riv",
-              onInit: _onConfettiRiveInit,
-              fit: BoxFit.cover,
-            ),
-          ),
       ],
     );
   }

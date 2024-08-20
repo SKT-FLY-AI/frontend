@@ -27,15 +27,6 @@ class LoginService {
     }
   }
 
-  // class User {
-  //   String user_id;
-  //   BCTLogs bctlogs;
-  // }
-  //
-  // class BCTLogs {
-  //   DayInfo dayinfo
-  // }
-
   static Future<http.Response?> _sendLoginRequest(
       Uri url, String email, String password) async {
     try {

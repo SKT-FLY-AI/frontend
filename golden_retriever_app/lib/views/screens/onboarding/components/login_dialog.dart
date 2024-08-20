@@ -2,16 +2,22 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../signup_screen.dart';
 import 'login_form.dart';
 
 void showCustomDialog(BuildContext context, {required ValueChanged onValue}) {
+  final double contextHeight = MediaQuery.of(context).size.height * 0.1;
+  final double contextWidth = MediaQuery.of(context).size.width * 0.1;
+
   showCupertinoDialog(
     context: context,
     builder: (_) => Center(
       child: Container(
-        height: 500,
-        margin: const EdgeInsets.symmetric(horizontal: 16),
-        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
+        // height: 500,
+        margin: EdgeInsets.symmetric(
+          vertical: contextHeight * 1.7,
+          horizontal: contextWidth * 0.6,
+        ),
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.2),
           borderRadius: BorderRadius.circular(20),
@@ -27,6 +33,7 @@ void showCustomDialog(BuildContext context, {required ValueChanged onValue}) {
                 clipBehavior: Clip.none,
                 children: [
                   Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
                         "✦ LOGIN PAGE ✦",
@@ -34,25 +41,29 @@ void showCustomDialog(BuildContext context, {required ValueChanged onValue}) {
                           fontSize: 30,
                           fontFamily: "Poppins",
                           fontWeight: FontWeight.w600,
-                          color: Colors.black54,
+                          color: Colors.black,
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 20),
+                      Padding(
+                        padding: EdgeInsets.only(top: contextHeight * 0.2, bottom: contextHeight * 0.5),
                         child: Text(
                           "우리 같이 PoopSee해용~♥",
                           textAlign: TextAlign.center,
+                          style: TextStyle(fontWeight: FontWeight.w500),
                         ),
                       ),
 
-                      const SignInForm(),
-                      const Row(
+                      SignInForm(),
+
+                      /// OR 디바이더
+                      Row(
                         children: [
-                          Expanded(
-                            child: Divider(),
-                          ),
+                          Expanded(child: Divider(),),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: contextWidth * 0.2,
+                                vertical: contextHeight * 0.5
+                            ),
                             child: Text(
                               "OR",
                               style: TextStyle(
@@ -64,20 +75,48 @@ void showCustomDialog(BuildContext context, {required ValueChanged onValue}) {
                           Expanded(child: Divider()),
                         ],
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          IconButton(
-                            onPressed: () {},
-                            padding: EdgeInsets.zero,
-                            icon: SvgPicture.asset(
-                              "assets/icons/google_box.svg",
-                              height: 64,
-                              width: 64,
+
+                      /// 회원가입 이동
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SignupScreen(),
                             ),
+                          );
+                        },
+                        child: const Text.rich(
+                          TextSpan(
+                            text: "아직 회원이 아니신가요?  ",
+                            children: [
+                              TextSpan(
+                                text: "회원 가입",
+                                style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
+
+                      /// 아마도 소셜 로그인?
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      //   children: [
+                      //     IconButton(
+                      //       onPressed: () {},
+                      //       padding: EdgeInsets.zero,
+                      //       icon: SvgPicture.asset(
+                      //         "assets/icons/google_box.svg",
+                      //         height: 64,
+                      //         width: 64,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                     ],
                   ),
                 ],
