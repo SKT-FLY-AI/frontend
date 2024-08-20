@@ -1,6 +1,7 @@
 /// lib/views/widgets/custom_bottom_navigation_bar.dart
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../screens/calendarScreen/calendar_screen.dart';
 import '../screens/camera_screen.dart';
@@ -125,11 +126,11 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       alignment: Alignment.bottomCenter,
       children: [
         Container(
-          color: CupertinoColors.systemGrey6, // 원하는 색상 지정
+          color: Colors.white.withOpacity(0.7), // 원하는 색상 지정
           child: Padding(
             padding: EdgeInsets.symmetric(vertical: contextHeight * 0.15, horizontal: 10.0),
             child: CupertinoTabBar(
-              backgroundColor: CupertinoColors.systemGrey6,
+              backgroundColor: Colors.white.withOpacity(0),
               items: _buildTabBarItems(),
               onTap: (index) {
                 if (index == 0) {
@@ -140,7 +141,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               },
               currentIndex: widget.currentIndex,
               iconSize: contextHeight * 0.35,
-              border: Border(top: BorderSide(color: CupertinoColors.systemGrey6)),
+              border: Border(top: BorderSide(color: Colors.white.withOpacity(0))),
             ),
           ),
         ),
@@ -151,8 +152,12 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             padding: EdgeInsets.zero,
             child: Container(
               decoration: BoxDecoration(
-                color: CupertinoColors.activeOrange,
+                color: Colors.orange.withOpacity(0.9),
                 shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.white.withOpacity(0.5), // 테두리 색상
+                  width: 1.0,
+                ),
               ),
               padding: EdgeInsets.all(contextHeight * 0.25),
               child: Icon(
