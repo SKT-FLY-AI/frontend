@@ -4,16 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../widgets/custom_bottom_navigation_bar.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends StatelessWidget {
+  final String? username;
+
   const ProfileScreen({
     super.key,
+    required this.username,
   });
 
-  @override
-  _ProfileScreenState createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final double contextHeight = MediaQuery.of(context).size.height * 0.1;
@@ -42,7 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "username",
+                            username!,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,

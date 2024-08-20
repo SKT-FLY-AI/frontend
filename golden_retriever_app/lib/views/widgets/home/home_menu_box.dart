@@ -54,8 +54,13 @@ class HomeMenuBox extends StatelessWidget {
 
 class HomeMenuBoxGrid extends StatelessWidget {
   final int itemCount;
+  final String? username;
 
-  HomeMenuBoxGrid({super.key, required this.itemCount});
+  HomeMenuBoxGrid({
+    super.key,
+    required this.itemCount,
+    required this.username,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +112,7 @@ class HomeMenuBoxGrid extends StatelessWidget {
           Navigator.push(
             context,
             CupertinoPageRoute(
-              builder: (context) => ProfileScreen(),
+              builder: (context) => ProfileScreen(username: username),
             ),
           );
         },

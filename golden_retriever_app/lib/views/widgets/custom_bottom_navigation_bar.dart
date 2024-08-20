@@ -30,16 +30,10 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   @override
   void initState() {
     super.initState();
-    _loadUsername();
+    loadUsername();
   }
 
-  // @override
-  // void dispose() {
-  //   _tabController.dispose();
-  //   super.dispose();
-  // }
-
-  Future<void> _loadUsername() async {
+  Future<void> loadUsername() async {
     final username = await _storage.read(key: 'username');
     setState(() {  // UI 갱신
       _username = username;
@@ -87,7 +81,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         Navigator.pushReplacement(
           context,
           CupertinoPageRoute(
-            builder: (context) => const ProfileScreen(),
+            builder: (context) => ProfileScreen(username: _username),
           ),
         );
         break;

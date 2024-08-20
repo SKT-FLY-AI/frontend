@@ -27,7 +27,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: [
               GreetingMessage(username: username),
-              HomeMenuBoxGrid(itemCount: 4),
+              HomeMenuBoxGrid(itemCount: 4, username: username),
               CardNewsBox(), // 카드 뉴스 위젯
               SizedBox(height: contextHeight * 0.2),
               WeeklyProgress(), // 주간 진행 상태 위젯
