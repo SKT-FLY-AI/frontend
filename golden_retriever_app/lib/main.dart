@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'views/screens/login_screen.dart';
 import 'views/screens/onboarding/onboarding_screen.dart';
 
 void main() {
@@ -12,26 +11,12 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return CupertinoApp(
-  //     theme: _buildTheme(),
-  //     home: const LoginScreen(),
-  //   );
-  // }
-  //
-  // CupertinoThemeData _buildTheme() {
-  //   return const CupertinoThemeData(
-  //     primaryColor: CupertinoColors.activeOrange,
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        scaffoldBackgroundColor: Color(0xFFEEF1F8),
-        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.orangeAccent,
+        primarySwatch: Colors.purple,
         fontFamily: "Intel",
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
@@ -51,7 +36,7 @@ class MyApp extends StatelessWidget {
 const defaultInputBorder = OutlineInputBorder(
   borderRadius: BorderRadius.all(Radius.circular(16)),
   borderSide: BorderSide(
-    color: Color(0xFFDEE3F2),
+    color: Colors.orange,
     width: 1,
   ),
 );

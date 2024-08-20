@@ -1,7 +1,8 @@
+// lib/views/screens/onboarding/components/login_dialog.dart
+
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../signup_screen.dart';
 import 'login_form.dart';
 
@@ -13,7 +14,6 @@ void showCustomDialog(BuildContext context, {required ValueChanged onValue}) {
     context: context,
     builder: (_) => Center(
       child: Container(
-        // height: 500,
         margin: EdgeInsets.symmetric(
           vertical: contextHeight * 1.7,
           horizontal: contextWidth * 0.6,
@@ -53,7 +53,7 @@ void showCustomDialog(BuildContext context, {required ValueChanged onValue}) {
                         ),
                       ),
 
-                      SignInForm(),
+                      LoginScreen(),
 
                       /// OR 디바이더
                       Row(
@@ -61,7 +61,7 @@ void showCustomDialog(BuildContext context, {required ValueChanged onValue}) {
                           Expanded(child: Divider(),),
                           Padding(
                             padding: EdgeInsets.symmetric(
-                                horizontal: contextWidth * 0.2,
+                                horizontal: contextWidth * 0.5,
                                 vertical: contextHeight * 0.5
                             ),
                             child: Text(
