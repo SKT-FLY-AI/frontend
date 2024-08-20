@@ -6,7 +6,7 @@ import 'package:rive/rive.dart';
 import '../../../constants.dart';
 import '../../../controllers/rive_utils.dart';
 import '../../../models/menu.dart';
-import '../home_screen.dart';
+import '../homeScreen/home_screen.dart';
 import 'components/btm_nav_item.dart';
 import 'components/menu_btn.dart';
 import 'components/side_bar.dart';

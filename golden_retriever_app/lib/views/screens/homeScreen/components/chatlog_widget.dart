@@ -1,9 +1,10 @@
-// lib/views/widgets/home/chatlog_widget.dart
+// lib/views/screens/homeScreen/components/chatlog_widget.dart
 
+import 'dart:ui';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:golden_retriever_app/views/screens/chatlog_screen.dart';
-
-import '../screens/hospital_list_screen.dart';
+import '../../hospital_list_screen.dart';
 
 class ChatlogWidget extends StatelessWidget {
   final IconData icon;
@@ -24,27 +25,34 @@ class ChatlogWidget extends StatelessWidget {
     return CupertinoButton(
       padding: EdgeInsets.zero,
       onPressed: onPressed,
-      child: Container(
-        width: contextWidth * 9,
-        height: contextHeight * 1.35,
-        decoration: BoxDecoration(
-          color: CupertinoColors.systemGrey.withOpacity(0.7),
-          borderRadius: BorderRadius.circular(16.0),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: contextHeight * 0.5, color: CupertinoColors.white),
-            SizedBox(height: contextHeight * 0.05),
-            Text(
-              label,
-              style: TextStyle(
-                  fontSize: contextHeight * 0.2,
-                  color: CupertinoColors.white,
-                  fontWeight: FontWeight.w600
-              ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16.0),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+          child: Container(
+            width: contextWidth * 9,
+            height: contextHeight * 1.35,
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2), // 반투명 배경
+              borderRadius: BorderRadius.circular(16.0),
+              border: Border.all(color: Colors.white.withOpacity(0.3)),
             ),
-          ],
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(icon, size: contextHeight * 0.5, color: CupertinoColors.white),
+                SizedBox(height: contextHeight * 0.05),
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: contextHeight * 0.2,
+                    color: CupertinoColors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -92,17 +100,17 @@ class ChatlogWidgetColumn extends StatelessWidget {
       padding: EdgeInsets.symmetric(
         vertical: contextHeight * 0.4,
         horizontal: contextWidth * 0.6,
-      ), // 원하는 패딩 추가
+      ),
       child: Column(
         children: List.generate(itemCount * 2 - 1, (index) {
           if (index.isEven) {
             return ChatlogWidget(
-              icon: children[index ~/ 2 % children.length].icon, // 순환하여 아이템을 선택
+              icon: children[index ~/ 2 % children.length].icon,
               label: children[index ~/ 2 % children.length].label,
               onPressed: children[index ~/ 2 % children.length].onPressed,
             );
           } else {
-            return SizedBox(height: contextHeight * 0.2); // 위젯 사이에 10픽셀 간격 추가
+            return SizedBox(height: contextHeight * 0.2);
           }
         }),
       ),

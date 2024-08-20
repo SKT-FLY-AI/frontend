@@ -53,7 +53,7 @@ void showCustomDialog(BuildContext context, {required ValueChanged onValue}) {
                         ),
                       ),
 
-                      LoginScreen(),
+                      const LoginScreen(),
 
                       /// OR 디바이더
                       Row(
@@ -101,22 +101,6 @@ void showCustomDialog(BuildContext context, {required ValueChanged onValue}) {
                           ),
                         ),
                       ),
-
-                      /// 아마도 소셜 로그인?
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //   children: [
-                      //     IconButton(
-                      //       onPressed: () {},
-                      //       padding: EdgeInsets.zero,
-                      //       icon: SvgPicture.asset(
-                      //         "assets/icons/google_box.svg",
-                      //         height: 64,
-                      //         width: 64,
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
                     ],
                   ),
                 ],

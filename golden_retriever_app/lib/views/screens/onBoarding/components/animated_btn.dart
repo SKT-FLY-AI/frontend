@@ -15,6 +15,8 @@ class AnimatedBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double contextWidth = MediaQuery.of(context).size.width * 0.1;
+
     return GestureDetector(
       onTap: press,
       child: SizedBox(
@@ -33,9 +35,9 @@ class AnimatedBtn extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Icon(CupertinoIcons.arrow_right),
-                  const SizedBox(width: 8),
+                  SizedBox(width: contextWidth * 0.5),
                   Text(
-                    "바로~ 시작하기",
+                    "시작하기",
                     style: Theme.of(context).textTheme.labelLarge,
                   )
                 ],

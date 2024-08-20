@@ -1,3 +1,5 @@
+// lib/views/screens/onBoarding/onboarding_screen.dart
+
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart' hide Image;
@@ -138,10 +140,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
                             height: 1.2,
                           ),
                         ),
-                        SizedBox(height: 16),
-                        Text(
-                          "하이루!! 모두모두 혼또니 반가워!!\nHello 들어와줘서 아리가또야.~",
-                        ),
+                        // SizedBox(height: 16),
+                        // Text(
+                        //   "하이루!! 모두모두 혼또니 반가워!!\nHello 들어와줘서 아리가또야.~",
+                        // ),
                       ],
                     ),
                   ),

@@ -1,12 +1,11 @@
 // lib/views/screens/home_screen.dart
 
 import 'package:flutter/cupertino.dart';
-import '../widgets/home/cardnews_box.dart';
-import '../widgets/chatlog_widget.dart';
-import '../widgets/home/greeting_message.dart';
-import '../widgets/home/home_menu_box.dart';
-import '../widgets/home/weekly_progress.dart';
-import '../widgets/home/badge_box.dart';
+import 'components/chatlog_widget.dart';
+import 'components/cardnews_box.dart';
+import 'components/greeting_message.dart';
+import 'components/home_menu_box.dart';
+import 'components/weekly_badge_widget.dart';
 
 // 홈 화면을 나타내는 클래스
 class HomeScreen extends StatelessWidget {
@@ -41,3 +40,4 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+

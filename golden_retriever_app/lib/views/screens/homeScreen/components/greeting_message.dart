@@ -1,7 +1,7 @@
 // lib/views/widgets/home/greeting_message.dart
 
-// 사용자에게 환영 메시지를 표시하는 위젯
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class GreetingMessage extends StatelessWidget {
   final String? username;
@@ -23,16 +23,26 @@ class GreetingMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double size = MediaQuery.of(context).size.width * 0.4;
+    final double contextHeight = MediaQuery.of(context).size.height * 0.1;
+    final double contextWidth = MediaQuery.of(context).size.width * 0.1;
 
     final greeting = _getGreeting();
     return Padding(
       padding: EdgeInsets.only(top: size * 0.3, bottom: size * 0.2),
       child: Text(
         '$username 님,\n$greeting',
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 28,
           fontWeight: FontWeight.bold,
-          color: CupertinoColors.black,
+          color: CupertinoColors.white,
+          decoration: TextDecoration.none, // 밑줄 제거
+          shadows: [
+            Shadow(
+              offset: Offset(2.0, 2.0), // 그림자의 위치
+              blurRadius: 8.0, // 그림자의 블러 정도
+              color: Colors.black.withOpacity(0.5), // 그림자 색상 및 투명도
+            ),
+          ],
         ),
         textAlign: TextAlign.center,
       ),

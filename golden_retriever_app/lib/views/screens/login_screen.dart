@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import '../../services/auth_service/login_service.dart';
 import '../../services/auth_service/auth_service.dart';
 import '../widgets/custom_text_field.dart';
-import 'home_screen.dart';
+import 'homeScreen/home_screen.dart';
 import 'signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
