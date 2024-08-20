@@ -1,5 +1,5 @@
-name: rive_animation
-description: A new Flutter project.
+name: poopsee_hyun
+description: SKT_FLY_AI_GoldenRetriever
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   rive: ^0.9.1
   flutter_svg: ^1.1.6
+
+  flutter_speed_dial: ^4.3.0
 
 dev_dependencies:
   flutter_test:
