@@ -19,12 +19,15 @@ void showCustomDialog(BuildContext context, {required ValueChanged onValue}) {
           horizontal: contextWidth * 0.6,
         ),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.2),
+          color: Colors.white.withOpacity(0.3),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.white.withOpacity(0.3)),
+          border: Border.all(
+            color: Colors.white.withOpacity(0.3),
+            width: 2.0,
+          ),
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(24),
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
             child: Scaffold(
@@ -54,7 +57,7 @@ void showCustomDialog(BuildContext context, {required ValueChanged onValue}) {
                       Padding(
                         padding: EdgeInsets.only(top: contextHeight * 0.2, bottom: contextHeight * 0.5),
                         child: Text(
-                          "우리 같이 PoopSee해용~♥",
+                          "우리 같이 Poopy해용~♥",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.w500,

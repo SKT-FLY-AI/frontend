@@ -1,4 +1,4 @@
-// lib/screens/chatbot_screen.dart
+// lib/views/screens/chatbot_screen.dart
 
 import 'package:flutter/cupertino.dart';
 import '../../services/chatbot/chatbot_service.dart';

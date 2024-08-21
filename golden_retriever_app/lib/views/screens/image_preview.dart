@@ -1,12 +1,114 @@
-// lib/screens/image_preview.dart
+// // lib/views/screens/image_preview.dart
+//
+// import 'package:flutter/cupertino.dart';
+// import 'dart:io';
+// import '../../services/image_upload_service.dart';
+// import '../../services/dialog_service.dart';
+// import '../../services/chatbot/chatbot_service.dart';
+// import 'calendarScreen/calendar_screen.dart';
+//
+// class ImagePreview extends StatelessWidget {
+//   final String imagePath;
+//
+//   const ImagePreview({
+//     super.key,
+//     required this.imagePath,
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return CupertinoPageScaffold(
+//       navigationBar: CupertinoNavigationBar(
+//         middle: const Text('이미지 미리보기'),
+//         trailing: CupertinoButton(
+//           padding: EdgeInsets.zero,
+//           child: const Icon(CupertinoIcons.check_mark_circled),
+//           onPressed: () async {
+//             await _uploadImage(context, imagePath);
+//           },
+//         ),
+//       ),
+//       child: Center(
+//         child: Image.file(
+//           File(imagePath),
+//           fit: BoxFit.cover,
+//         ),
+//       ),
+//     );
+//   }
+//
+//   Future<void> _uploadImage(BuildContext context, String filePath) async {
+//     showLoadingDialog(context); // 로딩 다이얼로그 표시
+//
+//     try {
+//       final response = await sendImageUploadRequest(filePath);
+//       Navigator.pop(context); // 로딩 다이얼로그 닫기
+//
+//       if (response.statusCode == 200) {
+//         showUploadResultDialog(context, '이미지가 성공적으로 업로드되었습니다.');
+//       } else {
+//         showUploadResultDialog(context, '이미지 업로드 실패: ${response.reasonPhrase}');
+//       }
+//     } catch (e) {
+//       Navigator.pop(context); // 로딩 다이얼로그 닫기
+//       showUploadResultDialog(context, '이미지 업로드 중 오류 발생: $e');
+//     }
+//   }
+//
+//   void showUploadResultDialog(BuildContext context, String message) {
+//     showCupertinoDialog(
+//       context: context,
+//       builder: (context) {
+//         return CupertinoAlertDialog(
+//           title: const Text('업로드 결과'),
+//           content: Text(message),
+//           actions: [
+//             CupertinoDialogAction(
+//               child: const Text('확인'),
+//               onPressed: () {
+//                 Navigator.pop(context); // 결과 다이얼로그 닫기
+//                 _navigateToCalendarAndShowChatbotOrCongrats(context);
+//               },
+//             ),
+//           ],
+//         );
+//       },
+//     );
+//   }
+//
+//   void _navigateToCalendarAndShowChatbotOrCongrats(BuildContext context) async {
+//     Navigator.pop(context); // 이미지 미리보기 화면 닫기
+//
+//     // 캘린더 화면으로 이동 (가정: CalendarScreen이 존재함)
+//     Navigator.pushReplacement(
+//       context,
+//       CupertinoPageRoute(builder: (context) => CalendarScreen()), // 캘린더 화면으로 네비게이트
+//     );
+//
+//     // 약간의 지연을 추가하여 캘린더 탭이 완전히 로드되도록 함
+//     await Future.delayed(const Duration(milliseconds: 300));
+//
+//     // 챗봇 표시 여부 확인 후 적절한 동작 수행
+//     bool shouldShow = await shouldShowChatbot();
+//
+//     if (shouldShow) {
+//       showChatbotDialog(context); // 챗봇 다이얼로그 표시
+//     } else {
+//       showCongratsDialog(context); // Congrats 팝업 표시
+//     }
+//   }
+// }
+
+
 
 import 'package:flutter/cupertino.dart';
 import 'dart:io';
 import '../../services/image_upload_service.dart';
 import '../../services/dialog_service.dart';
 import '../../services/chatbot/chatbot_service.dart';
+import 'calendarScreen/calendar_screen.dart';
 
-class ImagePreview extends StatelessWidget {
+class ImagePreview extends StatefulWidget {
   final String imagePath;
 
   const ImagePreview({
@@ -14,6 +116,11 @@ class ImagePreview extends StatelessWidget {
     required this.imagePath,
   });
 
+  @override
+  _ImagePreviewState createState() => _ImagePreviewState();
+}
+
+class _ImagePreviewState extends State<ImagePreview> {
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -23,13 +130,13 @@ class ImagePreview extends StatelessWidget {
           padding: EdgeInsets.zero,
           child: const Icon(CupertinoIcons.check_mark_circled),
           onPressed: () async {
-            await _uploadImage(context, imagePath);
+            await _uploadImage(context, widget.imagePath);
           },
         ),
       ),
       child: Center(
         child: Image.file(
-          File(imagePath),
+          File(widget.imagePath),
           fit: BoxFit.cover,
         ),
       ),
@@ -78,15 +185,25 @@ class ImagePreview extends StatelessWidget {
   void _navigateToCalendarAndShowChatbotOrCongrats(BuildContext context) async {
     Navigator.pop(context); // 이미지 미리보기 화면 닫기
 
+    // 캘린더 화면으로 이동 (가정: CalendarScreen이 존재함)
+    Navigator.pushReplacement(
+      context,
+      CupertinoPageRoute(builder: (context) => CalendarScreen()), // 캘린더 화면으로 네비게이트
+    );
+
     // 약간의 지연을 추가하여 캘린더 탭이 완전히 로드되도록 함
     await Future.delayed(const Duration(milliseconds: 300));
+
+    // 위젯이 여전히 활성 상태인지 확인
+    if (!mounted) return;
 
     // 챗봇 표시 여부 확인 후 적절한 동작 수행
     bool shouldShow = await shouldShowChatbot();
 
-    if (shouldShow) {
+    // 위젯이 여전히 활성 상태인지 확인 후 네비게이션 수행
+    if (shouldShow && mounted) {
       showChatbotDialog(context); // 챗봇 다이얼로그 표시
-    } else {
+    } else if (mounted) {
       showCongratsDialog(context); // Congrats 팝업 표시
     }
   }

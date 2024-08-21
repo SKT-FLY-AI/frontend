@@ -132,7 +132,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
                           ),
                         ),
                         Text(
-                          "We are\nPoopSee!",
+                          "We are\nPoopy!",
                           style: TextStyle(
                             fontSize: contextWidth * 1.5,
                             fontWeight: FontWeight.w700,

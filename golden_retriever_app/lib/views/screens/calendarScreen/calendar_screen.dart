@@ -92,7 +92,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
     );
   }
 
-
   /// 하단: 선택된 날짜의 세부 상태
   Widget _buildSelectedDateDetails(BuildContext context) {
     final double contextHeight = MediaQuery.of(context).size.height * 0.1;
@@ -114,7 +113,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(vertical: contextHeight * 0.1, horizontal: contextWidth * 0.01),
+                padding: EdgeInsets.symmetric(
+                    vertical: contextHeight * 0.1,
+                    horizontal: contextWidth * 0.01
+                ),
                 child: Text(
                   _dateFormat.format(_selectedDate),
                   style: TextStyle(

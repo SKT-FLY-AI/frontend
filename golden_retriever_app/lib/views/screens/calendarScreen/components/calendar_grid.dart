@@ -1,6 +1,7 @@
-// // lib/views/widgets/calendar/calendar_grid.dart
+// // lib/views/screens/calendarScreen/components/calendar_grid.dart
 //
 // import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
 // import '../../../data/images_list.dart';
 //
 // class CalendarGrid extends StatelessWidget {
@@ -25,24 +26,68 @@
 //     return List.generate(42, (index) => startDate.add(Duration(days: index)));
 //   }
 //
-//   Widget _buildDayCell(DateTime date) {
+//   Widget _buildDayCell(BuildContext context, DateTime date) {
 //     final bool isInMonth = date.month == focusedDate.month;
 //     final bool isSelected = _isSelectedDate(date);
+//     final bool isToday = _isToday(date);
+//
+//     if (!isInMonth) {
+//       return const SizedBox.shrink(); // 다른 달의 날짜는 빈 위젯을 반환
+//     }
+//
+//     // 현재 화면의 너비와 높이를 기준으로 아이콘과 텍스트 크기를 조정
+//     final double iconSize = MediaQuery.of(context).size.width * 0.07; // 아이콘 크기 화면 너비의 7%
+//     final double fontSize = MediaQuery.of(context).size.width * 0.04; // 텍스트 크기 화면 너비의 4%
 //
 //     return CupertinoButton(
-//       padding: EdgeInsets.zero, // padding을 0으로 설정하여 셀 크기를 유지
-//       onPressed: () => onDateSelected(date), // 날짜 선택 콜백
+//       padding: EdgeInsets.zero,
+//       onPressed: () => onDateSelected(date),
 //       child: Container(
 //         alignment: Alignment.center,
-//         decoration: BoxDecoration(
-//           shape: BoxShape.circle,
-//           color: _getDayBackgroundColor(date, isInMonth, isSelected),
-//         ),
-//         child: Text(
-//           date.day.toString(),
-//           style: TextStyle(
-//             color: _getDayTextColor(isInMonth, isSelected), // 텍스트 색상
-//           ),
+//         child: Stack(
+//           children: [
+//             if (isToday) // 오늘 날짜인 경우 회색 원 표시
+//               Container(
+//                 alignment: Alignment.center,
+//                 decoration: BoxDecoration(
+//                   shape: BoxShape.circle,
+//                   color: Colors.grey.withOpacity(0.7), // 회색 배경
+//                 ),
+//               ),
+//             if (isSelected) // 선택된 날짜일 경우 주황색 원이 더 위에 표시
+//               Container(
+//                 alignment: Alignment.center,
+//                 decoration: const BoxDecoration(
+//                   shape: BoxShape.circle,
+//                   color: CupertinoColors.activeOrange, // 주황색 배경
+//                 ),
+//               ),
+//             Align(
+//               alignment: FractionalOffset.topLeft,
+//               child: Padding(
+//                 padding: EdgeInsets.all(iconSize * 0.2), // 패딩 크기를 아이콘 크기에 비례하여 조정
+//                 child: Text(
+//                   date.day.toString(),
+//                   style: TextStyle(
+//                     color: Colors.white,
+//                     fontSize: fontSize, // 동적 폰트 크기
+//                   ),
+//                 ),
+//               ),
+//             ),
+//             if (_hasMatchingImage(date))
+//               Align(
+//                 alignment: FractionalOffset.bottomRight,
+//                 child: Padding(
+//                   padding: EdgeInsets.all(iconSize * 0.1), // 패딩 크기를 아이콘 크기에 비례하여 조정
+//                   child: Image.asset(
+//                     'assets/icons/poop.png',
+//                     height: iconSize, // 동적 아이콘 크기
+//                     color: _getIconColor(date),
+//                   ),
+//                 ),
+//               ),
+//           ],
 //         ),
 //       ),
 //     );
@@ -54,12 +99,22 @@
 //         selectedDate.day == date.day;
 //   }
 //
-//   Color _getDayBackgroundColor(DateTime date, bool isInMonth, bool isSelected) {
-//     if (!isInMonth) {
-//       return CupertinoColors.systemGrey4;
-//     }
+//   bool _isToday(DateTime date) {
+//     final today = DateTime.now();
+//     return today.year == date.year &&
+//         today.month == date.month &&
+//         today.day == date.day;
+//   }
 //
-//     // 해당 날짜와 매칭되는 첫 번째 ImagesData를 찾음
+//   bool _hasMatchingImage(DateTime date) {
+//     return imagesList.any(
+//           (image) => DateTime.parse(image.uploadTime).year == date.year &&
+//           DateTime.parse(image.uploadTime).month == date.month &&
+//           DateTime.parse(image.uploadTime).day == date.day,
+//     );
+//   }
+//
+//   Color _getIconColor(DateTime date) {
 //     final matchingImage = imagesList.firstWhere(
 //           (image) => DateTime.parse(image.uploadTime).year == date.year &&
 //           DateTime.parse(image.uploadTime).month == date.month &&
@@ -67,35 +122,53 @@
 //       orElse: () => ImagesData(pooColor: "#FFFFFF", uploadTime: ''),
 //     );
 //
-//     if (matchingImage.pooColor != null) {
-//       return Color(int.parse(matchingImage.pooColor!.substring(1), radix: 16) + 0xFF000000);
-//     }
-//
-//     return isSelected ? CupertinoColors.activeOrange : CupertinoColors.white;
-//   }
-//
-//   Color _getDayTextColor(bool isInMonth, bool isSelected) {
-//     if (!isInMonth) {
-//       return CupertinoColors.systemGrey;
-//     }
-//     return isSelected ? CupertinoColors.activeOrange : CupertinoColors.black;
+//     return Color(int.parse(matchingImage.pooColor!.substring(1), radix: 16) + 0xFF000000);
 //   }
 //
 //   @override
 //   Widget build(BuildContext context) {
-//     final days = _generateDaysForGrid();
+//     final double contextHeight = MediaQuery.of(context).size.height * 0.1;
 //
-//     return GridView.builder(
-//       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-//         crossAxisCount: 7,
-//         mainAxisSpacing: 6.0,
-//         crossAxisSpacing: 6.0,
-//       ),
-//       itemCount: days.length,
-//       itemBuilder: (context, index) => _buildDayCell(days[index]),
-//       padding: EdgeInsets.zero,
-//       shrinkWrap: true,
-//       physics: const NeverScrollableScrollPhysics(),
+//     final days = _generateDaysForGrid();
+//     final dayLabels = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+//
+//     return Column(
+//       children: [
+//         Padding(
+//           padding: EdgeInsets.only(bottom: contextHeight * 0.25),
+//           child: Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: dayLabels.map((label) =>
+//                 Expanded(
+//                   child: Container(
+//                     alignment: Alignment.center,
+//                     child: Text(
+//                       label,
+//                       style: TextStyle(
+//                         fontSize: contextHeight * 0.15,
+//                         fontWeight: FontWeight.bold,
+//                         color: CupertinoColors.secondaryLabel,
+//                         decoration: TextDecoration.none,
+//                       ),
+//                     ),
+//                   ),
+//                 ),
+//             ).toList(),
+//           ),
+//         ),
+//         GridView.builder(
+//           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+//             crossAxisCount: 7,
+//             mainAxisSpacing: 6.0,
+//             crossAxisSpacing: 6.0,
+//           ),
+//           itemCount: days.length,
+//           itemBuilder: (context, index) => _buildDayCell(context, days[index]),
+//           padding: EdgeInsets.zero,
+//           shrinkWrap: true,
+//           physics: const NeverScrollableScrollPhysics(),
+//         ),
+//       ],
 //     );
 //   }
 // }
@@ -103,6 +176,7 @@
 
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import '../../../data/images_list.dart';
 
 class CalendarGrid extends StatelessWidget {
@@ -127,24 +201,67 @@ class CalendarGrid extends StatelessWidget {
     return List.generate(42, (index) => startDate.add(Duration(days: index)));
   }
 
-  Widget _buildDayCell(DateTime date) {
+  Widget _buildDayCell(BuildContext context, DateTime date) {
     final bool isInMonth = date.month == focusedDate.month;
     final bool isSelected = _isSelectedDate(date);
+    final bool isToday = _isToday(date);
+
+    if (!isInMonth) {
+      return const SizedBox.shrink(); // 다른 달의 날짜는 빈 위젯을 반환
+    }
+
+    final double iconSize = MediaQuery.of(context).size.width * 0.07;
+    final double fontSize = MediaQuery.of(context).size.width * 0.04;
 
     return CupertinoButton(
       padding: EdgeInsets.zero,
       onPressed: () => onDateSelected(date),
       child: Container(
         alignment: Alignment.center,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: _getDayBackgroundColor(date, isInMonth, isSelected),
-        ),
-        child: Text(
-          date.day.toString(),
-          style: TextStyle(
-            color: _getDayTextColor(isInMonth, isSelected),
-          ),
+        child: Stack(
+          children: [
+            if (isToday)
+              Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.grey.withOpacity(0.7),
+                ),
+              ),
+            if (isSelected)
+              Container(
+                alignment: Alignment.center,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: CupertinoColors.activeOrange,
+                ),
+              ),
+            Align(
+              alignment: FractionalOffset.topLeft,
+              child: Padding(
+                padding: EdgeInsets.all(iconSize * 0.2),
+                child: Text(
+                  date.day.toString(),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: fontSize,
+                  ),
+                ),
+              ),
+            ),
+            if (_hasMatchingImage(date))
+              Align(
+                alignment: FractionalOffset.bottomRight,
+                child: Padding(
+                  padding: EdgeInsets.all(iconSize * 0.1),
+                  child: Image.asset(
+                    'assets/icons/poop.png',
+                    height: iconSize,
+                    color: _getIconColor(date),
+                  ),
+                ),
+              ),
+          ],
         ),
       ),
     );
@@ -156,11 +273,22 @@ class CalendarGrid extends StatelessWidget {
         selectedDate.day == date.day;
   }
 
-  Color _getDayBackgroundColor(DateTime date, bool isInMonth, bool isSelected) {
-    if (!isInMonth) {
-      return CupertinoColors.systemGrey4;
-    }
+  bool _isToday(DateTime date) {
+    final today = DateTime.now();
+    return today.year == date.year &&
+        today.month == date.month &&
+        today.day == date.day;
+  }
 
+  bool _hasMatchingImage(DateTime date) {
+    return imagesList.any(
+          (image) => DateTime.parse(image.uploadTime).year == date.year &&
+          DateTime.parse(image.uploadTime).month == date.month &&
+          DateTime.parse(image.uploadTime).day == date.day,
+    );
+  }
+
+  Color _getIconColor(DateTime date) {
     final matchingImage = imagesList.firstWhere(
           (image) => DateTime.parse(image.uploadTime).year == date.year &&
           DateTime.parse(image.uploadTime).month == date.month &&
@@ -168,18 +296,7 @@ class CalendarGrid extends StatelessWidget {
       orElse: () => ImagesData(pooColor: "#FFFFFF", uploadTime: ''),
     );
 
-    if (matchingImage.pooColor != null) {
-      return Color(int.parse(matchingImage.pooColor!.substring(1), radix: 16) + 0xFF000000);
-    }
-
-    return isSelected ? CupertinoColors.activeOrange : CupertinoColors.white;
-  }
-
-  Color _getDayTextColor(bool isInMonth, bool isSelected) {
-    if (!isInMonth) {
-      return CupertinoColors.systemGrey;
-    }
-    return isSelected ? CupertinoColors.activeOrange : CupertinoColors.black;
+    return Color(int.parse(matchingImage.pooColor!.substring(1), radix: 16) + 0xFF000000);
   }
 
   @override
@@ -202,10 +319,10 @@ class CalendarGrid extends StatelessWidget {
                     child: Text(
                       label,
                       style: TextStyle(
-                        fontSize: contextHeight * 0.15, // 텍스트 사이즈 조금 크게
+                        fontSize: contextHeight * 0.15,
                         fontWeight: FontWeight.bold,
                         color: CupertinoColors.secondaryLabel,
-                        decoration: TextDecoration.none, // 밑줄 제거
+                        decoration: TextDecoration.none,
                       ),
                     ),
                   ),
@@ -213,17 +330,19 @@ class CalendarGrid extends StatelessWidget {
             ).toList(),
           ),
         ),
-        GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 7,
-            mainAxisSpacing: 6.0,
-            crossAxisSpacing: 6.0,
+        Expanded( // 여기서 Flexible을 사용하여 GridView가 차지하는 공간을 유연하게
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 7,
+              mainAxisSpacing: 6.0,
+              crossAxisSpacing: 6.0,
+            ),
+            itemCount: days.length,
+            itemBuilder: (context, index) => _buildDayCell(context, days[index]),
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
           ),
-          itemCount: days.length,
-          itemBuilder: (context, index) => _buildDayCell(days[index]),
-          padding: EdgeInsets.zero,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
         ),
       ],
     );

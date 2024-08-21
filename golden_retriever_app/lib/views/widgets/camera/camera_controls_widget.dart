@@ -1,6 +1,7 @@
 // lib/widgets/camera/camera_controls_widget.dart
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class CameraControlsWidget extends StatelessWidget {
   final VoidCallback onOpenGallery;
@@ -62,9 +63,13 @@ class CameraControlsWidget extends StatelessWidget {
         height: isMainButton ? 80 : 50,
         decoration: BoxDecoration(
           color: isMainButton
-              ? CupertinoColors.activeOrange
-              : CupertinoColors.systemGrey,
+              ? Colors.orange.withOpacity(0.9)
+              : Colors.grey.withOpacity(0.9),
           shape: BoxShape.circle,
+          border: Border.all(
+            color: Colors.white.withOpacity(0.5),
+            width: 0.8,
+          ),
         ),
         child: Icon(
           icon,

@@ -9,7 +9,7 @@ import 'chatbot_api_service.dart'; // 챗봇 API 서비스 임포트
 /// 사용자 상호작용, 조건, 시간 지연 등에 따라 결정 가능
 Future<bool> shouldShowChatbot() async {
   await Future.delayed(const Duration(seconds: 2)); // 2초 대기
-  return true; // 예시로 항상 false 반환
+  return true; // 예시로 항상 true 반환
 }
 
 /// 챗봇을 표시할 조건을 확인하고 챗봇 다이얼로그를 표시하는 함수
@@ -24,14 +24,21 @@ Future<void> checkAndShowChatbot(BuildContext context) async {
 }
 
 /// 챗봇 다이얼로그를 표시하는 함수
+// void showChatbotDialog(BuildContext context) {
+//   showCupertinoDialog(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return CupertinoPageScaffold(
+//         child: ChatbotScreen(), // 챗봇 화면 표시
+//       );
+//     },
+//   );
+// }
 void showChatbotDialog(BuildContext context) {
-  showCupertinoDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return CupertinoPageScaffold(
-        child: ChatbotScreen(), // 챗봇 화면 표시
-      );
-    },
+  print("Attempting to show chatbot dialog");
+  Navigator.push(
+    context,
+    CupertinoPageRoute(builder: (context) => ChatbotScreen()), // 챗봇 화면을 새로운 페이지로 푸시
   );
 }
 

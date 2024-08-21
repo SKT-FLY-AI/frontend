@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:rive/rive.dart' hide Image;
 
 class RiveBackground extends StatelessWidget {
-  const RiveBackground({Key? key}) : super(key: key);
+  const RiveBackground({super.key});
 
   @override
   Widget build(BuildContext context) {

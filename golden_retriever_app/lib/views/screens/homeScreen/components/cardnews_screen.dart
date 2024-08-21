@@ -39,9 +39,12 @@ class CardnewsScreen extends StatelessWidget {
               filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0), // 블러 효과 적용
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2), // 반투명 배경
+                  color: Colors.grey.withOpacity(0.2), // 반투명 배경
                   borderRadius: BorderRadius.circular(16.0),
-                  border: Border.all(color: Colors.white.withOpacity(0.3)), // 테두리
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.3), // 테두리 색상
+                    width: 2.0,
+                  ),
                 ),
                 padding: EdgeInsets.symmetric(
                     vertical: contextHeight * 0.4,

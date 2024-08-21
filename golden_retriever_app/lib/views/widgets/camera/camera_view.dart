@@ -12,12 +12,12 @@ class CameraView extends StatelessWidget {
   final VoidCallback onToggleCamera;
 
   const CameraView({
-    Key? key,
+    super.key,
     required this.controller,
     required this.onOpenGallery,
     required this.onTakePicture,
     required this.onToggleCamera,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
