@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../models/data/images_list.dart';
 import '../../custom_bottom_navigation_bar.dart';
+import '../../expandable_fab.dart';
 import '../../rive_background.dart';
 import 'components/calendar_header.dart';
 import 'components/calendar_grid.dart';
@@ -208,6 +209,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
     final double contextHeight = MediaQuery.of(context).size.height * 0.1;
 
     return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        border: null, // 테두리 없음
+        backgroundColor: CupertinoColors.transparent, // 상단바 색상 없음
+      ),
       child: Stack(
         children: [
           const RiveBackground(), // 애니메이션 배경 추가
@@ -222,17 +227,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               ],
             ),
           ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: CustomBottomNavigationBar(
-              currentIndex: 1, // 선택된 탭의 인덱스 설정
-              onTap: (currentIndex) {
-                // 네비게이션을 위한 핸들러 추가
-              },
-            ),
-          ),
+          const GlobalExpandableFab(), // GlobalExpandableFab 추가
         ],
       ),
     );

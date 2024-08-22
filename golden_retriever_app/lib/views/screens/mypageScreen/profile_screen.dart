@@ -2,8 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../../custom_bottom_navigation_bar.dart';
+import '../../expandable_fab.dart';
 import '../../rive_background.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -150,17 +149,7 @@ class ProfileScreen extends StatelessWidget {
               ],
             ),
           ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: CustomBottomNavigationBar(
-              currentIndex: 4,
-              onTap: (currentIndex) {
-                // CustomBottomNavigationBar의 네비게이션 핸들러는 이미 정의되어 있으므로 추가 작업 불필요
-              },
-            ),
-          ),
+          const GlobalExpandableFab(), // GlobalExpandableFab 추가
         ],
       ),
     );

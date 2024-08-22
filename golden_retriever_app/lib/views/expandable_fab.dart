@@ -1,6 +1,10 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:golden_retriever_app/views/screens/calendarScreen/calendar_screen.dart';
+import 'package:golden_retriever_app/views/screens/cameraScreen/camera_screen.dart';
+import 'package:golden_retriever_app/views/screens/mypageScreen/profile_screen.dart';
 
 @immutable
 class ExpandableFab extends StatefulWidget {
@@ -188,10 +192,12 @@ class ActionButton extends StatelessWidget {
     super.key,
     this.onPressed,
     required this.icon,
+    required this.iconSize,
   });
 
   final VoidCallback? onPressed;
   final Widget icon;
+  final double iconSize;
 
   @override
   Widget build(BuildContext context) {
@@ -204,18 +210,41 @@ class ActionButton extends StatelessWidget {
       child: IconButton(
         onPressed: onPressed,
         icon: icon,
+        iconSize: iconSize,
         color: theme.colorScheme.onSecondary,
       ),
     );
   }
 }
 
-class GlobalExpandableFab extends StatelessWidget {
-  const GlobalExpandableFab({Key? key}) : super(key: key);
+class GlobalExpandableFab extends StatefulWidget {
+  const GlobalExpandableFab({super.key});
+
+  @override
+  _GlobalExpandableFabState createState() => _GlobalExpandableFabState();
+}
+
+class _GlobalExpandableFabState extends State<GlobalExpandableFab> {
+  String? _username;
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
+
+  @override
+  void initState() {
+    super.initState();
+    loadUsername();
+  }
+
+  Future<void> loadUsername() async {
+    final username = await _storage.read(key: 'username');
+    setState(() {
+      _username = username;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final double contextHeight = MediaQuery.of(context).size.height * 0.1;
+    final double contextWidth = MediaQuery.of(context).size.width * 0.1;
 
     return Align(
       alignment: Alignment.bottomRight,
@@ -226,24 +255,44 @@ class GlobalExpandableFab extends StatelessWidget {
           children: [
             ActionButton(
               onPressed: () {
-                // FAB 첫 번째 액션
-                print('Create Post');
+                // CalendarScreen으로 이동
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CalendarScreen(),
+                  ),
+                );
               },
-              icon: const Icon(Icons.format_size),
+              icon: const Icon(Icons.calendar_month),
+              iconSize: contextWidth * 0.7,
             ),
             ActionButton(
               onPressed: () {
-                // FAB 두 번째 액션
-                print('Upload Photo');
+                // CameraScreen으로 이동
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CameraScreen(),
+                  ),
+                );
               },
-              icon: const Icon(Icons.insert_photo),
+              icon: const Icon(Icons.camera_alt),
+              iconSize: contextWidth * 0.7,
             ),
             ActionButton(
               onPressed: () {
-                // FAB 세 번째 액션
-                print('Upload Video');
+                // ProfileScreen으로 이동, username 전달
+                if (_username != null) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProfileScreen(username: _username!),
+                    ),
+                  );
+                }
               },
-              icon: const Icon(Icons.videocam),
+              icon: const Icon(Icons.person),
+              iconSize: contextWidth * 0.7,
             ),
           ],
         ),
