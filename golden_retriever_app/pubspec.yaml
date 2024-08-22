@@ -32,7 +32,6 @@ flutter:
   assets:
     - assets/images/
     - assets/images/cardnews/
-    - assets/avatars/
     - assets/Backgrounds/
     - assets/icons/
     - assets/RiveAssets/

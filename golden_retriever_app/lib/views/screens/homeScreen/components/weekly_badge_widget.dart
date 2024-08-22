@@ -54,39 +54,6 @@ class BadgeBox extends StatelessWidget {
   }
 }
 
-class WeeklyProgress extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return _buildGlassyContainer(
-      context: context,
-      title: '이번 주',
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: List.generate(7, (index) {
-            const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
-            return Text(
-              days[index],
-              style: _titleTextStyle(context),
-            );
-          }),
-        ),
-        SizedBox(height: 12.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: List.generate(7, (index) {
-            return Icon(
-              CupertinoIcons.drop_fill,
-              size: 35,
-              color: CupertinoColors.systemBrown,
-            );
-          }),
-        ),
-      ],
-    );
-  }
-}
-
 // 글래스모피즘 컨테이너를 구성하는 함수
 Widget _buildGlassyContainer({
   required BuildContext context,

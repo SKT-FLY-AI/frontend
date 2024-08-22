@@ -4,11 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'screens/calendarScreen/calendar_screen.dart';
-import 'screens/cameraScreen/camera_screen.dart';
-import 'screens/entertainmentScreen/entertainment_screen.dart';
-import 'screens/homeScreen/home_screen.dart';
-import 'screens/mypageScreen/profile_screen.dart';
+import '../calendarScreen/calendar_screen.dart';
+import '../cameraScreen/camera_screen.dart';
+import 'entertainment_screen.dart';
+import '../homeScreen/home_screen.dart';
+import '../mypageScreen/profile_screen.dart';
 
 /// 하단바를 구현한 위젯
 class CustomBottomNavigationBar extends StatefulWidget {

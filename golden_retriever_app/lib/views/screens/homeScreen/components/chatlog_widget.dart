@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:golden_retriever_app/views/screens/chatScreen/chatlog_screen.dart';
+import '../../../test_screen.dart';
 import '../../hospitalScreen/hospital_list_screen.dart';
 
 class ChatlogWidget extends StatelessWidget {
@@ -93,6 +94,18 @@ class ChatlogWidgetColumn extends StatelessWidget {
             context,
             CupertinoPageRoute(
               builder: (context) => HospitalListScreen(),
+            ),
+          );
+        },
+      ),
+      ChatlogWidget(
+        icon: CupertinoIcons.text_cursor,
+        label: 'TEST PAGE',
+        onPressed: () {
+          Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => TestScreen(),
             ),
           );
         },
