@@ -3,7 +3,7 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../signup_screen.dart';
+import '../signup_screen.dart';
 import 'login_form.dart';
 
 void showCustomDialog(BuildContext context, {required ValueChanged onValue}) {
@@ -22,7 +22,7 @@ void showCustomDialog(BuildContext context, {required ValueChanged onValue}) {
           color: Colors.white.withOpacity(0.3),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: Colors.white.withOpacity(0.3),
+            color: Colors.white.withOpacity(0.5),
             width: 2.0,
           ),
         ),

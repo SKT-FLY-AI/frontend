@@ -160,12 +160,11 @@
 
 
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../services/auth_service/register_service.dart';
-import '../widgets/custom_text_field.dart';
-import '../widgets/rive_background.dart';
+import '../../../controllers/auth_service/register_service.dart';
+import '../../custom_text_field.dart';
+import '../../rive_background.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});

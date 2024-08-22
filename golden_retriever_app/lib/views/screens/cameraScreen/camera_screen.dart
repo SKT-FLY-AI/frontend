@@ -3,11 +3,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:camera/camera.dart';
 import 'package:image_picker/image_picker.dart';
+import 'components/camera_service.dart';
+import 'components/gallery_service.dart';
+import 'components/camera_top_bar.dart';
+import 'components/camera_view.dart';
 import 'image_preview.dart';
-import '../widgets/camera/camera_view.dart';
-import '../widgets/camera/camera_top_bar.dart';
-import '../../services/camera_service.dart';
-import '../../services/gallery_service.dart';
 
 class CameraScreen extends StatefulWidget {
   const CameraScreen({super.key,});

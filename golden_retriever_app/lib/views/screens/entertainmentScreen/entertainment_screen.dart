@@ -2,8 +2,9 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../widgets/custom_bottom_navigation_bar.dart';
-import '../widgets/rive_background.dart';
+
+import '../../custom_bottom_navigation_bar.dart';
+import '../../rive_background.dart';
 
 class EntertainmentScreen extends StatelessWidget {
   const EntertainmentScreen({super.key});

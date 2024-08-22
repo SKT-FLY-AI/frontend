@@ -3,7 +3,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
-import '../../../constants.dart';
 import '../../../controllers/rive_utils.dart';
 import '../../../models/menu.dart';
 import '../homeScreen/home_screen.dart';
@@ -66,7 +65,7 @@ class _EntryPointState extends State<EntryPoint>
     return Scaffold(
       extendBody: true,
       resizeToAvoidBottomInset: false,
-      backgroundColor: backgroundColor2,
+      backgroundColor: Color(0xFF17203A),
       body: Stack(
         children: [
           AnimatedPositioned(
@@ -140,11 +139,11 @@ class _EntryPointState extends State<EntryPoint>
             const EdgeInsets.only(left: 12, top: 12, right: 12, bottom: 12),
             margin: const EdgeInsets.symmetric(horizontal: 24),
             decoration: BoxDecoration(
-              color: backgroundColor2.withOpacity(0.8),
+              color: Color(0xFF17203A).withOpacity(0.8),
               borderRadius: const BorderRadius.all(Radius.circular(24)),
               boxShadow: [
                 BoxShadow(
-                  color: backgroundColor2.withOpacity(0.3),
+                  color: Color(0xFF17203A).withOpacity(0.3),
                   offset: const Offset(0, 20),
                   blurRadius: 20,
                 ),

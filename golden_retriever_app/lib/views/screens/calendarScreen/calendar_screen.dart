@@ -4,11 +4,11 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../data/images_list.dart';
-import '../../widgets/rive_background.dart';
+import '../../../models/data/images_list.dart';
+import '../../custom_bottom_navigation_bar.dart';
+import '../../rive_background.dart';
 import 'components/calendar_header.dart';
 import 'components/calendar_grid.dart';
-import '../../widgets/custom_bottom_navigation_bar.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});

@@ -2,7 +2,7 @@
 
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
-import '../../views/screens/chatbot_screen.dart'; // 챗봇 화면 임포트
+import '../../views/screens/chatScreen/chatbot_screen.dart'; // 챗봇 화면 임포트
 import 'chatbot_api_service.dart'; // 챗봇 API 서비스 임포트
 
 /// 챗봇을 표시할지 여부를 결정하는 함수

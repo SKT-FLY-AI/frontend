@@ -2,8 +2,8 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../../services/auth_service/auth_service.dart';
-import '../../../../services/auth_service/login_service.dart';
+import '../../../../controllers/auth_service/auth_service.dart';
+import '../../../../controllers/auth_service/login_service.dart';
 import '../../homeScreen/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {

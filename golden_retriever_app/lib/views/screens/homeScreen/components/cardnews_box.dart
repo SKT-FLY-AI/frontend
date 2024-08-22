@@ -3,7 +3,7 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../data/cardnews_list.dart';
+import '../../../../models/data/cardnews_list.dart';
 import 'cardnews_screen.dart';
 
 // 카드 뉴스 슬라이드를 표시하는 위젯

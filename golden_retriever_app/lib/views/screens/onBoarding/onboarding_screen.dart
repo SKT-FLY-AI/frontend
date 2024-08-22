@@ -121,7 +121,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: contextHeight * 1.1),
+                        SizedBox(height: contextHeight * 1.3),
                         Text(
                           "✩Welcome✩",
                           style: TextStyle(
@@ -140,10 +140,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
                             height: 1.2,
                           ),
                         ),
-                        // SizedBox(height: 16),
-                        // Text(
-                        //   "하이루!! 모두모두 혼또니 반가워!!\nHello 들어와줘서 아리가또야.~",
-                        // ),
                       ],
                     ),
                   ),

@@ -3,7 +3,7 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../data/cardnews_list.dart';
+import '../../../../models/data/cardnews_list.dart';
 
 // 카드 뉴스 데이터를 포함하는 클래스
 class CardnewsData {

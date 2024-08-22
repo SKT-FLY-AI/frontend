@@ -2,8 +2,8 @@
 
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'auth_service/login_service.dart';
-import '../../server_config.dart';
+import '../../../../controllers/auth_service/login_service.dart';
+import '../../../../server_config.dart';
 
 // 파일 경로(filePath)를 받아 이미지를 서버로 업로드하는 기능
 Future<http.StreamedResponse> sendImageUploadRequest(String filePath) async {

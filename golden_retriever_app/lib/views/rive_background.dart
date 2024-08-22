@@ -5,14 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:rive/rive.dart' hide Image;
 
 class RiveBackground extends StatelessWidget {
-  const RiveBackground({super.key});
+  const RiveBackground({
+    super.key
+  });
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Positioned(
-          left: MediaQuery.of(context).size.width * 0.8,
+          left: MediaQuery.of(context).size.width * 0.2,
           bottom: MediaQuery.of(context).size.height * 0.15,
           child: Image.asset("assets/Backgrounds/Spline.png"),
         ),
@@ -27,7 +29,7 @@ class RiveBackground extends StatelessWidget {
         ),
         Positioned.fill(
           child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+            filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
             child: const SizedBox(),
           ),
         ),

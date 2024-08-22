@@ -4,9 +4,9 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../calendarScreen/calendar_screen.dart';
-import '../../camera_screen.dart';
-import '../../entertainment_screen.dart';
-import '../../profile_screen.dart';
+import '../../cameraScreen/camera_screen.dart';
+import '../../entertainmentScreen/entertainment_screen.dart';
+import '../../mypageScreen/profile_screen.dart';
 
 class HomeMenuBox extends StatelessWidget {
   final IconData icon;

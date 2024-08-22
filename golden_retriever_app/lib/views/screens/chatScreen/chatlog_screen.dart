@@ -3,8 +3,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'dart:ui'; // 글라스모피즘 효과를 위한 임포트
-import '../data/chatlog_list.dart';
+import 'dart:ui';
+
+import '../../../models/data/chatlog_list.dart'; // 글라스모피즘 효과를 위한 임포트
 
 class ChatLogScreen extends StatelessWidget {
   const ChatLogScreen({super.key});

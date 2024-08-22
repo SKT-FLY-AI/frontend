@@ -20,6 +20,7 @@ dependencies:
   flutter_svg: ^1.1.6
   flutter_secure_storage: ^7.0.1
   keyboard_avoider: ^0.2.0
+  google_fonts: ^2.3.1
 
 dev_dependencies:
   flutter_test:
@@ -37,7 +38,7 @@ flutter:
     - assets/RiveAssets/
 
 fonts:
-  - family: Intel
+  - family: Inter
     fonts:
       - asset: assets/Fonts/Inter-Regular.ttf
       - asset: assets/Fonts/Inter-SemiBold.ttf
