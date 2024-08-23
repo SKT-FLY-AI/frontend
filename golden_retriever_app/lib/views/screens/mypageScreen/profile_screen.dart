@@ -6,11 +6,11 @@ import '../../expandable_fab.dart';
 import '../../rive_background.dart';
 
 class ProfileScreen extends StatelessWidget {
-  final String? username;
+  final String? dogName;
 
   const ProfileScreen({
     super.key,
-    required this.username,
+    required this.dogName,
   });
 
   @override
@@ -43,38 +43,42 @@ class ProfileScreen extends StatelessWidget {
                         width: 1.0,
                       ),
                     ),
-                    child: Row(
+                    child: Column(
                       children: [
-                        CircleAvatar(
-                          radius: contextWidth * 0.8,
-                          backgroundImage: AssetImage('assets/profile.jpg'),
-                        ),
-                        SizedBox(width: contextWidth * 0.3),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        Row(
                           children: [
-                            Text(
-                              username!,
-                              style: TextStyle(
-                                fontSize: contextWidth * 0.5,
-                                fontWeight: FontWeight.bold,
-                                color: CupertinoColors.white, // 텍스트 색상
-                                decoration: TextDecoration.none, // 밑줄 제거
-                              ),
+                            CircleAvatar(
+                              radius: contextWidth * 0.8,
+                              backgroundImage: AssetImage('assets/profile.jpg'),
                             ),
-                            SizedBox(height: contextHeight * 0.1),
-                            Text(
-                              "status message",
-                              style: TextStyle(
-                                color: CupertinoColors.inactiveGray,
-                                fontSize: contextWidth * 0.35,
-                                decoration: TextDecoration.none, // 밑줄 제거
-                              ),
+                            SizedBox(width: contextWidth * 0.3),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "$dogName 견주님",
+                                  style: TextStyle(
+                                    fontSize: contextWidth * 0.5,
+                                    fontWeight: FontWeight.bold,
+                                    color: CupertinoColors.white, // 텍스트 색상
+                                    decoration: TextDecoration.none, // 밑줄 제거
+                                  ),
+                                ),
+                                SizedBox(height: contextHeight * 0.1),
+                                Text(
+                                  "status message",
+                                  style: TextStyle(
+                                    color: CupertinoColors.inactiveGray,
+                                    fontSize: contextWidth * 0.35,
+                                    decoration: TextDecoration.none, // 밑줄 제거
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ]
+                    )
                   ),
                 ),
 
@@ -93,6 +97,12 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       CupertinoListTile(
                         title: Text(
+                          "강아지 추가하기",
+                          style: TextStyle(color: CupertinoColors.white),
+                        ),
+                      ),
+                      CupertinoListTile(
+                        title: Text(
                           "환경 설정",
                           style: TextStyle(color: CupertinoColors.white),
                         ),
@@ -105,19 +115,13 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       CupertinoListTile(
                         title: Text(
-                          "건강 연동하기",
-                          style: TextStyle(color: CupertinoColors.white),
-                        ),
-                      ),
-                      CupertinoListTile(
-                        title: Text(
                           "가족 등록하기",
                           style: TextStyle(color: CupertinoColors.white),
                         ),
                       ),
                       CupertinoListTile(
                         title: Text(
-                          "광고 제거하기",
+                          "데이터 내보내기",
                           style: TextStyle(color: CupertinoColors.white),
                         ),
                       ),

@@ -4,9 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class GreetingMessage extends StatelessWidget {
-  final String? username;
+  final String? dogName;
 
-  const GreetingMessage({super.key, required this.username});
+  const GreetingMessage({super.key, required this.dogName});
 
   // 현재 시간을 기준으로 인사말을 결정하는 함수
   String _getGreeting() {
@@ -30,7 +30,7 @@ class GreetingMessage extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: size * 0.3, bottom: size * 0.2),
       child: Text(
-        '$username 님,\n$greeting',
+        '$dogName 견주님,\n$greeting',
         style: TextStyle(
           fontSize: 28,
           fontWeight: FontWeight.bold,

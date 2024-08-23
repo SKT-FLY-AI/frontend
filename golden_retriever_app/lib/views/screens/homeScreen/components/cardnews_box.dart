@@ -16,7 +16,7 @@ class CardNewsBox extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: contextHeight * 0.25, horizontal: contextWidth * 0.6),
       child: Container(
-        height: contextHeight * 2.7,
+        height: contextHeight * 1.7,
         decoration: BoxDecoration(
           color: Colors.deepPurple.withOpacity(0.3), // 반투명 배경색
           borderRadius: BorderRadius.circular(16.0), // 모서리 둥글게

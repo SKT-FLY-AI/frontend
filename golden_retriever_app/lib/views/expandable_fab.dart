@@ -1,3 +1,7 @@
+// lib/views/expandable_fab.dart
+
+// lib/views/expandable_fab.dart
+
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -84,6 +88,7 @@ class _ExpandableFabState extends State<ExpandableFab>
       child: Center(
         child: Material(
           shape: const CircleBorder(),
+          color: Colors.white,
           clipBehavior: Clip.antiAlias,
           elevation: 4,
           child: InkWell(
@@ -121,6 +126,8 @@ class _ExpandableFabState extends State<ExpandableFab>
   }
 
   Widget _buildTapToOpenFab() {
+    final double contextWidth = MediaQuery.of(context).size.width * 0.1;
+
     return IgnorePointer(
       ignoring: _open,
       child: AnimatedContainer(
@@ -136,9 +143,24 @@ class _ExpandableFabState extends State<ExpandableFab>
           opacity: _open ? 0.0 : 1.0,
           curve: const Interval(0.25, 1.0, curve: Curves.easeInOut),
           duration: const Duration(milliseconds: 250),
-          child: FloatingActionButton(
-            onPressed: _toggle,
-            child: const Icon(Icons.menu),
+          child: SizedBox(
+            width: contextWidth * 1.7,  // 원하는 크기로 조정
+            height: contextWidth * 1.7, // 원하는 크기로 조정
+            child: Center(
+              child: Material(
+                shape: const CircleBorder(),
+                color: Color(0xFF8338ec),
+                child: FloatingActionButton(
+                  onPressed: _toggle,
+                  shape: const CircleBorder(), // 원형으로 만들기 위해 설정
+                  child: Icon(
+                    Icons.menu,
+                    size: contextWidth * 0.8,
+                    color: Colors.black,
+                  ), // 아이콘 크기 조정 가능
+                ),
+              ),
+            ),
           ),
         ),
       ),
@@ -193,29 +215,33 @@ class ActionButton extends StatelessWidget {
     this.onPressed,
     required this.icon,
     required this.iconSize,
+    required this.iconColor,
   });
 
   final VoidCallback? onPressed;
   final Widget icon;
   final double iconSize;
+  final Color iconColor;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+
     return Material(
       shape: const CircleBorder(),
       clipBehavior: Clip.antiAlias,
-      color: theme.colorScheme.secondary,
+      color: iconColor,
       elevation: 4,
       child: IconButton(
         onPressed: onPressed,
+        padding: EdgeInsets.all(15),
         icon: icon,
         iconSize: iconSize,
-        color: theme.colorScheme.onSecondary,
+        color: Colors.white,
       ),
     );
   }
 }
+
 
 class GlobalExpandableFab extends StatefulWidget {
   const GlobalExpandableFab({super.key});
@@ -225,19 +251,19 @@ class GlobalExpandableFab extends StatefulWidget {
 }
 
 class _GlobalExpandableFabState extends State<GlobalExpandableFab> {
-  String? _username;
+  String? _dogName;
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
   @override
   void initState() {
     super.initState();
-    loadUsername();
+    loadDogName();
   }
 
-  Future<void> loadUsername() async {
-    final username = await _storage.read(key: 'username');
+  Future<void> loadDogName() async {
+    final dogName = await _storage.read(key: 'dog_name');
     setState(() {
-      _username = username;
+      _dogName = dogName;
     });
   }
 
@@ -249,7 +275,10 @@ class _GlobalExpandableFabState extends State<GlobalExpandableFab> {
     return Align(
       alignment: Alignment.bottomRight,
       child: Padding(
-        padding: EdgeInsets.all(contextHeight * 0.2),
+        padding: EdgeInsets.only(
+          bottom: contextHeight * 0.45,
+          right: contextWidth * 0.8,
+        ),
         child: ExpandableFab(
           distance: contextHeight * 1,
           children: [
@@ -265,6 +294,7 @@ class _GlobalExpandableFabState extends State<GlobalExpandableFab> {
               },
               icon: const Icon(Icons.calendar_month),
               iconSize: contextWidth * 0.7,
+              iconColor: const Color(0xFF3a86ff),
             ),
             ActionButton(
               onPressed: () {
@@ -278,21 +308,21 @@ class _GlobalExpandableFabState extends State<GlobalExpandableFab> {
               },
               icon: const Icon(Icons.camera_alt),
               iconSize: contextWidth * 0.7,
+              iconColor: const Color(0xFFff006e),
             ),
             ActionButton(
               onPressed: () {
-                // ProfileScreen으로 이동, username 전달
-                if (_username != null) {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ProfileScreen(username: _username!),
-                    ),
-                  );
-                }
+                // ProfileScreen으로 이동, _dogName 전달
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfileScreen(dogName: _dogName ?? '_'),
+                  ),
+                );
               },
               icon: const Icon(Icons.person),
               iconSize: contextWidth * 0.7,
+              iconColor: const Color(0xFFffbe0b),
             ),
           ],
         ),

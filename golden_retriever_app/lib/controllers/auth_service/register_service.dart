@@ -1,20 +1,18 @@
+// lib/controllers/auth_service/register_service.dart
+
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../../server_config.dart';
 
 class RegisterService {
   static Future<http.Response?> register({
-    required String username,
     required String email,
     required String password,
-    required int usersex,
   }) async {
     final url = Uri.parse('$serverUrl/users/signup');
     final body = json.encode({
-      'username': username,
       'email': email,
       'password': password,
-      'usersex': usersex,
     });
 
     try {

@@ -16,19 +16,19 @@ class BadgeBox extends StatelessWidget {
           children: [
             _buildIconWithEffects(
                 icon: CupertinoIcons.heart_circle_fill,
-                color: CupertinoColors.systemPink.withOpacity(0.9)
+                color: CupertinoColors.white.withOpacity(0.9)
             ),
             _buildIconWithEffects(
                 icon: CupertinoIcons.star_circle_fill,
-                color: CupertinoColors.systemYellow.withOpacity(0.9)
+                color: CupertinoColors.white.withOpacity(0.9)
             ),
             _buildIconWithEffects(
                 icon: CupertinoIcons.moon_circle_fill,
-                color: CupertinoColors.systemIndigo.withOpacity(0.9)
+                color: CupertinoColors.white.withOpacity(0.9)
             ),
             _buildIconWithEffects(
                 icon: CupertinoIcons.graph_circle_fill,
-                color: CupertinoColors.systemGreen.withOpacity(0.9)
+                color: CupertinoColors.white.withOpacity(0.9)
             ),
           ],
         ),

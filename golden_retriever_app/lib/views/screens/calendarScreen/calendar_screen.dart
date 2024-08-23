@@ -93,21 +93,22 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   /// 하단: 선택된 날짜의 세부 상태
-  Widget _buildSelectedDateDetails(BuildContext context) {
+  Widget buildSelectedDateDetails(BuildContext context) {
     final double contextHeight = MediaQuery.of(context).size.height * 0.1;
-    final double contextWidth = MediaQuery.of(context).size.width * 0.1;
 
     return DraggableScrollableSheet(
-      initialChildSize: 0.3, // 초기 시트 크기 비율
-      minChildSize: 0.3,     // 최소 시트 크기 비율
+      initialChildSize: 0.4, // 초기 시트 크기 비율
+      minChildSize: 0.05,     // 최소 시트 크기 비율
       maxChildSize: 0.8,     // 최대 시트 크기 비율
       builder: (BuildContext context, ScrollController scrollController) {
         return Container(
           padding: EdgeInsets.only(top: contextHeight * 0.2, ),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.6), // 반투명 배경색
+            color: Colors.white.withOpacity(0.9), // 반투명 배경색
             borderRadius: BorderRadius.circular(16.0),
-            border: Border.all(color: Colors.white.withOpacity(0.4)), // 테두리
+            border: Border.all(
+              color: Colors.white,
+            ), // 테두리
           ),
           child: SingleChildScrollView(
             controller: scrollController,
@@ -128,7 +129,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 Center(
                   child: Container(
                     padding: EdgeInsets.symmetric(
-                      vertical: contextHeight * 0.1,
+                      vertical: contextHeight * 0.2,
                     ),
                     child: Text(
                       _dateFormat.format(_selectedDate),
@@ -242,8 +243,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
               _buildCalendar(context),
             ],
           ),
-          _buildSelectedDateDetails(context),
           const GlobalExpandableFab(), // GlobalExpandableFab 추가
+          buildSelectedDateDetails(context),
         ],
       ),
     );
